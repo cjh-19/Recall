@@ -157,18 +157,15 @@ namespace Team1
             return g_scr_no.ToString();
 
         }
-        private OracleConnection connect_db()  //오라클 접속 연결 함수(수정필요)
+        private OracleConnection connect_db()  //오라클 접속 (성공)
         {
             // user id, password, data source 모두 string 형태로 받아서 DBMS로 보내 연결하는 형태
-            // ora-12514 오류 발생
             // cmd에서 "$lsnrctl status" 를 통해서 host와 port 부분을 자신것으로 수정해야함
             // 위처럼 안하고 오라클dbms에서 c##team 의 속성에서 확인 가능
             // service name과 리스너를 설정하기 위해 "listener.ora" 와 "tnsnames.ora"수정 필요
-            // "connect_db() Failed 접속 요청 시간이 초과되었습니다" 오류 발생
-            // 위에 방법으로 리스너 추가에 성공했지만 아예 오류가 나버림. 이유 모르겠음.
-            String conninfo = "User Id = c##team;" + 
+            String conninfo = "User Id = c##team;" +
                 "Password = 1234;" +
-                "Data Source = (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=xe)) );"; // 타입 알 수 없음
+                "Data Source = (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=xe)) );";
 
             OracleConnection conn = new OracleConnection(conninfo); //오라클 연결 인스턴스
 
@@ -282,19 +279,19 @@ namespace Team1
 
             sql = null;
             // DB 쿼리문 작업
-            sql = " SELECT      " + // 거래종목 테이블 조회 SQL 작성
-                "   JONGMOK_CD  ,       " +
-                "   JONGMON_NM  ,       " +
-                "   PRIORITY    ,       " +
-                "   BUY_AMT     ,       " +
-                "   BUY_PRICE   ,       " +
-                "   TARGET_PRICE    ,       " +
-                "   CUT_LOSS_PRICE  ,       " +
-                "   BUY_TRD_YN  ,       " +
-                "   SELLL_TRD_YN            " +
-                " FROM                  " +
-                "   TB_TRD_JONGMOK  " +
-                "   WHERE USER_ID = " + "'" + g_user_id + "' order by PRIORITY ";
+            sql = " SELECT " + // 거래종목 테이블 조회 SQL 작성
+                    "JONGMOK_CD , " +
+                    "JONGMOk_NM , " +
+                    "PRIORITY , " +
+                    "BUY_AMT , " +
+                    "BUY_PRICE , " +
+                    "TARGET_PRICE , " +
+                    "CUT_LOSS_PRICE , " +
+                    "BUY_TRD_YN , " +
+                    "SELL_TRD_YN" +
+                    " FROM " +
+                    "TB_TRD_JONGMOK" +
+                    " WHERE USER_ID = " + "'" + g_user_id + "'" + " order by PRIORITY ";
 
             cmd.CommandText = sql;
 
@@ -350,7 +347,7 @@ namespace Team1
                 l_sell_trd_yn = reader[8].ToString().Trim();
 
                 l_arr = null;
-                l_arr = new String[] // 가져온 겨로가를 문자열 배열에 저장
+                l_arr = new String[] // 가져온 결과를 문자열 배열에 저장
                 {
                     l_seq.ToString(),
                     l_jongmok_cd,
