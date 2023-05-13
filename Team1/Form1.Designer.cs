@@ -35,11 +35,15 @@ namespace Team1
             this.로그인ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.로그아웃ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.idbox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.accountbox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.idbox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.deletebtn = new System.Windows.Forms.Button();
+            this.alterbtn = new System.Windows.Forms.Button();
+            this.insertbtn = new System.Windows.Forms.Button();
+            this.searchbtn = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.seq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.jongmok_cd = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,16 +56,12 @@ namespace Team1
             this.buy_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.sell_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.searchbtn = new System.Windows.Forms.Button();
-            this.insertbtn = new System.Windows.Forms.Button();
-            this.alterbtn = new System.Windows.Forms.Button();
-            this.deletebtn = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.autostopbtn = new System.Windows.Forms.Button();
             this.autostartbtn = new System.Windows.Forms.Button();
+            this.autostopbtn = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.messagelog = new System.Windows.Forms.TextBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.errorlog = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -125,23 +125,14 @@ namespace Team1
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "접속정보창";
             // 
-            // label1
+            // accountbox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("굴림", 10F);
-            this.label1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label1.Location = new System.Drawing.Point(6, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 17);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "아이디";
-            // 
-            // idbox
-            // 
-            this.idbox.Location = new System.Drawing.Point(71, 24);
-            this.idbox.Name = "idbox";
-            this.idbox.Size = new System.Drawing.Size(128, 25);
-            this.idbox.TabIndex = 4;
+            this.accountbox.FormattingEnabled = true;
+            this.accountbox.Location = new System.Drawing.Point(328, 25);
+            this.accountbox.Name = "accountbox";
+            this.accountbox.Size = new System.Drawing.Size(165, 23);
+            this.accountbox.TabIndex = 6;
+            this.accountbox.SelectedIndexChanged += new System.EventHandler(this.accountbox_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -154,14 +145,23 @@ namespace Team1
             this.label2.TabIndex = 5;
             this.label2.Text = "계좌번호";
             // 
-            // accountbox
+            // idbox
             // 
-            this.accountbox.FormattingEnabled = true;
-            this.accountbox.Location = new System.Drawing.Point(328, 25);
-            this.accountbox.Name = "accountbox";
-            this.accountbox.Size = new System.Drawing.Size(165, 23);
-            this.accountbox.TabIndex = 6;
-            this.accountbox.SelectedIndexChanged += new System.EventHandler(this.accountbox_SelectedIndexChanged);
+            this.idbox.Location = new System.Drawing.Point(71, 24);
+            this.idbox.Name = "idbox";
+            this.idbox.Size = new System.Drawing.Size(128, 25);
+            this.idbox.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("굴림", 10F);
+            this.label1.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.label1.Location = new System.Drawing.Point(6, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 17);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "아이디";
             // 
             // groupBox2
             // 
@@ -176,6 +176,46 @@ namespace Team1
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "거래종목 창";
+            // 
+            // deletebtn
+            // 
+            this.deletebtn.Location = new System.Drawing.Point(436, 22);
+            this.deletebtn.Name = "deletebtn";
+            this.deletebtn.Size = new System.Drawing.Size(110, 35);
+            this.deletebtn.TabIndex = 4;
+            this.deletebtn.Text = "삭제";
+            this.deletebtn.UseVisualStyleBackColor = true;
+            this.deletebtn.Click += new System.EventHandler(this.deletebtn_Click);
+            // 
+            // alterbtn
+            // 
+            this.alterbtn.Location = new System.Drawing.Point(295, 24);
+            this.alterbtn.Name = "alterbtn";
+            this.alterbtn.Size = new System.Drawing.Size(107, 34);
+            this.alterbtn.TabIndex = 3;
+            this.alterbtn.Text = "수정";
+            this.alterbtn.UseVisualStyleBackColor = true;
+            this.alterbtn.Click += new System.EventHandler(this.alterbtn_Click);
+            // 
+            // insertbtn
+            // 
+            this.insertbtn.Location = new System.Drawing.Point(146, 24);
+            this.insertbtn.Name = "insertbtn";
+            this.insertbtn.Size = new System.Drawing.Size(107, 31);
+            this.insertbtn.TabIndex = 2;
+            this.insertbtn.Text = "삽입";
+            this.insertbtn.UseVisualStyleBackColor = true;
+            this.insertbtn.Click += new System.EventHandler(this.insertbtn_Click);
+            // 
+            // searchbtn
+            // 
+            this.searchbtn.Location = new System.Drawing.Point(12, 24);
+            this.searchbtn.Name = "searchbtn";
+            this.searchbtn.Size = new System.Drawing.Size(100, 31);
+            this.searchbtn.TabIndex = 1;
+            this.searchbtn.Text = "조회";
+            this.searchbtn.UseVisualStyleBackColor = true;
+            this.searchbtn.Click += new System.EventHandler(this.searchbtn_Click);
             // 
             // dataGridView1
             // 
@@ -291,42 +331,6 @@ namespace Team1
             this.check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.check.Width = 60;
             // 
-            // searchbtn
-            // 
-            this.searchbtn.Location = new System.Drawing.Point(12, 24);
-            this.searchbtn.Name = "searchbtn";
-            this.searchbtn.Size = new System.Drawing.Size(100, 31);
-            this.searchbtn.TabIndex = 1;
-            this.searchbtn.Text = "조회";
-            this.searchbtn.UseVisualStyleBackColor = true;
-            // 
-            // insertbtn
-            // 
-            this.insertbtn.Location = new System.Drawing.Point(146, 24);
-            this.insertbtn.Name = "insertbtn";
-            this.insertbtn.Size = new System.Drawing.Size(107, 31);
-            this.insertbtn.TabIndex = 2;
-            this.insertbtn.Text = "삽입";
-            this.insertbtn.UseVisualStyleBackColor = true;
-            // 
-            // alterbtn
-            // 
-            this.alterbtn.Location = new System.Drawing.Point(295, 24);
-            this.alterbtn.Name = "alterbtn";
-            this.alterbtn.Size = new System.Drawing.Size(107, 34);
-            this.alterbtn.TabIndex = 3;
-            this.alterbtn.Text = "수정";
-            this.alterbtn.UseVisualStyleBackColor = true;
-            // 
-            // deletebtn
-            // 
-            this.deletebtn.Location = new System.Drawing.Point(436, 22);
-            this.deletebtn.Name = "deletebtn";
-            this.deletebtn.Size = new System.Drawing.Size(110, 35);
-            this.deletebtn.TabIndex = 4;
-            this.deletebtn.Text = "삭제";
-            this.deletebtn.UseVisualStyleBackColor = true;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.autostartbtn);
@@ -338,15 +342,6 @@ namespace Team1
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "자동매매";
             // 
-            // autostopbtn
-            // 
-            this.autostopbtn.Location = new System.Drawing.Point(448, 24);
-            this.autostopbtn.Name = "autostopbtn";
-            this.autostopbtn.Size = new System.Drawing.Size(282, 31);
-            this.autostopbtn.TabIndex = 0;
-            this.autostopbtn.Text = "자동매매 중지";
-            this.autostopbtn.UseVisualStyleBackColor = true;
-            // 
             // autostartbtn
             // 
             this.autostartbtn.Location = new System.Drawing.Point(95, 23);
@@ -355,6 +350,15 @@ namespace Team1
             this.autostartbtn.TabIndex = 1;
             this.autostartbtn.Text = "자동매매 시작";
             this.autostartbtn.UseVisualStyleBackColor = true;
+            // 
+            // autostopbtn
+            // 
+            this.autostopbtn.Location = new System.Drawing.Point(448, 24);
+            this.autostopbtn.Name = "autostopbtn";
+            this.autostopbtn.Size = new System.Drawing.Size(282, 31);
+            this.autostopbtn.TabIndex = 0;
+            this.autostopbtn.Text = "자동매매 중지";
+            this.autostopbtn.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -366,16 +370,6 @@ namespace Team1
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "메시지 로그";
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.errorlog);
-            this.groupBox5.Location = new System.Drawing.Point(406, 502);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(400, 189);
-            this.groupBox5.TabIndex = 6;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "에러 로그";
-            // 
             // messagelog
             // 
             this.messagelog.BackColor = System.Drawing.Color.Black;
@@ -386,6 +380,16 @@ namespace Team1
             this.messagelog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.messagelog.Size = new System.Drawing.Size(382, 160);
             this.messagelog.TabIndex = 5;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.errorlog);
+            this.groupBox5.Location = new System.Drawing.Point(406, 502);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(400, 189);
+            this.groupBox5.TabIndex = 6;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "에러 로그";
             // 
             // errorlog
             // 
