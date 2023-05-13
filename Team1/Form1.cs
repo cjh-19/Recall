@@ -163,6 +163,28 @@ namespace Team1
             // cmd에서 "$lsnrctl status" 를 통해서 host와 port 부분을 자신것으로 수정해야함
             // 위처럼 안하고 오라클dbms에서 c##team 의 속성에서 확인 가능
             // service name과 리스너를 설정하기 위해 "listener.ora" 와 "tnsnames.ora"수정 필요
+            // listener.ora 에서는
+            // "SID_LIST_LISTENER = "에 다음과 같이 추가 host와 port 추가
+            //     (SID_DESC =
+            //          (SID_NAME = xe)
+            //          (ORACLE_HOME = F:\oracleDB\app\oracle\product\11.2.0\server)
+            //      )
+            // "LISTENER = " 에 다음과 같이 추가
+            //     (DESCRIPTION =
+            //          (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+            //      )
+            //
+            // tnsnames.ora 에서는 xe(sid)를 추가한다 sid 와 service_name은 같아야한다.
+            // xe =
+            //  (DESCRIPTION =
+            //          (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+            //          (CONNECT_DATA =
+            //              (SERVER = DEDICATED)
+            //              (SERVICE_NAME = xe)
+            //          )
+            //  )
+
+
             String conninfo = "User Id = c##team;" +
                 "Password = 1234;" +
                 "Data Source = (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=xe)) );";
