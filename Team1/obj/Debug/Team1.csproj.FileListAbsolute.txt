@@ -18,4 +18,3 @@ F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Team1\bin\Debug\AxI
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Team1\obj\Debug\Team1.csproj.CopyComplete
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Team1\obj\Debug\Team1.exe
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Team1\obj\Debug\Team1.pdb
-F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Team1\obj\Debug\Team1.csproj.SuggestedBindingRedirects.cache
