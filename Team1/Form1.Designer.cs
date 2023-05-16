@@ -350,6 +350,7 @@ namespace Team1
             this.autostartbtn.TabIndex = 1;
             this.autostartbtn.Text = "자동매매 시작";
             this.autostartbtn.UseVisualStyleBackColor = true;
+            this.autostartbtn.Click += new System.EventHandler(this.autostartbtn_Click);
             // 
             // autostopbtn
             // 
@@ -359,6 +360,7 @@ namespace Team1
             this.autostopbtn.TabIndex = 0;
             this.autostopbtn.Text = "자동매매 중지";
             this.autostopbtn.UseVisualStyleBackColor = true;
+            this.autostopbtn.Click += new System.EventHandler(this.autostopbtn_Click);
             // 
             // groupBox4
             // 
