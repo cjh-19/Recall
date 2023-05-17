@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using Oracle.ManagedDataAccess.Client; // MS에서 oracle developer tools for visual studio 다운로드
 using System.Runtime.ExceptionServices;
 using System.Security;
+using System.Threading; // 스레드 라이브러리 참조
 
 namespace Team1
 {
@@ -22,10 +23,36 @@ namespace Team1
         string g_user_id = null;
         string g_accnt_no = null;
         int g_scr_no = 0; //OpenAPI 요청번호
+
+        int g_is_thread = 0; // 0이면 스레드 미생성, 1이면 스레드 생성
+        Thread thread1 = null; // 생성된 스레드 객체를 담을 변수
+
+        string g_rqname = null;
+
         public Form1()
         {
             InitializeComponent();
+            // 데이터 수신 요청에 대한 응답을 받는 대기 이벤트 메서드 선언
+            this.axKHOpenAPI1.OnReceiveTrData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEventHandler(this.axKHOpenAPI1_OnReceiveTrData);
+            this.axKHOpenAPI1.OnReceiveMsg += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveMsgEventHandler(this.axKHOpenAPI1_OnReceiveMsg);
+            this.axKHOpenAPI1.OnReceiveChejanData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveChejanDataEventHandler(this.axKHOpenAPI1_OnReceiveChejanData);
         }
+        // 10장에서 정의 : 투자정보를 요청할 때 데이터 수신 요청에 대한 응답을 받는 이벤트 메서드
+        private void axKHOpenAPI1_OnReceiveTrData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
+        {
+
+        }
+        // 12장에서 정의 : 주식주문을 요청할 때 해당 주식 주문의 응답을 수신하는 이벤트 메서드
+        private void axKHOpenAPI1_OnReceiveMsg(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveMsgEvent e)
+        {
+
+        }
+        // 12장에서 정의 : 주식주문을 요청한 후 주문내역과 체결내역 데이터를 수신하는 이벤트 메서드
+        private void axKHOpenAPI1_OnReceiveChejanData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveChejanDataEvent e)
+        {
+
+        }
+
 
         public string get_cur_tm()  //시간 가져오기 함수
         {
@@ -120,8 +147,8 @@ namespace Team1
             }
         }
 
-        [HandleProcessCorruptedStateExceptions]  //처음 이용해보는 형태
-        [SecurityCritical]
+        [HandleProcessCorruptedStateExceptions]  // 손상된 프로레스 상태를 나타내는 예외 처리
+        [SecurityCritical] // 코드나 어셈블리가 중요한 작업을 수행함을 지정
         public DateTime delay(int MS) // 지연메서드 (키움증권 api는 초당 5회로 요청횟수 제한하고 있음으로) MS는 밀리초
         {
             DateTime ThisMoment = DateTime.Now;
@@ -594,6 +621,86 @@ namespace Team1
                     conn.Close();
                 }
             }
+        }
+
+        private void autostartbtn_Click(object sender, EventArgs e)
+        {
+            if (g_is_thread == 1) // 스레드가 이미 생성된 상태라면
+            {
+                write_msg_log("Auto Tradng이 이미 시작되었습니다.\n", 0);
+                return; // 이벤트 메서드 종료
+            }
+            // 스레드 생성 시작
+            g_is_thread = 1; // 스레드 생성으로 값 설정
+            thread1 = new Thread(new ThreadStart(m_thread1)); // 스레드 생성
+            thread1.Start(); // 스레드 시작
+        }
+        public void m_thread1()
+        {
+            string l_cur_tm = null;
+
+            // 스레드 생성 파트
+            if (g_is_thread == 0) // 최초 스레드 생성
+            {
+                g_is_thread = 1; // 중복 스레드 생성 방지를 위해 스레드 값 1로 변경
+                write_msg_log("자동매매가 시작되었습니다.\n", 0);
+            }
+
+            for (; ; ) // 첫 번째 무한루프 시작
+            {
+                l_cur_tm = get_cur_tm(); // 현재 시각 조회
+                if (l_cur_tm.CompareTo("083001") >= 0) // 8시 30분 이후라면
+                {
+                    // 계좌조회, 계죄정보 조회, 보유종목 매도주문 수행
+                    // 챕터10 이후부터 구현 파트
+                }
+
+                // 장이 열리면 장이 닫힐 때까지 for문안에서 다시 무한루프를 시작한다.
+                if (l_cur_tm.CompareTo("090001") >= 0) // 09시 이후라면
+                {
+                    for (; ; ) // 두 번째 무한루프 시작
+                    {
+                        l_cur_tm = get_cur_tm(); // 현재시각 조회
+                        if (l_cur_tm.CompareTo("153001") >= 0) // 15시 30분 이후라면
+                        {
+                            break; // 장이 닫히면 두 번째 무한루프를 빠져나간다.
+                        }
+                        // 장 운영 시간 중이므로 매수나 매도 주문
+
+                        delay(200); // 첫 번째 무한루프 지연
+
+                    }
+                }
+
+            }
+        }
+
+        private void autostopbtn_Click(object sender, EventArgs e)
+        {
+            write_msg_log("\n 자동매매 중지 시작\n", 0);
+
+            try
+            {
+                thread1.Abort();
+            }
+            catch (Exception ex)
+            {
+                write_err_log("자동매매 중지 ex.Message : " + ex.Message + "\n", 0);
+            }
+
+            this.Invoke(new MethodInvoker(() =>
+            {
+                if (thread1 != null)
+                {
+                    // 인터럽트를 실행하여 스레드를 중단한다.
+                    thread1.Interrupt();
+                    thread1 = null;
+                }
+            }));
+            g_is_thread = 0; // 스레드를 중단했다는 값
+            // 추후에 자동매매를 다시 시작하기 위해 0으로 설정
+
+            write_msg_log("\n 자동매매 중지 완료\n", 0);
         }
     }
 }
