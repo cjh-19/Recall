@@ -15,6 +15,11 @@ using Oracle.ManagedDataAccess.Client; // MS에서 oracle developer tools for vi
 using System.Runtime.ExceptionServices;
 using System.Security;
 using System.Threading; // 스레드 라이브러리 참조
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq; //네이버 api 받아오기 위한 매개체
+using System.Diagnostics;
+using System.Net;
+using System.IO;
 
 namespace Team1
 {
@@ -28,6 +33,10 @@ namespace Team1
         Thread thread1 = null; // 생성된 스레드 객체를 담을 변수
 
         string g_rqname = null;
+
+        const string _apiUrl = "https://openapi.naver.com/v1/search/news";   //추가기능 뉴스 api
+        const string _clientId = "I74lzNbMOpmIlEsfaWRO";
+        const string _clientSecret = "jgntupzVD8";
 
         public Form1()
         {
@@ -702,5 +711,85 @@ namespace Team1
 
             write_msg_log("\n 자동매매 중지 완료\n", 0);
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }  // 실수로 눌러버림 못지움 ㅎㅎ
+
+        private void buttonUpdate_Click(object sender, EventArgs e)  // 추가기능 뉴스기사 업데이트 버튼 클릭시
+        {
+            try
+            {
+                string results = getResults();
+                results = results.Replace("<b>", "");
+                results = results.Replace("</b>", "");
+                results = results.Replace("&lt;", "<");
+                results = results.Replace("&gt;", ">");
+
+                var parseJson = JObject.Parse(results);
+                var countsOfDisplay = Convert.ToInt32(parseJson["display"]);
+                var countsOfResults = Convert.ToInt32(parseJson["total"]);
+
+                ResultList.Items.Clear();
+                for (int i = 0; i < countsOfDisplay; i++)
+                {
+                    ListViewItem item = new ListViewItem((i + 1).ToString());
+
+                    var title = parseJson["items"][i]["title"].ToString();
+                    title = title.Replace("&quot;", "\"");
+
+                    var description = parseJson["items"][i]["description"].ToString();
+                    description = description.Replace("&quot;", "\"");
+
+                    var link = parseJson["items"][i]["link"].ToString();
+
+                    item.SubItems.Add(title);
+                    item.SubItems.Add(description);
+                    item.SubItems.Add(link);
+
+                    ResultList.Items.Add(item);
+                }
+            }
+            catch (Exception exc)
+            {
+                Debug.WriteLine(exc.Message);
+            }
+        }
+
+        private string getResults()                                          // 뉴스 기사 업데이트에 쓰이는 결과값 받아오기 함수
+        {
+            string keyword = Searchbox.Text;
+            string display = btn_DisplayCount.Value.ToString();
+            string sort = "sim";
+            if (btn_date.Checked == true)
+                sort = "date";
+
+            string query = string.Format("?query={0}&display={1}sort={2}", keyword, display, sort);
+
+            WebRequest request = WebRequest.Create(_apiUrl + query);
+            request.Headers.Add("X-Naver-Client-Id", "I74lzNbMOpmIlEsfaWRO");
+            request.Headers.Add("X-Naver-Client-Secret", "jgntupzVD8");
+
+            string requestResult = "";
+            using (var response = request.GetResponse())
+            {
+                using (Stream dataStream = response.GetResponseStream())
+                {
+                    using (var reader = new StreamReader(dataStream))
+                    {
+                        requestResult = reader.ReadToEnd();
+                    }
+                }
+            }
+
+            return requestResult;
+        }
+
+        private void trackBarDisplayCounts_Scroll(object sender, EventArgs e)
+        {
+            labelDisplayCounts.Text = btn_DisplayCount.Value.ToString();
+        }
+
     }
 }
