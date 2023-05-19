@@ -757,7 +757,7 @@ namespace Team1
             }
         }
 
-        private string getResults()                                          // 뉴스 기사 업데이트에 쓰이는 결과값 받아오기 함수
+        private string getResults()                                          // 뉴스 기사 업데이트에 쓰이는 결과값 받아오기 함수임
         {
             string keyword = Searchbox.Text;
             string display = btn_DisplayCount.Value.ToString();
