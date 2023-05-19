@@ -65,6 +65,23 @@ namespace Team1
             this.errorlog = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.ResultList = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btn_Relavance = new System.Windows.Forms.RadioButton();
+            this.btn_date = new System.Windows.Forms.RadioButton();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btn_Update = new System.Windows.Forms.Button();
+            this.Searchbox = new System.Windows.Forms.TextBox();
+            this.labelDisplayCounts = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btn_DisplayCount = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.axKHOpenAPI1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -74,6 +91,9 @@ namespace Team1
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).BeginInit();
             this.SuspendLayout();
             // 
             // axKHOpenAPI1
@@ -94,7 +114,7 @@ namespace Team1
             this.로그아웃ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(856, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1632, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -411,7 +431,7 @@ namespace Team1
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 707);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(856, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1632, 26);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -421,11 +441,187 @@ namespace Team1
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(179, 20);
             this.toolStripStatusLabel1.Text = "자동매매 프로그램입니다";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.ResultList);
+            this.groupBox6.Location = new System.Drawing.Point(847, 144);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox6.Size = new System.Drawing.Size(747, 368);
+            this.groupBox6.TabIndex = 9;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "검색 결과";
+            // 
+            // ResultList
+            // 
+            this.ResultList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4});
+            this.ResultList.FullRowSelect = true;
+            this.ResultList.HideSelection = false;
+            this.ResultList.Location = new System.Drawing.Point(10, 25);
+            this.ResultList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ResultList.MultiSelect = false;
+            this.ResultList.Name = "ResultList";
+            this.ResultList.Size = new System.Drawing.Size(726, 326);
+            this.ResultList.TabIndex = 6;
+            this.ResultList.UseCompatibleStateImageBehavior = false;
+            this.ResultList.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "No.";
+            this.columnHeader1.Width = 35;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Title";
+            this.columnHeader2.Width = 200;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Main Text";
+            this.columnHeader3.Width = 350;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Link";
+            this.columnHeader4.Width = 188;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label3);
+            this.groupBox7.Controls.Add(this.btn_Relavance);
+            this.groupBox7.Controls.Add(this.btn_date);
+            this.groupBox7.Controls.Add(this.groupBox8);
+            this.groupBox7.Controls.Add(this.label4);
+            this.groupBox7.Controls.Add(this.btn_Update);
+            this.groupBox7.Controls.Add(this.Searchbox);
+            this.groupBox7.Controls.Add(this.labelDisplayCounts);
+            this.groupBox7.Controls.Add(this.label5);
+            this.groupBox7.Controls.Add(this.btn_DisplayCount);
+            this.groupBox7.Location = new System.Drawing.Point(847, 34);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox7.Size = new System.Drawing.Size(747, 102);
+            this.groupBox7.TabIndex = 8;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "검색 옵션";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(297, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(72, 15);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "정렬 방법";
+            // 
+            // btn_Relavance
+            // 
+            this.btn_Relavance.AutoSize = true;
+            this.btn_Relavance.Location = new System.Drawing.Point(299, 69);
+            this.btn_Relavance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_Relavance.Name = "btn_Relavance";
+            this.btn_Relavance.Size = new System.Drawing.Size(73, 19);
+            this.btn_Relavance.TabIndex = 8;
+            this.btn_Relavance.Text = "관련성";
+            this.btn_Relavance.UseVisualStyleBackColor = true;
+            // 
+            // btn_date
+            // 
+            this.btn_date.AutoSize = true;
+            this.btn_date.Checked = true;
+            this.btn_date.Location = new System.Drawing.Point(299, 45);
+            this.btn_date.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_date.Name = "btn_date";
+            this.btn_date.Size = new System.Drawing.Size(58, 19);
+            this.btn_date.TabIndex = 8;
+            this.btn_date.TabStop = true;
+            this.btn_date.Text = "날짜";
+            this.btn_date.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Location = new System.Drawing.Point(0, 110);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox8.Size = new System.Drawing.Size(754, 366);
+            this.groupBox8.TabIndex = 7;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "groupBox8";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(411, 22);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(142, 15);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "검색 결과 출력 개수";
+            // 
+            // btn_Update
+            // 
+            this.btn_Update.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btn_Update.Location = new System.Drawing.Point(587, 18);
+            this.btn_Update.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_Update.Name = "btn_Update";
+            this.btn_Update.Size = new System.Drawing.Size(149, 70);
+            this.btn_Update.TabIndex = 0;
+            this.btn_Update.Text = "업데이트";
+            this.btn_Update.UseVisualStyleBackColor = false;
+            // 
+            // Searchbox
+            // 
+            this.Searchbox.Location = new System.Drawing.Point(50, 41);
+            this.Searchbox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Searchbox.Name = "Searchbox";
+            this.Searchbox.Size = new System.Drawing.Size(239, 25);
+            this.Searchbox.TabIndex = 1;
+            this.Searchbox.Text = "원하는 검색 키워드를 입력하세요";
+            // 
+            // labelDisplayCounts
+            // 
+            this.labelDisplayCounts.AutoSize = true;
+            this.labelDisplayCounts.Location = new System.Drawing.Point(547, 22);
+            this.labelDisplayCounts.Name = "labelDisplayCounts";
+            this.labelDisplayCounts.Size = new System.Drawing.Size(23, 15);
+            this.labelDisplayCounts.TabIndex = 4;
+            this.labelDisplayCounts.Text = "10";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 45);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 15);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "검색: ";
+            // 
+            // btn_DisplayCount
+            // 
+            this.btn_DisplayCount.Location = new System.Drawing.Point(413, 42);
+            this.btn_DisplayCount.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btn_DisplayCount.Maximum = 100;
+            this.btn_DisplayCount.Minimum = 10;
+            this.btn_DisplayCount.Name = "btn_DisplayCount";
+            this.btn_DisplayCount.Size = new System.Drawing.Size(168, 56);
+            this.btn_DisplayCount.TabIndex = 3;
+            this.btn_DisplayCount.TickFrequency = 10;
+            this.btn_DisplayCount.Value = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 733);
+            this.ClientSize = new System.Drawing.Size(1632, 733);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -437,6 +633,7 @@ namespace Team1
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "c##team";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axKHOpenAPI1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -451,6 +648,10 @@ namespace Team1
             this.groupBox5.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -493,6 +694,23 @@ namespace Team1
         private System.Windows.Forms.TextBox errorlog;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.ListView ResultList;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RadioButton btn_Relavance;
+        private System.Windows.Forms.RadioButton btn_date;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btn_Update;
+        private System.Windows.Forms.TextBox Searchbox;
+        private System.Windows.Forms.Label labelDisplayCounts;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TrackBar btn_DisplayCount;
     }
 }
 
