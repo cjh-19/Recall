@@ -40,3 +40,5 @@ C:\Users\USER\source\repos\Team1\obj\Debug\Team1.csproj.CoreCompileInputs.cache
 C:\Users\USER\source\repos\Team1\obj\Debug\Team1.csproj.CopyComplete
 C:\Users\USER\source\repos\Team1\obj\Debug\Team1.exe
 C:\Users\USER\source\repos\Team1\obj\Debug\Team1.pdb
+F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Team1\bin\Debug\Newtonsoft.Json.dll
+F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Team1\bin\Debug\Newtonsoft.Json.xml

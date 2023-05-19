@@ -121,14 +121,14 @@ namespace Team1
             // 로그인ToolStripMenuItem
             // 
             this.로그인ToolStripMenuItem.Name = "로그인ToolStripMenuItem";
-            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(68, 24);
+            this.로그인ToolStripMenuItem.Size = new System.Drawing.Size(68, 26);
             this.로그인ToolStripMenuItem.Text = "로그인";
             this.로그인ToolStripMenuItem.Click += new System.EventHandler(this.로그인ToolStripMenuItem_Click);
             // 
             // 로그아웃ToolStripMenuItem
             // 
             this.로그아웃ToolStripMenuItem.Name = "로그아웃ToolStripMenuItem";
-            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.로그아웃ToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
             this.로그아웃ToolStripMenuItem.Text = "로그아웃";
             this.로그아웃ToolStripMenuItem.Click += new System.EventHandler(this.로그아웃ToolStripMenuItem_Click);
             // 
@@ -575,6 +575,7 @@ namespace Team1
             this.btn_Update.TabIndex = 0;
             this.btn_Update.Text = "업데이트";
             this.btn_Update.UseVisualStyleBackColor = false;
+            this.btn_Update.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // Searchbox
             // 
@@ -614,6 +615,7 @@ namespace Team1
             this.btn_DisplayCount.TabIndex = 3;
             this.btn_DisplayCount.TickFrequency = 10;
             this.btn_DisplayCount.Value = 10;
+            this.btn_DisplayCount.Scroll += new System.EventHandler(this.trackBarDisplayCounts_Scroll);
             // 
             // Form1
             // 
@@ -633,7 +635,6 @@ namespace Team1
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "c##team";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axKHOpenAPI1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

@@ -712,11 +712,6 @@ namespace Team1
             write_msg_log("\n 자동매매 중지 완료\n", 0);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }  // 실수로 눌러버림 못지움 ㅎㅎ
-
         private void buttonUpdate_Click(object sender, EventArgs e)  // 추가기능 뉴스기사 업데이트 버튼 클릭시
         {
             try
@@ -786,7 +781,7 @@ namespace Team1
             return requestResult;
         }
 
-        private void trackBarDisplayCounts_Scroll(object sender, EventArgs e)
+        private void trackBarDisplayCounts_Scroll(object sender, EventArgs e) // 이벤트 속성 추가 완료
         {
             labelDisplayCounts.Text = btn_DisplayCount.Value.ToString();
         }
