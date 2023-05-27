@@ -40,7 +40,7 @@ namespace Team1
 
         int g_is_next = 0; // 다음 조회 데이터가 있는지 확인하는 플래그
         int g_flag_1 = 0; // 1이면 요청에 대한 응답 완료
-        int g_flag_2 = 0;
+        int g_flag_2 = 0; // 1이면 요청에 대한 응답 완료
         int g_flag_3 = 0; // 매수주문 응답 플래그
         int g_flag_4 = 0; // 매도주문 응답 플래그
         int g_flag_5 = 0; // 매도취소주문 응답 플래그
@@ -783,7 +783,7 @@ namespace Team1
                         "'" + l_buy_trd_yn + "'" + "," +
                         "'" + l_sell_trd_yn + "'" + "," +
                         "'" + g_user_id + "'" + "," +
-                        "sysdata " + "," +
+                        "sysdate " + "," +
                         "NULL" + "," +
                         "NULL" + ")";
 
@@ -944,7 +944,7 @@ namespace Team1
             string l_cur_tm = null;
 
             int l_set_tb_accnt_flag = 0; // 1이면 호출 완료
-            int l_set_tb_eccnt_info_flag = 0; // 1이면 호출 완료
+            int l_set_tb_accnt_info_flag = 0; // 1이면 호출 완료 , 오타수정
             int l_sell_ord_first_flag = 0; //1이면 호출 완료
 
             // 스레드 생성 파트
@@ -961,13 +961,13 @@ namespace Team1
                 {
                     if (l_set_tb_accnt_flag == 0)
                     {
-                        l_set_tb_eccnt_info_flag = 1; //호출로 설정
+                        l_set_tb_accnt_info_flag = 1; //호출로 설정
                         set_tb_accnt();
                     }
-                    if (l_set_tb_eccnt_info_flag == 0)
+                    if (l_set_tb_accnt_info_flag == 0)
                     {
                         set_tb_accnt_info();
-                        l_set_tb_eccnt_info_flag = 1;
+                        l_set_tb_accnt_info_flag = 1;
                     }
                     if (l_sell_ord_first_flag == 0)
                     {
@@ -1142,7 +1142,8 @@ namespace Team1
 
                     String l_scr_no = get_scr_no();
 
-                    axKHOpenAPI1.CommRqData("계좌평가현황요청", "OPW0004", g_is_next, l_scr_no); //axKHOpenAPI1.OnRecieveData 호출
+                    // OPW00004 오타 수정
+                    axKHOpenAPI1.CommRqData("계좌평가현황요청", "OPW00004", g_is_next, l_scr_no); //axKHOpenAPI1.OnRecieveData 호출
 
                     l_for_cnt = 0;
                     for (; ; )
@@ -1188,8 +1189,6 @@ namespace Team1
                     delay(1000);
                 }
             }
-
-
         }
         public void merge_tb_accnt(int g_ord_amt_possible) //계좌정보 테이블 세팅 메서드
         {
@@ -1219,14 +1218,14 @@ namespace Team1
                     "on ( a.user_id = b.user_id and a.accnt_no = b.accnt_no and a.ref_dt = b.ref.dt) " +
                     "when matched then update" +
                     "set ord_possible_amt = " + g_ord_amt_possible + "," +
-                    "updt_dtm = 'ats'" +
+                    "updt_dtm = 'c##team'" +
                     "when not matched then insert (a.user_id, a.accnt_no, a.ref_dt, a.ord_possible_amt, a.inst_dtm, a.inst_id) values ( " +
                     "'" + g_user_id + "'" + "," +
                     "'" + g_accnt_no + "'" + "," +
                     " to_char(sysdate, 'yyyymmdd')" + "," +
                     +g_ord_amt_possible + "," +
                     "SYSDATE, " +
-                    "'ats'" +
+                    "'c##team'" +
                     ")";
                 cmd.CommandText = l_sql;
 
@@ -1274,7 +1273,7 @@ namespace Team1
                 +i_buy_price + "," +
                 +i_own_stock_cnt + "," +
                 +i_own_amt + "," +
-                "'ats'" + "," +
+                "'c##team'" + "," +
                 "SYSDATE" + "," + "null" + "," + "null" + ")";
 
             cmd.CommandText = l_sql;
@@ -1319,7 +1318,7 @@ namespace Team1
                 +i_ord_stock_cnt + "," +
                 +i_ord_amt + "," +
                 "'" + i_ord_dtm + "," +
-                "'ats'" + "," +
+                "'c##team'" + "," +
                 "SYSDATE" + "," +
                 "null" + "," +
                 "null" + ")";
@@ -1358,7 +1357,7 @@ namespace Team1
             if (i_chegyul_gb == "2") // 매수일떄 주문 가능 금액에서 체결금액 빼기
             {
                 l_sql = @" update TB_ACCNT set ORD_POSSIBLE_AMT = ord_possile_amt - "
-+ i_chegyul_amt + ", updt_dtm = SYSDATE, updt_id = 'ats' " +
++ i_chegyul_amt + ", updt_dtm = SYSDATE, updt_id = 'c##team' " +
 " where user_id = " + "'" + g_user_id + "'" +
 " and accnt_no = " + "'" + g_accnt_no + "'" +
 " and ref_dt = to_char(sysdate, 'yyyymmdd') ";
@@ -1403,7 +1402,7 @@ namespace Team1
                 +i_chegyul_no + "," +
                 +i_chegyul_price + "," +
                 +i_chegyul_stock_cnt + "," +
-                "'ats" + "," +
+                "'c##team" + "," +
                 "SYSDATE" + "," +
                 "null" + "," +
                 "null" + ") ";
@@ -2521,7 +2520,7 @@ namespace Team1
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
 
-            l_sql = @" update TB_TRD_JONGMOK set buy_trd_yn = 'N', updt_dtm = SYSDATE, updt_id = 'ats' " +
+            l_sql = @" update TB_TRD_JONGMOK set buy_trd_yn = 'N', updt_dtm = SYSDATE, updt_id = 'c##team' " +
                 " WHERE user_id = " + "'" + g_user_id + "'" +
                 " AND jongmok_cd = " + "'" + i_jongmok_cd + "'";
 
