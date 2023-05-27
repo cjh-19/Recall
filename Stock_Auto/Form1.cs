@@ -959,14 +959,19 @@ namespace Team1
                 l_cur_tm = get_cur_tm(); // 현재 시각 조회
                 if (l_cur_tm.CompareTo("083001") >= 0) // 8시 30분 이후라면
                 {
-                    if (l_set_tb_accnt_flag == 0)
+                    // 계좌조회, 계좌정보 조회, 보유종목 매도주문 수행
+                    // 계좌조회
+                    if (l_set_tb_accnt_flag == 0) // 계좌조회 호출 전
                     {
-                        l_set_tb_accnt_info_flag = 1; //호출로 설정
-                        set_tb_accnt();
+                        // 오타 수정, 변수 잘못 쓰고 있었음
+                        // 호출 순서를 바꿔야 하나?
+                        l_set_tb_accnt_flag = 1; //호출로 설정
+                        set_tb_accnt(); // 호출
                     }
+                    // 계좌정보 조회
                     if (l_set_tb_accnt_info_flag == 0)
                     {
-                        set_tb_accnt_info();
+                        set_tb_accnt_info(); // 계좌정보 테이블 설정
                         l_set_tb_accnt_info_flag = 1;
                     }
                     if (l_sell_ord_first_flag == 0)
@@ -989,11 +994,13 @@ namespace Team1
                         // 장 운영 시간 중이므로 매수나 매도 주문
                         real_buy_ord();
 
-                        delay(200); // 두 번째 무한루프 지연
+                        delay(200); // 두 번째 무한루프 지연, 0.2초 딜레이
                         real_sell_ord(); // 실시간 매도주문 호출
 
-                        delay(200);
+                        delay(200); // 0.2초 딜레이
                         real_cut_loss_ord(); // 실시간 손절주문 호출
+
+                        //delay(200); // 일단 시험삼아 추가
                     }
                 }
                 delay(200); // 첫 번째 무한루프 지연
@@ -1116,22 +1123,23 @@ namespace Team1
                 // 쿼리문 수정
                 l_sql = @"merge into tb_accnt a
             using(
-            select nvl(max(user_id),' ') user_id, nvl(max(accnt_no),' ') accnt_no, nvl(max(red_dt),' ') ref_dt " +
+            select nvl(max(user_id),' ') user_id, nvl(max(accnt_no),' ') accnt_no, nvl(max(ref_dt),' ') ref_dt " +
                     " from tb_accnt " +
                     " where user_id = '" + g_user_id + "'" +
-                    "and accnt_no = " + "'" + g_accnt_no + "'" +
-                    "and ref_dt = to_char(sysdate, yyyymmdd') " +
+                    " and accnt_no = " + "'" + g_accnt_no + "'" +
+                    " and ref_dt = to_char(sysdate, 'yyyymmdd') " +
                     " ) b " +
-                    " on ( a.user_id = b.user_id and a.accnt_no = b.accnt_no and a.ref_dt = b.ref.dt) " +
+                    " on ( a.user_id = b.user_id and a.accnt_no = b.accnt_no and a.ref_dt = b.ref_dt) " +
                     " when matched then update " +
                     " set ord_possible_amt = " + g_ord_amt_possible + "," +
-                    " updt_dtm = 'c##team'" +
+                    " updt_dtm= SYSDATE" + "," +
+                    " updt_id = 'c##team'" +
                     " when not matched then insert (a.user_id, a.accnt_no, a.ref_dt, a.ord_possible_amt, a.inst_dtm, a.inst_id) values ( " +
                     "'" + g_user_id + "'" + "," +
                     "'" + g_accnt_no + "'" + "," +
                     " to_char(sysdate, 'yyyymmdd') " + "," +
                     + g_ord_amt_possible + "," +
-                    "SYSDATE, " +
+                    " SYSDATE, " +
                     "'c##team'" +
                     " )";
                 cmd.CommandText = l_sql;
@@ -1239,27 +1247,28 @@ namespace Team1
                                 continue;
                             }
                         }
-                        delay(1000);
-                        axKHOpenAPI1.DisconnectRealData(l_scr_no);
-
-                        // 다음 페이지 데이터 요청
-                        if (l_for_flag == 1)
-                        {
-                            break;
-                        }
-                        else if (l_for_flag == 0)
-                        {
-                            delay(1000);
-                            continue;
-                        }
                     }
-                    // 모든 페이지 데이터 요청 완료
-                    if (g_is_next == 0)
+                    delay(1000);
+                    axKHOpenAPI1.DisconnectRealData(l_scr_no);
+
+                    // 다음 페이지 데이터 요청
+                    if (l_for_flag == 1)
                     {
                         break;
                     }
-                    delay(1000);
+                    else if (l_for_flag == 0)
+                    {
+                        delay(1000);
+                        continue;
+                    }
                 }
+                    
+                // 모든 페이지 데이터 요청 완료
+                if (g_is_next == 0)
+                {
+                    break;
+                }
+                delay(1000);
             }
         }
         public void insert_tb_accnt_info(string i_jongmok_cd, string i_jongmok_nm, int i_buy_price, int i_own_stock_cnt, int i_own_amt) //계좌정보 테이블 삽입
@@ -2604,7 +2613,7 @@ namespace Team1
 
             WebRequest request = WebRequest.Create(_apiUrl + query);
             request.Headers.Add("X-Naver-Client-Id", "I74lzNbMOpmIlEsfaWRO");
-            request.Headers.Add("X-Naver-Client-Secret", "jgntupzVD8");
+            request.Headers.Add("X-Naver-Client-Secret", "73vhwkbPBc");
 
             string requestResult = "";
             using (var response = request.GetResponse())
