@@ -36,7 +36,7 @@ namespace Team1
 
         const string _apiUrl = "https://openapi.naver.com/v1/search/news";   //추가기능 뉴스 api
         const string _clientId = "I74lzNbMOpmIlEsfaWRO";
-        const string _clientSecret = "jgntupzVD8";
+        const string _clientSecret = "73vhwkbPBc";
 
         int g_is_next = 0; // 다음 조회 데이터가 있는지 확인하는 플래그
         int g_flag_1 = 0; // 1이면 요청에 대한 응답 완료
