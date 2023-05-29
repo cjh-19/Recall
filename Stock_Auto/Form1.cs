@@ -2707,8 +2707,9 @@ namespace Team1
 
         private void logoutbtn_Click(object sender, EventArgs e)
         {
-            axKHOpenAPI1.CommTerminate();
-            toolStripStatusLabel1.Text = "로그아웃 완료";
+            Close();
+            // axKHOpenAPI1.CommTerminate(); 는 더이상 지원하지 않음.
+            // Form 종료로 로그아웃 진행
         }
 
         private void timer1_Tick(object sender, EventArgs e)
