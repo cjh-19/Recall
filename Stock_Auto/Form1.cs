@@ -1,4 +1,4 @@
-﻿// 구현 환경
+// 구현 환경
 // Visual Studio Community 2019
 // Oracle DBMS
 // KIWOOM Open API
@@ -1267,7 +1267,7 @@ namespace Team1
                         continue;
                     }
                 }
-                    
+
                 // 모든 페이지 데이터 요청 완료
                 if (g_is_next == 0)
                 {
@@ -1520,7 +1520,8 @@ namespace Team1
 
         }
 
-        // 매도대상 종목 조회
+        // TB_TRD_JONGMOK 테이블과 TB_ACCNT_INFO 테이블을 JOIN하여 매도대상 종목을 조회
+        // 조회 결과로 매도대상 종목의 종목코드, 매수가, 보유주식수, 목표가를 가져온다
         public void sell_ord_first() // 계좌정보 보유종목의 매도주문
         {
             OracleCommand cmd = null;
@@ -1533,10 +1534,10 @@ namespace Team1
             int l_own_stock_cnt = 0;
             int l_target_price = 0;
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
@@ -1589,7 +1590,7 @@ namespace Team1
 
                 int ret = 0;
 
-                //매도주문 요청
+                // 매도주문 요청 후 g_flag_4 = 1 이 될 때까지 대기한다 -> 주문완료
                 ret = axKHOpenAPI1.SendOrder("매도주문", l_scr_no, g_accnt_no, 2, l_jongmok_cd, l_own_stock_cnt, l_new_target_price, "00", "");
                 if (ret == 0)
                 {
@@ -1620,13 +1621,15 @@ namespace Team1
                     }
                 }
                 axKHOpenAPI1.DisconnectRealData(l_scr_no);
-            } //while (reader.Read()) 의 종료
+            } // while (reader.Read()) 종료
 
             reader.Close();
             conn.Close();
         } //sell_ord_first 종료
 
-        public int get_hoga_unit_price(int i_price, String i_jongmok_cd, int i_hoga_unit_jump) // 유효한 호가가격단위를 구함, 호가 가격 가져오기 매서드
+        // 2023년 5월 기준 주식시장의 호가가격단위에 따른 유효한 호가 가격단위를 구한다.
+        // 유효하지 않은 호가가격 때문에 매도주문에 실패하는것을 방지하기 위해 매도 주문 전 유효한 호가가격단위를 구한다.
+        public int get_hoga_unit_price(int i_price, String i_jongmok_cd, int i_hoga_unit_jump) // 호가가격단위 가져오기
         {
             int l_market_type = 0; // 0:코스피 , 10:코스닥
             int l_rest;
@@ -1640,7 +1643,7 @@ namespace Team1
                 write_err_log("get_hoga_unit_price() ex.Message : [" + ex.Message + "]\n", 0);
             }
 
-            if (i_price < 2000)
+            if (i_price < 2000) // 기준가 < 2000
             {
                 return i_price + (i_hoga_unit_jump * 1);
             }
@@ -1650,15 +1653,17 @@ namespace Team1
                 if (l_rest == 0)
                 {
                     return i_price + (i_hoga_unit_jump * 5);
-                } else if (l_rest < 3)
+                }
+                else if (l_rest < 3)
                 {
                     return (i_price - l_rest) + (i_hoga_unit_jump * 5);
-                } else
+                }
+                else
                 {
                     return (i_price + (5 - l_rest)) + (i_hoga_unit_jump * 5);
                 }
             }
-            else if (i_price >= 5000 && i_price < 20000)
+            else if (i_price >= 5000 && i_price < 20000) // 5000 <= 기준가 < 20000
             {
                 l_rest = i_price % 10;
                 if (l_rest == 0)
@@ -1674,7 +1679,7 @@ namespace Team1
                     return (i_price + (10 - l_rest)) + (i_hoga_unit_jump * 10);
                 }
             }
-            else if (i_price >= 20000 && i_price < 50000)
+            else if (i_price >= 20000 && i_price < 50000) // 20000 <= 기준가 < 50000
             {
                 l_rest = i_price % 50;
                 if (l_rest == 0)
@@ -1690,7 +1695,7 @@ namespace Team1
                     return (i_price + (50 - l_rest)) + (i_hoga_unit_jump * 50);
                 }
             }
-            else if (i_price >= 50000 && i_price < 200000)
+            else if (i_price >= 50000 && i_price < 200000) // 50000 <= 기준가 200000
             {
                 l_rest = i_price % 100;
                 if (l_rest == 0)
@@ -1706,7 +1711,7 @@ namespace Team1
                     return (i_price + (100 - l_rest)) + (i_hoga_unit_jump * 100);
                 }
             }
-            else if (i_price >= 200000 && i_price < 500000)
+            else if (i_price >= 200000 && i_price < 500000) // 200000 <= 기준가 < 500000
             {
                 if (l_market_type == 10)
                 {
@@ -1742,7 +1747,7 @@ namespace Team1
                     }
                 }
             }
-            else if (i_price >= 500000)
+            else if (i_price >= 500000) // 기준가 > 500000
             {
                 if (l_market_type == 10)
                 {
@@ -1781,7 +1786,8 @@ namespace Team1
             return 0;
         }
 
-        public void real_buy_ord() // 실시간 매수 주문 매서드, 매수대상 거래종목 조회
+        // 매수대상 거래종목 조회
+        public void real_buy_ord() // TB_TRD_JONGMOK 테이블을 조회하고 실시간 매수주문
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1792,10 +1798,10 @@ namespace Team1
             int l_buy_price = 0;
             int l_buy_amt = 0;
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
@@ -1865,7 +1871,7 @@ namespace Team1
                 int l_for_cnt = 0;
                 g_buy_hoga = 0;
 
-                for(; ;)
+                for (; ; )
                 {
                     g_rqname = "";
                     g_rqname = "호가조회";
@@ -1881,7 +1887,7 @@ namespace Team1
                     try
                     {
                         l_for_cnt = 0;
-                        for(; ; )
+                        for (; ; )
                         {
                             if (g_flag_7 == 1)
                             {
@@ -1895,7 +1901,7 @@ namespace Team1
                                 write_msg_log("'호가조회' 완료 대기 중...\n", 0);
                                 delay(200);
                                 l_for_cnt++;
-                                if(l_for_cnt == 5)
+                                if (l_for_cnt == 5)
                                 {
                                     l_for_flag = 0;
                                     break;
@@ -1906,7 +1912,8 @@ namespace Team1
                                 }
                             }
                         }
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         write_err_log("real_buy_ord() 호가조회 ex.Message : [" + ex.Message + "]\n", 0);
                     }
@@ -1931,8 +1938,9 @@ namespace Team1
                     continue;
                 }
 
-                //매수대상 매수주문
-                g_flag_3 = 0; // 이전 선언 필요
+                // 매수대상 종목의 종목코드, 매수가, 매수주문 주식수대로 매수주문 한다
+                // 매수주문 후 주문응답이 정상일시 주문 요청을 완료한다
+                g_flag_3 = 0;
                 g_rqname = "매수주문";
 
                 String l_scr_no = null;
@@ -1978,7 +1986,9 @@ namespace Team1
             conn.Close();
         }
 
-        public int get_own_stock_cnt(string i_jongmok_cd)
+        // 매수대상 종목을 조회하고 매수주문 하기 전에 주문하려는 종목이 이미 보유한 종목이라면 매수주문을 시행하지않음
+        // 종목코드를 입력받고 보유주식수를 반환한다
+        public int get_own_stock_cnt(string i_jongmok_cd) // 보유주식수 가져오기
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1987,10 +1997,10 @@ namespace Team1
 
             int l_own_stock_cnt = 0;
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
@@ -2020,7 +2030,9 @@ namespace Team1
             return l_own_stock_cnt;
         }
 
-        public string get_buy_not_chegyul_yn(string i_jongmok_cd)
+        // TB_ORD_LST 테이블과 TB_CHEGYUL_LST 테이블을 JOIN하고, 이 테이블을 조회하여 미체결된 매수주문이 있는지 확인한다
+        // 미체결 매수주문이 있다면 매수주문을 하지 않는다
+        public string get_buy_not_chegyul_yn(string i_jongmok_cd) // 미체결 매수주문 여부 확인
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -2030,7 +2042,12 @@ namespace Team1
             int l_buy_not_chegyul_ord_stock_cnt = 0;
             string l_buy_not_chegyul_yn = null;
 
+            conn = null;
             conn = connect_db();
+
+            sql = null;
+            cmd = null;
+            reader = null;
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
@@ -2092,7 +2109,8 @@ namespace Team1
             return l_buy_not_chegyul_yn;
         }
 
-        public void real_sell_ord() // 매수대상 거래종목 조회
+        // 매수주문 체결 후 갱신된 TB_ACCNT_INFO 테이블과 TB_TRD_JONGMOK 테이블을 조인하여 실시간 매도주문한다.
+        public void real_sell_ord() // 실시간 매도주문
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -2104,10 +2122,10 @@ namespace Team1
             int l_own_stock_cnt = 0;
             write_msg_log("real_sell_ord 시작\n", 0);
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
@@ -2145,6 +2163,8 @@ namespace Team1
                 write_msg_log("목표가 : [" + l_target_price.ToString() + "]\n", 0);
                 write_msg_log("보유주식수 : [" + l_own_stock_cnt.ToString() + "]\n", 0);
 
+                // 보유주식수와 미체결 매도주문 주식수가 같으면 이미 매도주문이 들어간 종목이므로 매도주문하지 않는다.
+                // 다르다면 (주식수) = (보유주식수) - (미체결 매도주문 주식수) 로 설정한다.
                 int l_sell_not_chegyul_ord_stock_cnt = 0;
                 l_sell_not_chegyul_ord_stock_cnt = get_sell_not_chegyul_ord_stock_cnt(l_jongmok_cd); // 미체결 매도주문 주식 수 구하기
 
@@ -2157,11 +2177,12 @@ namespace Team1
                     int l_sell_ord_stock_cnt_tmp = 0;
                     l_sell_ord_stock_cnt_tmp = l_own_stock_cnt - l_sell_not_chegyul_ord_stock_cnt; // 보유 주식수 - 미체결 매도주문 주식 수
 
-                    if(l_sell_ord_stock_cnt_tmp <= 0) // 매도대상 주식수가 0 이하라면 매도하지 않음
+                    if (l_sell_ord_stock_cnt_tmp <= 0) // 매도대상 주식수가 0 이하라면 매도하지 않음
                     {
                         continue;
                     }
 
+                    // 보유주식수와 미체결 매도주문 주식수가 같지 않은 조건일 때 get_hoga_unit_price()를 호출하여 매도주문가의 호가가격단위를 구한다.
                     int l_new_target_price = 0;
                     l_new_target_price = get_hoga_unit_price(l_target_price, l_jongmok_cd, 0);
 
@@ -2175,7 +2196,7 @@ namespace Team1
 
                     int ret = 0;
 
-                    //매도주문 요청
+                    // 매도주문 요청 후 g_flag_4 = 1 이 될 때까지 대기한다 -> 주문완료
                     ret = axKHOpenAPI1.SendOrder("매도주문", l_scr_no, g_accnt_no, 2, l_jongmok_cd, l_sell_ord_stock_cnt_tmp, l_new_target_price, "00", "");
                     if (ret == 0)
                     {
@@ -2212,6 +2233,8 @@ namespace Team1
             conn.Close();
         }
 
+        // TB_ACCNT_INFO 테이블과 TB_TRD_JONGMOK 테이블을 JOIN하여 현재 보유한 종목에 대한 종목코드, 목표가, 보유주식수를 가져온다.
+        // 이미 매도주문한 종목인지 확인하고 미체결 매도주문또한 확인한다.
         public int get_sell_not_chegyul_ord_stock_cnt(string i_jongmok_cd) // 미체결 매도주문 주식 수 가져오기
         {
             OracleCommand cmd = null;
@@ -2221,7 +2244,12 @@ namespace Team1
 
             int l_sell_not_chegyul_ord_stock_cnt = 0;
 
+            conn = null;
             conn = connect_db();
+
+            sql = null;
+            cmd = null;
+            reader = null;
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
@@ -2273,6 +2301,7 @@ namespace Team1
             return l_sell_not_chegyul_ord_stock_cnt;
         }
 
+        // 보유한 종목들의 현재가를 조회하여 현재가가 손절가를 이탈한다면 시장가로 손절주문 한다.
         public void real_cut_loss_ord() // 실시간 손절주문
         {
             OracleCommand cmd = null;
@@ -2289,10 +2318,10 @@ namespace Team1
 
             write_msg_log("real_cut_loss_ord 시작\n", 0);
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
@@ -2329,20 +2358,21 @@ namespace Team1
                 write_msg_log("종목명 : [" + get_jongmok_nm(l_jongmok_cd) + "]\n", 0);
                 write_msg_log("손절가 : [" + l_cut_loss_price.ToString() + "]\n", 0);
                 write_msg_log("보유주식수 : [" + l_own_stock_cnt.ToString() + "]\n", 0);
+            } // while() 종료
 
                 l_for_flag = 0;
                 g_cur_price = 0;
 
-                for (; ; )
-                {
-                    g_rqname = "";
-                    g_rqname = "현재가조회";
-                    g_flag_6 = 0;
-                    axKHOpenAPI1.SetInputValue("종목코드", l_jongmok_cd);
+            for (; ; )
+            {
+                g_rqname = "";
+                g_rqname = "현재가조회";
+                g_flag_6 = 0;
+                axKHOpenAPI1.SetInputValue("종목코드", l_jongmok_cd);
 
-                    string l_scr_no = null;
-                    l_scr_no = "";
-                    l_scr_no = get_scr_no();
+                string l_scr_no = null;
+                l_scr_no = "";
+                l_scr_no = get_scr_no();
 
                     //현재가 조회 요청
                     axKHOpenAPI1.CommRqData(g_rqname, "OPT10001", 0, l_scr_no);
@@ -2381,7 +2411,7 @@ namespace Team1
                         write_err_log("real_cut_loss_ord() 현재가조회 ex.Message : [" + ex.Message + "]\n", 0);
                     }
 
-                    axKHOpenAPI1.DisconnectRealData(l_scr_no);
+                axKHOpenAPI1.DisconnectRealData(l_scr_no);
 
                     if (l_for_flag == 1)
                     {
@@ -2452,6 +2482,7 @@ namespace Team1
             conn.Close();
         }
 
+        // 손절주문 대상 종목의 현재가가 손절가를 이탈하면 해당 종목의 미체결 매도주문을 매도취소하고 시장가로 손절 매도주문을 한다
         public void sell_canc_ord(string i_jongmok_cd)
         {
             OracleCommand cmd = null;
@@ -2466,7 +2497,12 @@ namespace Team1
             string l_ord_no = null;
             string l_org_ord_no = null;
 
+            conn = null;
             conn = connect_db();
+
+            sql = null;
+            cmd = null;
+            reader = null;
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
@@ -2567,6 +2603,7 @@ namespace Team1
             conn.Close();
         }
 
+        // 시장가로 매도주문하여 손절주문을 완료하면 손절한 종목을 매수주문하지 않도록 TB_TRD_JONGMOK 테이블의 BUY_TRD_YN을 'N'으로 설정한다
         public void update_tb_trd_jongmok(String i_jongmok_cd)
         {
             OracleCommand cmd = null;
