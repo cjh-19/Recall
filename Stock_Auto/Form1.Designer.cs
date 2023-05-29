@@ -51,14 +51,15 @@ namespace Team1
             this.buy_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.sell_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.searchbtn = new System.Windows.Forms.Button();
+            this.autostopbtn = new System.Windows.Forms.Button();
+            this.insertbtn = new System.Windows.Forms.Button();
+            this.autostartbtn = new System.Windows.Forms.Button();
             this.deletebtn = new System.Windows.Forms.Button();
             this.alterbtn = new System.Windows.Forms.Button();
-            this.insertbtn = new System.Windows.Forms.Button();
-            this.searchbtn = new System.Windows.Forms.Button();
-            this.autostartbtn = new System.Windows.Forms.Button();
-            this.autostopbtn = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.messagelog = new System.Windows.Forms.TextBox();
+            this.axKHOpenAPI1 = new AxKHOpenAPILib.AxKHOpenAPI();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.errorlog = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -82,17 +83,18 @@ namespace Team1
             this.clocklabel = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label6 = new System.Windows.Forms.Label();
-            this.axKHOpenAPI1 = new AxKHOpenAPILib.AxKHOpenAPI();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axKHOpenAPI1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axKHOpenAPI1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -104,8 +106,10 @@ namespace Team1
             this.groupBox1.Controls.Add(this.idbox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(1, 5);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(800, 67);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(800, 68);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "사용자 접속 정보";
@@ -113,18 +117,20 @@ namespace Team1
             // logoutbtn
             // 
             this.logoutbtn.BackColor = System.Drawing.SystemColors.Info;
-            this.logoutbtn.Location = new System.Drawing.Point(674, 23);
+            this.logoutbtn.Location = new System.Drawing.Point(674, 22);
+            this.logoutbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.logoutbtn.Name = "logoutbtn";
             this.logoutbtn.Size = new System.Drawing.Size(106, 32);
             this.logoutbtn.TabIndex = 8;
-            this.logoutbtn.Text = "로그아웃";
+            this.logoutbtn.Text = "종료";
             this.logoutbtn.UseVisualStyleBackColor = false;
             this.logoutbtn.Click += new System.EventHandler(this.logoutbtn_Click);
             // 
             // loginbtn
             // 
             this.loginbtn.BackColor = System.Drawing.SystemColors.Info;
-            this.loginbtn.Location = new System.Drawing.Point(537, 23);
+            this.loginbtn.Location = new System.Drawing.Point(537, 22);
+            this.loginbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loginbtn.Name = "loginbtn";
             this.loginbtn.Size = new System.Drawing.Size(106, 32);
             this.loginbtn.TabIndex = 7;
@@ -136,6 +142,7 @@ namespace Team1
             // 
             this.accountbox.FormattingEnabled = true;
             this.accountbox.Location = new System.Drawing.Point(328, 25);
+            this.accountbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.accountbox.Name = "accountbox";
             this.accountbox.Size = new System.Drawing.Size(165, 23);
             this.accountbox.TabIndex = 6;
@@ -146,7 +153,7 @@ namespace Team1
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("굴림", 10F);
             this.label2.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label2.Location = new System.Drawing.Point(246, 27);
+            this.label2.Location = new System.Drawing.Point(246, 28);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 17);
             this.label2.TabIndex = 5;
@@ -155,8 +162,9 @@ namespace Team1
             // idbox
             // 
             this.idbox.Location = new System.Drawing.Point(71, 24);
+            this.idbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.idbox.Name = "idbox";
-            this.idbox.Size = new System.Drawing.Size(128, 25);
+            this.idbox.Size = new System.Drawing.Size(127, 25);
             this.idbox.TabIndex = 4;
             // 
             // label1
@@ -173,9 +181,17 @@ namespace Team1
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.dataGridView1);
-            this.groupBox2.Location = new System.Drawing.Point(807, 59);
+            this.groupBox2.Controls.Add(this.searchbtn);
+            this.groupBox2.Controls.Add(this.autostopbtn);
+            this.groupBox2.Controls.Add(this.insertbtn);
+            this.groupBox2.Controls.Add(this.autostartbtn);
+            this.groupBox2.Controls.Add(this.deletebtn);
+            this.groupBox2.Controls.Add(this.alterbtn);
+            this.groupBox2.Location = new System.Drawing.Point(1, 78);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(963, 526);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Size = new System.Drawing.Size(1099, 482);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "거래종목이 표시됩니다";
@@ -198,11 +214,12 @@ namespace Team1
             this.sell_trd_yn,
             this.check});
             this.dataGridView1.Location = new System.Drawing.Point(0, 24);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(841, 482);
+            this.dataGridView1.Size = new System.Drawing.Size(923, 450);
             this.dataGridView1.TabIndex = 0;
             // 
             // seq
@@ -294,12 +311,61 @@ namespace Team1
             this.check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.check.Width = 60;
             // 
+            // searchbtn
+            // 
+            this.searchbtn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.searchbtn.Location = new System.Drawing.Point(944, 24);
+            this.searchbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.searchbtn.Name = "searchbtn";
+            this.searchbtn.Size = new System.Drawing.Size(139, 70);
+            this.searchbtn.TabIndex = 1;
+            this.searchbtn.Text = "불러오기";
+            this.searchbtn.UseVisualStyleBackColor = false;
+            this.searchbtn.Click += new System.EventHandler(this.searchbtn_Click);
+            // 
+            // autostopbtn
+            // 
+            this.autostopbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.autostopbtn.Location = new System.Drawing.Point(943, 404);
+            this.autostopbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.autostopbtn.Name = "autostopbtn";
+            this.autostopbtn.Size = new System.Drawing.Size(141, 70);
+            this.autostopbtn.TabIndex = 0;
+            this.autostopbtn.Text = "자동매매 중지";
+            this.autostopbtn.UseVisualStyleBackColor = false;
+            this.autostopbtn.Click += new System.EventHandler(this.autostopbtn_Click);
+            // 
+            // insertbtn
+            // 
+            this.insertbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.insertbtn.Location = new System.Drawing.Point(944, 100);
+            this.insertbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.insertbtn.Name = "insertbtn";
+            this.insertbtn.Size = new System.Drawing.Size(141, 70);
+            this.insertbtn.TabIndex = 2;
+            this.insertbtn.Text = "종목 삽입";
+            this.insertbtn.UseVisualStyleBackColor = false;
+            this.insertbtn.Click += new System.EventHandler(this.insertbtn_Click);
+            // 
+            // autostartbtn
+            // 
+            this.autostartbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.autostartbtn.Location = new System.Drawing.Point(943, 328);
+            this.autostartbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.autostartbtn.Name = "autostartbtn";
+            this.autostartbtn.Size = new System.Drawing.Size(141, 70);
+            this.autostartbtn.TabIndex = 1;
+            this.autostartbtn.Text = "자동매매 예약";
+            this.autostartbtn.UseVisualStyleBackColor = false;
+            this.autostartbtn.Click += new System.EventHandler(this.autostartbtn_Click);
+            // 
             // deletebtn
             // 
             this.deletebtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.deletebtn.Location = new System.Drawing.Point(1665, 247);
+            this.deletebtn.Location = new System.Drawing.Point(944, 176);
+            this.deletebtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deletebtn.Name = "deletebtn";
-            this.deletebtn.Size = new System.Drawing.Size(100, 70);
+            this.deletebtn.Size = new System.Drawing.Size(139, 70);
             this.deletebtn.TabIndex = 4;
             this.deletebtn.Text = "종목 제거";
             this.deletebtn.UseVisualStyleBackColor = false;
@@ -308,65 +374,24 @@ namespace Team1
             // alterbtn
             // 
             this.alterbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.alterbtn.Location = new System.Drawing.Point(1665, 339);
+            this.alterbtn.Location = new System.Drawing.Point(943, 252);
+            this.alterbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.alterbtn.Name = "alterbtn";
-            this.alterbtn.Size = new System.Drawing.Size(100, 70);
+            this.alterbtn.Size = new System.Drawing.Size(139, 70);
             this.alterbtn.TabIndex = 3;
             this.alterbtn.Text = "종목 수정";
             this.alterbtn.UseVisualStyleBackColor = false;
             this.alterbtn.Click += new System.EventHandler(this.alterbtn_Click);
             // 
-            // insertbtn
-            // 
-            this.insertbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.insertbtn.Location = new System.Drawing.Point(1665, 161);
-            this.insertbtn.Name = "insertbtn";
-            this.insertbtn.Size = new System.Drawing.Size(100, 70);
-            this.insertbtn.TabIndex = 2;
-            this.insertbtn.Text = "종목 삽입";
-            this.insertbtn.UseVisualStyleBackColor = false;
-            this.insertbtn.Click += new System.EventHandler(this.insertbtn_Click);
-            // 
-            // searchbtn
-            // 
-            this.searchbtn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.searchbtn.Location = new System.Drawing.Point(1665, 76);
-            this.searchbtn.Name = "searchbtn";
-            this.searchbtn.Size = new System.Drawing.Size(100, 70);
-            this.searchbtn.TabIndex = 1;
-            this.searchbtn.Text = "불러오기";
-            this.searchbtn.UseVisualStyleBackColor = false;
-            this.searchbtn.Click += new System.EventHandler(this.searchbtn_Click);
-            // 
-            // autostartbtn
-            // 
-            this.autostartbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.autostartbtn.Location = new System.Drawing.Point(1665, 427);
-            this.autostartbtn.Name = "autostartbtn";
-            this.autostartbtn.Size = new System.Drawing.Size(100, 70);
-            this.autostartbtn.TabIndex = 1;
-            this.autostartbtn.Text = "자동매매 예약";
-            this.autostartbtn.UseVisualStyleBackColor = false;
-            this.autostartbtn.Click += new System.EventHandler(this.autostartbtn_Click);
-            // 
-            // autostopbtn
-            // 
-            this.autostopbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.autostopbtn.Location = new System.Drawing.Point(1665, 514);
-            this.autostopbtn.Name = "autostopbtn";
-            this.autostopbtn.Size = new System.Drawing.Size(100, 70);
-            this.autostopbtn.TabIndex = 0;
-            this.autostopbtn.Text = "자동매매 중지";
-            this.autostopbtn.UseVisualStyleBackColor = false;
-            this.autostopbtn.Click += new System.EventHandler(this.autostopbtn_Click);
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.messagelog);
             this.groupBox4.Controls.Add(this.axKHOpenAPI1);
-            this.groupBox4.Location = new System.Drawing.Point(1, 73);
+            this.groupBox4.Location = new System.Drawing.Point(1107, 78);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(800, 255);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox4.Size = new System.Drawing.Size(615, 246);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "실시간 메시지 정보창";
@@ -375,19 +400,33 @@ namespace Team1
             // 
             this.messagelog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.messagelog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.messagelog.Location = new System.Drawing.Point(1, 24);
+            this.messagelog.Location = new System.Drawing.Point(7, 24);
+            this.messagelog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.messagelog.Multiline = true;
             this.messagelog.Name = "messagelog";
             this.messagelog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.messagelog.Size = new System.Drawing.Size(793, 225);
+            this.messagelog.Size = new System.Drawing.Size(596, 218);
             this.messagelog.TabIndex = 5;
+            // 
+            // axKHOpenAPI1
+            // 
+            this.axKHOpenAPI1.Enabled = true;
+            this.axKHOpenAPI1.Location = new System.Drawing.Point(232, -14);
+            this.axKHOpenAPI1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.axKHOpenAPI1.Name = "axKHOpenAPI1";
+            this.axKHOpenAPI1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axKHOpenAPI1.OcxState")));
+            this.axKHOpenAPI1.Size = new System.Drawing.Size(251, 31);
+            this.axKHOpenAPI1.TabIndex = 0;
+            this.axKHOpenAPI1.Visible = false;
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.errorlog);
-            this.groupBox5.Location = new System.Drawing.Point(1, 334);
+            this.groupBox5.Location = new System.Drawing.Point(1107, 330);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(800, 257);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox5.Size = new System.Drawing.Size(615, 230);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "에러 창";
@@ -396,11 +435,12 @@ namespace Team1
             // 
             this.errorlog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.errorlog.ForeColor = System.Drawing.Color.Red;
-            this.errorlog.Location = new System.Drawing.Point(5, 24);
+            this.errorlog.Location = new System.Drawing.Point(7, 24);
+            this.errorlog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.errorlog.Multiline = true;
             this.errorlog.Name = "errorlog";
             this.errorlog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.errorlog.Size = new System.Drawing.Size(789, 227);
+            this.errorlog.Size = new System.Drawing.Size(596, 198);
             this.errorlog.TabIndex = 0;
             // 
             // statusStrip1
@@ -408,9 +448,9 @@ namespace Team1
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 877);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 882);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1782, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1742, 26);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -427,7 +467,7 @@ namespace Team1
             this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox6.Size = new System.Drawing.Size(958, 287);
+            this.groupBox6.Size = new System.Drawing.Size(921, 288);
             this.groupBox6.TabIndex = 9;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "최신 뉴스 검색 결과";
@@ -446,7 +486,7 @@ namespace Team1
             this.ResultList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ResultList.MultiSelect = false;
             this.ResultList.Name = "ResultList";
-            this.ResultList.Size = new System.Drawing.Size(928, 261);
+            this.ResultList.Size = new System.Drawing.Size(903, 262);
             this.ResultList.TabIndex = 6;
             this.ResultList.UseCompatibleStateImageBehavior = false;
             this.ResultList.View = System.Windows.Forms.View.Details;
@@ -482,7 +522,7 @@ namespace Team1
             this.groupBox7.Controls.Add(this.labelDisplayCounts);
             this.groupBox7.Controls.Add(this.label5);
             this.groupBox7.Controls.Add(this.btn_DisplayCount);
-            this.groupBox7.Location = new System.Drawing.Point(12, 598);
+            this.groupBox7.Location = new System.Drawing.Point(11, 598);
             this.groupBox7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -527,7 +567,7 @@ namespace Team1
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 83);
+            this.label4.Location = new System.Drawing.Point(6, 82);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(142, 15);
             this.label4.TabIndex = 4;
@@ -536,10 +576,10 @@ namespace Team1
             // btn_Update
             // 
             this.btn_Update.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_Update.Location = new System.Drawing.Point(452, 83);
+            this.btn_Update.Location = new System.Drawing.Point(453, 82);
             this.btn_Update.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Update.Name = "btn_Update";
-            this.btn_Update.Size = new System.Drawing.Size(231, 97);
+            this.btn_Update.Size = new System.Drawing.Size(231, 98);
             this.btn_Update.TabIndex = 0;
             this.btn_Update.Text = "검색";
             this.btn_Update.UseVisualStyleBackColor = false;
@@ -574,12 +614,12 @@ namespace Team1
             // 
             // btn_DisplayCount
             // 
-            this.btn_DisplayCount.Location = new System.Drawing.Point(8, 103);
+            this.btn_DisplayCount.Location = new System.Drawing.Point(8, 102);
             this.btn_DisplayCount.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_DisplayCount.Maximum = 100;
             this.btn_DisplayCount.Minimum = 10;
             this.btn_DisplayCount.Name = "btn_DisplayCount";
-            this.btn_DisplayCount.Size = new System.Drawing.Size(180, 56);
+            this.btn_DisplayCount.Size = new System.Drawing.Size(181, 56);
             this.btn_DisplayCount.TabIndex = 3;
             this.btn_DisplayCount.TickFrequency = 10;
             this.btn_DisplayCount.Value = 10;
@@ -614,36 +654,32 @@ namespace Team1
             this.label6.TabIndex = 10;
             this.label6.Text = "@ 응용소프트웨어실습 7조 다시들으시려면# @";
             // 
-            // axKHOpenAPI1
+            // pictureBox1
             // 
-            this.axKHOpenAPI1.Enabled = true;
-            this.axKHOpenAPI1.Location = new System.Drawing.Point(232, -14);
-            this.axKHOpenAPI1.Name = "axKHOpenAPI1";
-            this.axKHOpenAPI1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axKHOpenAPI1.OcxState")));
-            this.axKHOpenAPI1.Size = new System.Drawing.Size(201, 25);
-            this.axKHOpenAPI1.TabIndex = 0;
-            this.axKHOpenAPI1.Visible = false;
+            this.pictureBox1.Image = global::Team1.Properties.Resources.images;
+            this.pictureBox1.Location = new System.Drawing.Point(1477, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(245, 68);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1782, 903);
+            this.ClientSize = new System.Drawing.Size(1742, 908);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.autostopbtn);
-            this.Controls.Add(this.autostartbtn);
-            this.Controls.Add(this.deletebtn);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.clocklabel);
-            this.Controls.Add(this.searchbtn);
-            this.Controls.Add(this.alterbtn);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.insertbtn);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "c##team";
             this.groupBox1.ResumeLayout(false);
@@ -652,6 +688,7 @@ namespace Team1
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axKHOpenAPI1)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -660,7 +697,7 @@ namespace Team1
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.axKHOpenAPI1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -720,6 +757,7 @@ namespace Team1
         private System.Windows.Forms.DataGridViewComboBoxColumn sell_trd_yn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn check;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
