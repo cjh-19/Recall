@@ -24,8 +24,11 @@ F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\계좌정보+자동
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\계좌정보+자동매매\bin\Debug\Team1.application
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\계좌정보+자동매매\obj\Debug\Team1.exe.manifest
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\계좌정보+자동매매\obj\Debug\Team1.application
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> master
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Stock_Auto\bin\Debug\Team1.exe.config
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Stock_Auto\bin\Debug\Team1.exe.manifest
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Stock_Auto\bin\Debug\Team1.application
@@ -78,6 +81,7 @@ C:\Users\bazzi\Documents\GitHub\Recall\Stock_Auto\obj\Debug\Team1.application
 C:\Users\bazzi\Documents\GitHub\Recall\Stock_Auto\obj\Debug\Team1.csproj.CopyComplete
 C:\Users\bazzi\Documents\GitHub\Recall\Stock_Auto\obj\Debug\Team1.exe
 C:\Users\bazzi\Documents\GitHub\Recall\Stock_Auto\obj\Debug\Team1.pdb
+<<<<<<< HEAD
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.exe.config
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.exe.manifest
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.application
@@ -104,3 +108,5 @@ C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.C
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.exe
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.pdb
 >>>>>>> Stashed changes
+=======
+>>>>>>> master

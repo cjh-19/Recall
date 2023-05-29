@@ -1,4 +1,4 @@
-﻿// 구현 환경
+// 구현 환경
 // Visual Studio Community 2019
 // Oracle DBMS
 // KIWOOM Open API
@@ -25,8 +25,8 @@ namespace Team1
 {
     public partial class Form1 : Form
     {
-        string g_user_id = null;
-        string g_accnt_no = null;
+        string g_user_id = null; // 키움증권 아이디
+        string g_accnt_no = null; // 증권 계좌번호
         int g_scr_no = 0; //OpenAPI 요청번호
 
         int g_is_thread = 0; // 0이면 스레드 미생성, 1이면 스레드 생성
@@ -36,7 +36,7 @@ namespace Team1
 
         const string _apiUrl = "https://openapi.naver.com/v1/search/news";   //추가기능 뉴스 api
         const string _clientId = "I74lzNbMOpmIlEsfaWRO";
-        const string _clientSecret = "jgntupzVD8";
+        const string _clientSecret = "73vhwkbPBc";
 
         int g_is_next = 0; // 다음 조회 데이터가 있는지 확인하는 플래그
         int g_flag_1 = 0; // 1이면 요청에 대한 응답 완료
@@ -47,7 +47,7 @@ namespace Team1
         int g_cur_price = 0; // 현재가
         int g_flag_6 = 0; // 1이면 조회 완료
         int g_buy_hoga = 0; // 최우선 매수호가 저장
-        int g_flag_7 = 0; // 1이면 조회 완료
+        int g_flag_7 = 0; // 최우선 매수호가 플래그 변수가 1이면 조회 완료
 
         int g_ord_amt_possible; //총 매수 가능 금액
         public Form1()
@@ -86,29 +86,10 @@ namespace Team1
                         break;
                     default: break;
                 }
+                return;
             }
 
-            if (e.sRQName == "호가조회")
-            {
-                int cnt = 0;
-                int ii = 0;
-                int l_buy_hoga = 0;
-
-                cnt = axKHOpenAPI1.GetRepeatCnt(e.sTrCode, e.sRQName);
-
-                for (ii = 0; ii < cnt; ii++)
-                {
-                    l_buy_hoga = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "매수최우선호가").Trim());
-                    l_buy_hoga = System.Math.Abs(l_buy_hoga);
-                }
-
-                g_buy_hoga = l_buy_hoga;
-
-                axKHOpenAPI1.DisconnectRealData(e.sScrNo);
-                g_flag_7 = 1;
-            }
-
-            if (e.sRQName == "증거금세부내역조회요청")
+            if (e.sRQName == "증거금세부내역조회요청") //응답받은 요청명이 증거금세부내역조회요청이라면
             {
                 g_ord_amt_possible = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, 0, "100주문가능금액").Trim()); //주문 가능 금액을 저장
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
@@ -127,7 +108,7 @@ namespace Team1
                 int buy_price = 0;
                 int own_amt = 0;
 
-                repeat_cnt = axKHOpenAPI1.GetRepeatCnt(e.sTrCode, e.sRQName);
+                repeat_cnt = axKHOpenAPI1.GetRepeatCnt(e.sTrCode, e.sRQName); // 보유 종목수 가져오기
 
                 write_msg_log("TB_ACCNT_INFO 테이블 설정 시작\n", 0);
                 write_msg_log("보유종목수 : " + repeat_cnt.ToString() + "\n", 0);
@@ -172,6 +153,26 @@ namespace Team1
                 g_flag_2 = 1;
             }
 
+            if (e.sRQName == "호가조회")
+            {
+                int cnt = 0;
+                int ii = 0;
+                int l_buy_hoga = 0;
+
+                cnt = axKHOpenAPI1.GetRepeatCnt(e.sTrCode, e.sRQName);
+
+                for (ii = 0; ii < cnt; ii++)
+                {
+                    l_buy_hoga = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "매수최우선호가").Trim());
+                    l_buy_hoga = System.Math.Abs(l_buy_hoga);
+                }
+
+                g_buy_hoga = l_buy_hoga;
+
+                axKHOpenAPI1.DisconnectRealData(e.sScrNo);
+                g_flag_7 = 1;
+            }
+
             if (e.sRQName == "현재가조회") // 응답받은 요청명이 현재가조회
             {
                 g_cur_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, 0, "현재가").Trim());
@@ -179,7 +180,8 @@ namespace Team1
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
                 g_flag_6 = 1;
             }
-        }
+        } //axKHOpenAPI1_OnReceiveTrData 매서드 종료
+
         // 주식주문을 요청할 때 해당 주식 주문의 응답을 수신하는 이벤트 메서드
         private void axKHOpenAPI1_OnReceiveMsg(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveMsgEvent e)
         {
@@ -202,7 +204,7 @@ namespace Team1
                 write_msg_log("sTrCode : [" + e.sTrCode + "]" + "\n", 0);
                 write_msg_log("sMsg : [" + e.sMsg + "]" + "\n", 0);
                 write_msg_log("=========매수주문 원장 응답정보 출력 종료========\n", 0);
-                g_flag_3 = 1; //매수주문 응답완료 설정
+                g_flag_4 = 1; //매수주문 응답완료 설정
             }
             if (e.sRQName == "매도취소주문")
             {
@@ -212,7 +214,7 @@ namespace Team1
                 write_msg_log("sTrCode : [" + e.sTrCode + "]" + "\n", 0);
                 write_msg_log("sMsg : [" + e.sMsg + "]" + "\n", 0);
                 write_msg_log("=========매수주문 원장 응답정보 출력 종료========\n", 0);
-                g_flag_3 = 1; //매수주문 응답완료 설정
+                g_flag_5 = 1; //매수주문 응답완료 설정
             }
         }
         // 주식주문을 요청한 후 주문내역과 체결내역 데이터를 수신하는 이벤트 메서드
@@ -294,8 +296,8 @@ namespace Team1
                     jongmok_nm = get_jongmok_nm(jongmok_cd);
                     chegyul_gb = axKHOpenAPI1.GetChejanData(907).Trim(); //2:매수 1:매도
                     chegyul_no = int.Parse(axKHOpenAPI1.GetChejanData(909).Trim());
-                    chegyul_no = int.Parse(axKHOpenAPI1.GetChejanData(910).Trim());
-                    chegyul_price = int.Parse(axKHOpenAPI1.GetChejanData(911).Trim());
+                    chegyul_price = int.Parse(axKHOpenAPI1.GetChejanData(910).Trim());
+                    chegyul_cnt = int.Parse(axKHOpenAPI1.GetChejanData(911).Trim());
                     chegyul_amt = chegyul_price * chegyul_cnt;
                     org_ord_no = axKHOpenAPI1.GetChejanData(904).Trim();
 
@@ -355,7 +357,7 @@ namespace Team1
 
                 merge_tb_accnt_info(jongmok_cd, l_jongmok_nm, boyu_cnt, boyu_price, boyu_amt); //계좌정보(보유종목) 저장
             }// if(e.sGubun==1) 종료
-        }
+        } // 메서드 종료
 
 
         public string get_cur_tm()  //시간 가져오기 함수
@@ -560,7 +562,7 @@ namespace Team1
             int l_priority;
             int l_buy_amt;
             int l_buy_price;
-            int l_tager_price;
+            int l_target_price;
             int l_cut_loss_price;
             string l_buy_trd_yn;
             string l_sell_trd_yn;
@@ -615,10 +617,11 @@ namespace Team1
             l_priority = 0;
             l_buy_amt = 0;
             l_buy_price = 0;
-            l_tager_price = 0;
+            l_target_price = 0;
             l_cut_loss_price = 0;
             l_buy_trd_yn = "";
             l_sell_trd_yn = "";
+            //l_seq = 0; // 책에는 없는데 참고소스에는 있음, 사실 선언할 때 0으로 저장해서 딱히 문제는 안됨.
 
             while (reader.Read())
             {
@@ -628,11 +631,11 @@ namespace Team1
                 l_priority = 0;
                 l_buy_amt = 0;
                 l_buy_price = 0;
-                l_tager_price = 0;
+                l_target_price = 0;
                 l_cut_loss_price = 0;
                 l_buy_trd_yn = "";
                 l_sell_trd_yn = "";
-                l_seq = 0;
+                l_seq = 0; // 참고 소스에는 없음
 
                 // 각 컬럼 값 저장
                 l_jongmok_cd = reader[0].ToString().Trim();
@@ -640,7 +643,7 @@ namespace Team1
                 l_priority = int.Parse(reader[2].ToString().Trim());
                 l_buy_amt = int.Parse(reader[3].ToString().Trim());
                 l_buy_price = int.Parse(reader[4].ToString().Trim());
-                l_tager_price = int.Parse(reader[5].ToString().Trim());
+                l_target_price = int.Parse(reader[5].ToString().Trim());
                 l_cut_loss_price = int.Parse(reader[6].ToString().Trim());
                 l_buy_trd_yn = reader[7].ToString().Trim();
                 l_sell_trd_yn = reader[8].ToString().Trim();
@@ -654,7 +657,7 @@ namespace Team1
                     l_priority.ToString(),
                     l_buy_amt.ToString(),
                     l_buy_price.ToString(),
-                    l_tager_price.ToString(),
+                    l_target_price.ToString(),
                     l_cut_loss_price.ToString(),
                     l_buy_trd_yn,
                     l_sell_trd_yn
@@ -681,7 +684,7 @@ namespace Team1
             int l_priority;
             int l_buy_amt;
             int l_buy_price;
-            int l_tager_price;
+            int l_target_price;
             int l_cut_loss_price;
             string l_buy_trd_yn;
             string l_sell_trd_yn;
@@ -700,7 +703,7 @@ namespace Team1
                     l_buy_amt = int.Parse(Row.Cells[4].Value.ToString());
                     l_buy_price = int.Parse(Row.Cells[5].Value.ToString());
 
-                    l_tager_price = int.Parse(Row.Cells[6].Value.ToString());
+                    l_target_price = int.Parse(Row.Cells[6].Value.ToString());
                     l_cut_loss_price = int.Parse(Row.Cells[7].Value.ToString());
 
                     l_buy_trd_yn = Row.Cells[8].Value.ToString();
@@ -724,7 +727,7 @@ namespace Team1
                         + l_priority + ","
                         + l_buy_amt + ","
                         + l_buy_price + ","
-                        + l_tager_price + ","
+                        + l_target_price + ","
                         + l_cut_loss_price + "," +
                         "'" + l_buy_trd_yn + "'" + "," +
                         "'" + l_sell_trd_yn + "'" + "," +
@@ -761,7 +764,7 @@ namespace Team1
             int l_priority;
             int l_buy_amt;
             int l_buy_price;
-            int l_tager_price;
+            int l_target_price;
             int l_cut_loss_price;
             string l_buy_trd_yn;
             string l_sell_trd_yn;
@@ -780,7 +783,7 @@ namespace Team1
                     l_buy_amt = int.Parse(Row.Cells[4].Value.ToString());
                     l_buy_price = int.Parse(Row.Cells[5].Value.ToString());
 
-                    l_tager_price = int.Parse(Row.Cells[6].Value.ToString());
+                    l_target_price = int.Parse(Row.Cells[6].Value.ToString());
                     l_cut_loss_price = int.Parse(Row.Cells[7].Value.ToString());
 
                     l_buy_trd_yn = Row.Cells[8].Value.ToString();
@@ -801,12 +804,12 @@ namespace Team1
                         " PRIORITY = " + l_priority + "," +
                         " BUY_AMT = " + l_buy_amt + "," +
                         " BUY_PRICE = " + l_buy_price + "," +
-                        " TARGET_PRICE = " + l_tager_price + "," +
+                        " TARGET_PRICE = " + l_target_price + "," +
                         " CUT_LOSS_PRICE" + l_cut_loss_price + "," +
                         " BUY_TRD_YN = " + "'" + l_buy_trd_yn + "'" + "," +
                         " SELL_TRD_YN = " + "'" + l_sell_trd_yn + "'" + "," +
                         " UPDT_ID = " + "'" + g_user_id + "'" + "," +
-                        " UPDT_DTM = SYSDAATE" + " WHERE JONGMOK_CD = " + "'" + l_jongmok_cd + "'" +
+                        " UPDT_DTM = SYSDATE" + " WHERE JONGMOK_CD = " + "'" + l_jongmok_cd + "'" +
                         " AND USER_ID = " + "'" + g_user_id + "'";
 
                     cmd.CommandText = sql;
@@ -885,7 +888,7 @@ namespace Team1
             thread1 = new Thread(new ThreadStart(m_thread1)); // 스레드 생성
             thread1.Start(); // 스레드 시작
         }
-        public void m_thread1()
+        public void m_thread1() // 스레드 매서드
         {
             string l_cur_tm = null;
 
@@ -893,7 +896,7 @@ namespace Team1
             int l_set_tb_accnt_info_flag = 0; // 1이면 호출 완료 , 오타수정
             int l_sell_ord_first_flag = 0; //1이면 호출 완료
 
-            // 스레드 생성 파트
+            // 최초 스레드 생성 파트
             if (g_is_thread == 0) // 최초 스레드 생성
             {
                 g_is_thread = 1; // 중복 스레드 생성 방지를 위해 스레드 값 1로 변경
@@ -905,14 +908,19 @@ namespace Team1
                 l_cur_tm = get_cur_tm(); // 현재 시각 조회
                 if (l_cur_tm.CompareTo("083001") >= 0) // 8시 30분 이후라면
                 {
-                    if (l_set_tb_accnt_flag == 0)
+                    // 계좌조회, 계좌정보 조회, 보유종목 매도주문 수행
+                    // 계좌조회
+                    if (l_set_tb_accnt_flag == 0) // 계좌조회 호출 전
                     {
-                        l_set_tb_accnt_info_flag = 1; //호출로 설정
-                        set_tb_accnt();
+                        // 오타 수정, 변수 잘못 쓰고 있었음
+                        // 호출 순서를 바꿔야 하나?
+                        l_set_tb_accnt_flag = 1; //호출로 설정
+                        set_tb_accnt(); // 호출
                     }
+                    // 계좌정보 조회
                     if (l_set_tb_accnt_info_flag == 0)
                     {
-                        set_tb_accnt_info();
+                        set_tb_accnt_info(); // 계좌정보 테이블 설정
                         l_set_tb_accnt_info_flag = 1;
                     }
                     if (l_sell_ord_first_flag == 0)
@@ -933,13 +941,15 @@ namespace Team1
                             break; // 장이 닫히면 두 번째 무한루프를 빠져나간다.
                         }
                         // 장 운영 시간 중이므로 매수나 매도 주문
-                        real_buy_ord();
+                        real_buy_ord(); // 실시간 매수 주문 매서드 호출
 
-                        delay(200); // 두 번째 무한루프 지연
-                        real_sell_ord(); // 실시간 매도주문 호출
+                        delay(200); // 두 번째 무한루프 지연, 0.2초 딜레이
+                        real_sell_ord(); // 실시간 매도 주문 매서드 호출
 
-                        delay(200);
-                        real_cut_loss_ord(); // 실시간 손절주문 호출
+                        delay(200); // 0.2초 딜레이
+                        real_cut_loss_ord(); // 실시간 손절 주문 매서드 호출
+
+                        //delay(200); // 일단 시험삼아 추가
                     }
                 }
                 delay(200); // 첫 번째 무한루프 지연
@@ -952,7 +962,7 @@ namespace Team1
 
             try
             {
-                thread1.Abort();
+                thread1.Abort(); // 스레드 중지
             }
             catch (Exception ex)
             {
@@ -1001,7 +1011,7 @@ namespace Team1
                 axKHOpenAPI1.CommRqData("증거금세부내역조회요청", "opw00013", 0, l_scr_no); // Open API로 데이터 요청
 
                 l_for_cnt = 0;
-                for (; ; )
+                for (; ; ) // 요청후 대기시작
                 {
                     if (g_flag_1 == 1) //요청에 대한 응답이 완료되면 루프를 빠져나옴
                     {
@@ -1041,6 +1051,7 @@ namespace Team1
             write_msg_log("주문가능금액 : [" + g_ord_amt_possible.ToString() + "]\n", 0);
             merge_tb_accnt(g_ord_amt_possible);
         }//set_tb_accnt 종료
+
         public void merge_tb_accnt(int g_ord_amt_possible) //계좌정보 테이블 세팅 메서드
         {
             OracleCommand cmd = null;
@@ -1062,22 +1073,23 @@ namespace Team1
                 // 쿼리문 수정
                 l_sql = @"merge into tb_accnt a
             using(
-            select nvl(max(user_id),' ') user_id, nvl(max(accnt_no),' ') accnt_no, nvl(max(red_dt),' ') ref_dt " +
+            select nvl(max(user_id), ' ') user_id, nvl(max(accnt_no), ' ') accnt_no, nvl(max(ref_dt),' ') ref_dt " +
                     " from tb_accnt " +
                     " where user_id = '" + g_user_id + "'" +
-                    "and accnt_no = " + "'" + g_accnt_no + "'" +
-                    "and ref_dt = to_char(sysdate, yyyymmdd') " +
+                    " and accnt_no = " + "'" + g_accnt_no + "'" +
+                    " and ref_dt = to_char(sysdate, 'yyyymmdd') " +
                     " ) b " +
-                    " on ( a.user_id = b.user_id and a.accnt_no = b.accnt_no and a.ref_dt = b.ref.dt) " +
+                    " on ( a.user_id = b.user_id and a.accnt_no = b.accnt_no and a.ref_dt = b.ref_dt) " +
                     " when matched then update " +
                     " set ord_possible_amt = " + g_ord_amt_possible + "," +
-                    " updt_dtm = 'c##team'" +
+                    " updt_dtm = SYSDATE" + "," +
+                    " updt_id = 'c##team'" +
                     " when not matched then insert (a.user_id, a.accnt_no, a.ref_dt, a.ord_possible_amt, a.inst_dtm, a.inst_id) values ( " +
-                    "'" + g_user_id + "'" + "," +
-                    "'" + g_accnt_no + "'" + "," +
-                    " to_char(sysdate, 'yyyymmdd') " + "," +
-                    + g_ord_amt_possible + "," +
-                    "SYSDATE, " +
+                    "'" + g_user_id + "'" + ", " +
+                    "'" + g_accnt_no + "'" + ", " +
+                    " to_char(sysdate, 'yyyymmdd') " + ", "
+                    + g_ord_amt_possible + ", " +
+                    " SYSDATE, " +
                     "'c##team'" +
                     " )";
                 cmd.CommandText = l_sql;
@@ -1102,6 +1114,7 @@ namespace Team1
                 write_msg_log("db connection check!\n", 0);
             }
         }
+
         public void set_tb_accnt_info() //계좌정보 테이블 설정
         // 이 메서드는 TB_ACCnT_INFO 테이블을 삭제한뒤
         // Open API 의 setInputValue 함수를 이용하여 입력값을 설정하고
@@ -1129,7 +1142,7 @@ namespace Team1
 
             try
             {
-                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -1185,29 +1198,31 @@ namespace Team1
                                 continue;
                             }
                         }
-                        delay(1000);
-                        axKHOpenAPI1.DisconnectRealData(l_scr_no);
-
-                        // 다음 페이지 데이터 요청
-                        if (l_for_flag == 1)
-                        {
-                            break;
-                        }
-                        else if (l_for_flag == 0)
-                        {
-                            delay(1000);
-                            continue;
-                        }
                     }
-                    // 모든 페이지 데이터 요청 완료
-                    if (g_is_next == 0)
+                    delay(1000);
+                    axKHOpenAPI1.DisconnectRealData(l_scr_no);
+
+                    // 다음 페이지 데이터 요청
+                    if (l_for_flag == 1)
                     {
                         break;
                     }
-                    delay(1000);
+                    else if (l_for_flag == 0)
+                    {
+                        delay(1000);
+                        continue;
+                    }
                 }
+
+                // 모든 페이지 데이터 요청 완료
+                if (g_is_next == 0)
+                {
+                    break;
+                }
+                delay(1000);
             }
         }
+
         public void insert_tb_accnt_info(string i_jongmok_cd, string i_jongmok_nm, int i_buy_price, int i_own_stock_cnt, int i_own_amt) //계좌정보 테이블 삽입
         {
             OracleCommand cmd = null;
@@ -1224,17 +1239,17 @@ namespace Team1
             cmd.CommandType = CommandType.Text;
 
             //계좌정보 테이블 삽입
-            l_sql = @" insert into tb_accnt_info values (" +
+            l_sql = @" insert into tb_accnt_info values ( " +
                 "'" + g_user_id + "'" + "," +
                 "'" + g_accnt_no + "'" + "," +
-                "to_char(sysdate, 'yyyymmdd')" + "," +
-                "'" + i_jongmok_cd + "'" + "," +
-                "'" + i_jongmok_nm + "'" + "," +
-                +i_buy_price + "," +
-                +i_own_stock_cnt + "," +
-                +i_own_amt + "," +
-                "'c##team'" + "," +
-                "SYSDATE" + "," + "null" + "," + "null" + ")";
+                "to_char(sysdate, 'yyyymmdd')" + ", " +
+                "'" + i_jongmok_cd + "'" + ", " +
+                "'" + i_jongmok_nm + "'" + ", "
+                +i_buy_price + ", "
+                +i_own_stock_cnt + ", "
+                +i_own_amt + ", " +
+                "'c##team'" + ", " +
+                " SYSDATE" + "," + "null" + "," + "null" + ") ";
 
             cmd.CommandText = l_sql;
             try
@@ -1243,13 +1258,13 @@ namespace Team1
             }
             catch (Exception ex)
             {
-                write_err_log("inser tb_accnt_info() inssert tb_accnt_info ex.Message : [" + ex.Message + "]\n", 0);
+                write_err_log("insert tb_accnt_info() insert tb_accnt_info ex.Message : [" + ex.Message + "]\n", 0);
             }
             conn.Close();
         }
 
         public void insert_tb_ord_lst(string i_ref_dt, String i_jongmok_cd, String i_jongmok_nm, String i_ord_gb, String i_ord_no, String i_org_ord_no,
-            int i_ord_price, int i_ord_stock_cnt, int i_ord_amt, String i_ord_dtm)
+            int i_ord_price, int i_ord_stock_cnt, int i_ord_amt, String i_ord_dtm) // 주문 내역 저장 매서드
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1265,7 +1280,7 @@ namespace Team1
             cmd.CommandType = CommandType.Text;
 
             //주문내역 저장
-            l_sql = @" insert into tb_ord_lst values (" +
+            l_sql = @" insert into tb_ord_lst values ( " +
                 "'" + g_user_id + "'" + "," +
                 "'" + g_accnt_no + "'" + "," +
                 "'" + i_ref_dt + "'" + "," +
@@ -1273,15 +1288,15 @@ namespace Team1
                 "'" + i_jongmok_nm + "'" + "," +
                 "'" + i_ord_gb + "'" + "," +
                 "'" + i_ord_no + "'" + "," +
-                "'" + i_org_ord_no + "'" + "," +
-                +i_ord_price + "," +
-                +i_ord_stock_cnt + "," +
-                +i_ord_amt + "," +
-                "'" + i_ord_dtm + "," +
+                "'" + i_org_ord_no + "'" + ","
+                + i_ord_price + ","
+                + i_ord_stock_cnt + ","
+                + i_ord_amt + "," +
+                "'" + i_ord_dtm + "'" + "," +
                 "'c##team'" + "," +
                 "SYSDATE" + "," +
                 "null" + "," +
-                "null" + ")";
+                "null" + ") ";
 
             cmd.CommandText = l_sql;
 
@@ -1298,7 +1313,7 @@ namespace Team1
 
         }
 
-        public void update_tb_accnt(String i_chegyul_gb, int i_chegyul_amt)//계좌테이블 수정 메서드
+        public void update_tb_accnt(String i_chegyul_gb, int i_chegyul_amt) //계좌테이블 수정 메서드
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1317,10 +1332,18 @@ namespace Team1
             if (i_chegyul_gb == "2") // 매수일떄 주문 가능 금액에서 체결금액 빼기
             {
                 l_sql = @" update TB_ACCNT set ORD_POSSIBLE_AMT = ord_possile_amt - "
-+ i_chegyul_amt + ", updt_dtm = SYSDATE, updt_id = 'c##team' " +
-" where user_id = " + "'" + g_user_id + "'" +
-" and accnt_no = " + "'" + g_accnt_no + "'" +
-" and ref_dt = to_char(sysdate, 'yyyymmdd') ";
+                        + i_chegyul_amt + ", updt_dtm = SYSDATE, updt_id = 'c##team' " +
+                        " where user_id = " + "'" + g_user_id + "'" +
+                        " and accnt_no = " + "'" + g_accnt_no + "'" +
+                        " and ref_dt = to_char(sysdate, 'yyyymmdd') ";
+            }
+            else if (i_chegyul_gb == "1") //매도인 경우 주문가능금액에서 체결금액을 더하기
+            {
+                l_sql = @" update TB_ACCNT set ORD_POSSIBLE_AMT = ord_possible_amt + "
+                        + i_chegyul_amt + ", updt_dtm = SYSDATE, updt_id = 'c##team' " +
+                        " where user_id = " + "'" + g_user_id + "'" +
+                        " and accnt_no = " + "'" + g_accnt_no + "'" +
+                        " and ref_dt = to_char(sysdate, 'yyyymmdd') ";
             }
 
             cmd.CommandText = l_sql;
@@ -1331,7 +1354,7 @@ namespace Team1
             }
             catch (Exception ex)
             {
-                write_err_log("update TB_ACCNT ex.Message: [" + ex.Message + "\n", 0);
+                write_err_log("update TB_ACCNT ex.Message: [" + ex.Message + "]\n", 0);
             }
             conn.Close();
         }
@@ -1358,11 +1381,16 @@ namespace Team1
                 "'" + g_accnt_no + "'" + "," +
                 "'" + i_ref_dt + "'" + "," +
                 "'" + i_jongmok_cd + "'" + "," +
+                "'" + i_jongmok_nm + "'" + "," +
                 "'" + i_chegyul_gb + "'" + "," +
-                +i_chegyul_no + "," +
-                +i_chegyul_price + "," +
-                +i_chegyul_stock_cnt + "," +
-                "'c##team" + "," +
+                "'" + i_ord_no + "'" + "," +
+                "'" + i_chegyul_gb + "'" + ","
+                + i_chegyul_no + ","
+                + i_chegyul_price + ","
+                + i_chegyul_stock_cnt + ","
+                +i_chegyul_amt + "," +
+                "'" + i_chegyul_dtm + "'" + "," +
+                "'c##team'" + "," +
                 "SYSDATE" + "," +
                 "null" + "," +
                 "null" + ") ";
@@ -1382,7 +1410,7 @@ namespace Team1
 
         }
 
-        public void merge_tb_accnt_info(String i_jongmok_cd, String i_jongmok_nm, int i_boyu_cnt, int i_boyu_price, int i_boyu_amt) //계좌정보 테이블 세팅 함수
+        public void merge_tb_accnt_info(String i_jongmok_cd, String i_jongmok_nm, int i_boyu_cnt, int i_boyu_price, int i_boyu_amt) //계좌정보 테이블 세팅 매서드
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1400,28 +1428,28 @@ namespace Team1
             //계좌정보 테이블 세팅, 기존에 보유한 종목이면 갱신, 보유하지 않았으면 신규로 삽입
             l_sql = @"merge into TB_ACCNT_INFO a
            using(
-              select nvl(max(user_id),'0') user_id,nvl(max(ref_dt),'0') ref_dt, nvl(max(jongmok_cd),'0') jongmok_cd, nvl(max(jongmok_nm),'0') jongmok_nm
+              select nvl(max(user_id),'0') user_id, nvl(max(ref_dt),'0') ref_dt, nvl(max(jongmok_cd),'0') jongmok_cd, nvl(max(jongmok_nm), '0') jongmok_nm
               from TB_ACCNT_INFO
               where user_id= '" + g_user_id + "'" + "and ACCNT_NO = '" + g_accnt_no + "'" +
-              "and jongmok_cd = '" + i_jongmok_cd + "'" +
-              "and ref_dt = to_char(sysdate, 'yyyymmdd')"
-              + ")b " +
-                      "on(a.user_id=b.user_id and a.jongmok_cd =b.jongmok_cd and a.ref_dt =b.ref_dt)" +
+              " and jongmok_cd = '" + i_jongmok_cd + "'" +
+              " and ref_dt = to_char(sysdate, 'yyyymmdd')"
+              + " ) b " +
+                      " on( a.user_id = b.user_id and a.jongmok_cd = b.jongmok_cd and a.ref_dt = b.ref_dt ) " +
                       " when matched then update " +
                       " set OWN_STOCK_CNT = " + i_boyu_cnt + "," +
                       " BUY_PRICE = " + i_boyu_price + "," +
                       " OWN_AMT = " + i_boyu_amt + "," +
                       " updt_dtm = SYSDATE" + "," +
-                      " updt_id = 'c##team'" + //id 일단 우리걸로 바꿈 
-                      " when not matched then insert (a.user_id,a.accnt_no,a.ref_dt,a.jongmok_cd,a.jongmok_nm,a.BUY_PRICE,a.OWN_STOCK_CNT, a.OWN_AMT, a.inst_dtm,a.inst_id) values ( " +
+                      " updt_id = 'c##team'" +
+                      " when not matched then insert (a.user_id, a.accnt_no, a.ref_dt, a.jongmok_cd, a.jongmok_nm, a.BUY_PRICE, a.OWN_STOCK_CNT, a.OWN_AMT, a.inst_dtm, a.inst_id) values ( " +
                       "'" + g_user_id + "'" + "," +
                       "'" + g_accnt_no + "'" + "," +
-                      "to_char(sysdate, 'yyyymmdd'), " +
-                      "'" + i_jongmok_cd + "'" + "," +
-                      "'" + i_jongmok_nm + "'" + "," +
-                      +i_boyu_price + "," +
-                      +i_boyu_cnt + "," +
-                      +i_boyu_amt + "," +
+                      "to_char(sysdate, 'yyyymmdd') , " +
+                      "'" + i_jongmok_cd + "'" + ", " +
+                      "'" + i_jongmok_nm + "'" + ", "
+                      + i_boyu_price + ","
+                      + i_boyu_cnt + ","
+                      + i_boyu_amt + "," +
                       "SYSDATE, " +
                       "'c##team'" +
                     " ) ";
@@ -1438,7 +1466,8 @@ namespace Team1
 
         }
 
-        // 매도대상 종목 조회
+        // TB_TRD_JONGMOK 테이블과 TB_ACCNT_INFO 테이블을 JOIN하여 매도대상 종목을 조회
+        // 조회 결과로 매도대상 종목의 종목코드, 매수가, 보유주식수, 목표가를 가져온다
         public void sell_ord_first() // 계좌정보 보유종목의 매도주문
         {
             OracleCommand cmd = null;
@@ -1451,10 +1480,10 @@ namespace Team1
             int l_own_stock_cnt = 0;
             int l_target_price = 0;
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
@@ -1463,7 +1492,7 @@ namespace Team1
             // TB_ACCNT_INFO, TB_TRD_JONGMOK table을 join하여 매도 대상 종목을 조회
             sql = @" SELECT " +
                 "    A.JONGMOK_CD, " +
-                "    A.BUT_PRICE, " +
+                "    A.BUY_PRICE, " +
                 "    A.OWN_STOCK_CNT, " +
                 "    B.TARGET_PRICE " +
                 " FROM TB_ACCNT_INFO A, " +
@@ -1507,7 +1536,7 @@ namespace Team1
 
                 int ret = 0;
 
-                //매도주문 요청
+                // 매도주문 요청 후 g_flag_4 = 1 이 될 때까지 대기한다 -> 주문완료
                 ret = axKHOpenAPI1.SendOrder("매도주문", l_scr_no, g_accnt_no, 2, l_jongmok_cd, l_own_stock_cnt, l_new_target_price, "00", "");
                 if (ret == 0)
                 {
@@ -1538,26 +1567,29 @@ namespace Team1
                     }
                 }
                 axKHOpenAPI1.DisconnectRealData(l_scr_no);
-            }
+            } // while (reader.Read()) 종료
 
             reader.Close();
             conn.Close();
-        }
+        } //sell_ord_first 종료
 
-        public int get_hoga_unit_price(int i_price, String i_jongmok_cd, int i_hoga_unit_jump) // 유효한 호가가격단위를 구함
+        // 2023년 5월 기준 주식시장의 호가가격단위에 따른 유효한 호가 가격단위를 구한다.
+        // 유효하지 않은 호가가격 때문에 매도주문에 실패하는것을 방지하기 위해 매도 주문 전 유효한 호가가격단위를 구한다.
+        public int get_hoga_unit_price(int i_price, String i_jongmok_cd, int i_hoga_unit_jump) // 호가가격단위 가져오기
         {
             int l_market_type = 0; // 0:코스피 , 10:코스닥
             int l_rest;
 
             try
             {
+                // 시장 구분 가져오기
                 l_market_type = int.Parse(axKHOpenAPI1.GetMarketType(i_jongmok_cd).ToString());
             } catch (Exception ex)
             {
                 write_err_log("get_hoga_unit_price() ex.Message : [" + ex.Message + "]\n", 0);
             }
 
-            if (i_price < 2000)
+            if (i_price < 2000) // 기준가 < 2000
             {
                 return i_price + (i_hoga_unit_jump * 1);
             }
@@ -1567,15 +1599,17 @@ namespace Team1
                 if (l_rest == 0)
                 {
                     return i_price + (i_hoga_unit_jump * 5);
-                } else if (l_rest < 3)
+                }
+                else if (l_rest < 3)
                 {
                     return (i_price - l_rest) + (i_hoga_unit_jump * 5);
-                } else
+                }
+                else
                 {
                     return (i_price + (5 - l_rest)) + (i_hoga_unit_jump * 5);
                 }
             }
-            else if (i_price >= 5000 && i_price < 20000)
+            else if (i_price >= 5000 && i_price < 20000) // 5000 <= 기준가 < 20000
             {
                 l_rest = i_price % 10;
                 if (l_rest == 0)
@@ -1591,7 +1625,7 @@ namespace Team1
                     return (i_price + (10 - l_rest)) + (i_hoga_unit_jump * 10);
                 }
             }
-            else if (i_price >= 20000 && i_price < 50000)
+            else if (i_price >= 20000 && i_price < 50000) // 20000 <= 기준가 < 50000
             {
                 l_rest = i_price % 50;
                 if (l_rest == 0)
@@ -1607,7 +1641,7 @@ namespace Team1
                     return (i_price + (50 - l_rest)) + (i_hoga_unit_jump * 50);
                 }
             }
-            else if (i_price >= 50000 && i_price < 200000)
+            else if (i_price >= 50000 && i_price < 200000) // 50000 <= 기준가 200000
             {
                 l_rest = i_price % 100;
                 if (l_rest == 0)
@@ -1623,7 +1657,7 @@ namespace Team1
                     return (i_price + (100 - l_rest)) + (i_hoga_unit_jump * 100);
                 }
             }
-            else if (i_price >= 200000 && i_price < 500000)
+            else if (i_price >= 200000 && i_price < 500000) // 200000 <= 기준가 < 500000
             {
                 if (l_market_type == 10)
                 {
@@ -1659,7 +1693,7 @@ namespace Team1
                     }
                 }
             }
-            else if (i_price >= 500000)
+            else if (i_price >= 500000) // 기준가 > 500000
             {
                 if (l_market_type == 10)
                 {
@@ -1698,7 +1732,8 @@ namespace Team1
             return 0;
         }
 
-        public void real_buy_ord() // 매수대상 거래종목 조회
+        // 매수대상 거래종목 조회
+        public void real_buy_ord() // TB_TRD_JONGMOK 테이블을 조회하고 실시간 매수주문
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1709,17 +1744,17 @@ namespace Team1
             int l_buy_price = 0;
             int l_buy_amt = 0;
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
             // TB_ACCNT_INFO, TB_TRD_JONGMOK table을 join하여 매도 대상 종목을 조회
-
+            // 거래종목 테이블 조회
             sql = @"                    " +
                    " SELECT             " +
                    "    A.JONGMOK_CD,   " +
@@ -1745,12 +1780,13 @@ namespace Team1
                 l_buy_price = int.Parse(reader[2].ToString().Trim()); // 매수가
 
                 int l_buy_price_tmp = 0;
+                // 참고 소스에는 1이 아니라 0으로 함
                 l_buy_price_tmp = get_hoga_unit_price(l_buy_price, l_jongmok_cd, 1); // 매수호가 구하기
 
                 int l_buy_ord_stock_cnt = 0;
                 l_buy_ord_stock_cnt = (int)(l_buy_amt / l_buy_price_tmp); // 매수주문 주식 수 구하기
 
-                write_msg_log("종목코드 : [" + l_jongmok_cd + "]\n", 0);
+                write_msg_log("종목코드 : [" + l_jongmok_cd.ToString() + "]\n", 0);
                 write_msg_log("종목명 : [" + get_jongmok_nm(l_jongmok_cd) + "]\n", 0);
                 write_msg_log("매수금액 : [" + l_buy_amt.ToString() + "]\n", 0);
                 write_msg_log("매수가 : [" + l_buy_price_tmp.ToString() + "]\n", 0);
@@ -1759,7 +1795,7 @@ namespace Team1
                 l_own_stock_cnt = get_own_stock_cnt(l_jongmok_cd); // 해당 종목 보유주식 수 구하기
                 write_msg_log("보유주식수 : [" + l_own_stock_cnt.ToString() + "]\n", 0);
 
-                if(l_own_stock_cnt > 0)
+                if (l_own_stock_cnt > 0) // 해당 종목이 보유중이라면 매수하지 않음
                 {
                     write_msg_log("해당 종목을 보유 중이므로 매수하지 않음\n", 0);
                     continue;
@@ -1768,12 +1804,20 @@ namespace Team1
                 string l_buy_not_chegyul_yn = null;
                 l_buy_not_chegyul_yn = get_buy_not_chegyul_yn(l_jongmok_cd); // 미체결 매수주문 여부 확인
 
+                // l_buy_not_chegyul_yn 호출된 다음 for이 시작되야함
+                // 잘못 기재되있어서 수정
+                if (l_buy_not_chegyul_yn == "Y") // 미체결 매수주문이 있으므로 매수하지 않음
+                {
+                    write_msg_log("해당 종목에 미체결 매수주문이 있으므로 매수하지 않음 \n", 0);
+                    continue;
+                }
+
                 // 매수주문 전 최우선 매수호가 조회
                 int l_for_flag = 0;
                 int l_for_cnt = 0;
                 g_buy_hoga = 0;
 
-                for(; ;)
+                for (; ; )
                 {
                     g_rqname = "";
                     g_rqname = "호가조회";
@@ -1789,7 +1833,7 @@ namespace Team1
                     try
                     {
                         l_for_cnt = 0;
-                        for(; ; )
+                        for (; ; )
                         {
                             if (g_flag_7 == 1)
                             {
@@ -1803,7 +1847,7 @@ namespace Team1
                                 write_msg_log("'호가조회' 완료 대기 중...\n", 0);
                                 delay(200);
                                 l_for_cnt++;
-                                if(l_for_cnt == 5)
+                                if (l_for_cnt == 5)
                                 {
                                     l_for_flag = 0;
                                     break;
@@ -1814,7 +1858,8 @@ namespace Team1
                                 }
                             }
                         }
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         write_err_log("real_buy_ord() 호가조회 ex.Message : [" + ex.Message + "]\n", 0);
                     }
@@ -1833,20 +1878,15 @@ namespace Team1
                     delay(200);
                 }
 
-                if (l_buy_not_chegyul_yn == "Y") // 미체결 매수주문이 있으므로 매수하지 않음
-                {
-                    write_msg_log("해당 종목에 미체결 매수주문이 있으므로 매수하지 않음 \n", 0);
-                    continue;
-                }
-
                 if(l_buy_price > g_buy_hoga)
                 {
                     write_msg_log("해당 종목의 매수가가 최우선 매수호가보다 크므로 매수주문하지 않음 \n", 0);
                     continue;
                 }
 
-                //매수대상 매수주문
-                g_flag_3 = 0; // 이전 선언 필요
+                // 매수대상 종목의 종목코드, 매수가, 매수주문 주식수대로 매수주문 한다
+                // 매수주문 후 주문응답이 정상일시 주문 요청을 완료한다
+                g_flag_3 = 0;
                 g_rqname = "매수주문";
 
                 String l_scr_no = null;
@@ -1859,12 +1899,12 @@ namespace Team1
                 ret = axKHOpenAPI1.SendOrder("매수주문", l_scr_no, g_accnt_no, 1, l_jongmok_cd, l_buy_ord_stock_cnt, l_buy_price, "00", "");
                 if (ret == 0)
                 {
-                    write_msg_log("매수주문 Sendord() 호출 성공\n", 0);
+                    write_msg_log("매수주문 SendOrder() 호출 성공\n", 0);
                     write_msg_log("종목코드 : [" + l_jongmok_cd + "]\n", 0);
                 }
                 else
                 {
-                    write_msg_log("매수주문 Sendord() 호출 실패\n", 0);
+                    write_msg_log("매수주문 SendOrder() 호출 실패\n", 0);
                     write_msg_log("i_jongmok_cd : [" + l_jongmok_cd + "]\n", 0);
                 }
 
@@ -1887,12 +1927,14 @@ namespace Team1
                 }
                 axKHOpenAPI1.DisconnectRealData(l_scr_no);
                 delay(1000);
-            }
+            } // while (reader.Read()) 종료
             reader.Close();
             conn.Close();
         }
 
-        public int get_own_stock_cnt(string i_jongmok_cd)
+        // 매수대상 종목을 조회하고 매수주문 하기 전에 주문하려는 종목이 이미 보유한 종목이라면 매수주문을 시행하지않음
+        // 종목코드를 입력받고 보유주식수를 반환한다
+        public int get_own_stock_cnt(string i_jongmok_cd) // 보유주식수 가져오기
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1901,25 +1943,26 @@ namespace Team1
 
             int l_own_stock_cnt = 0;
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
 
+            // 계좌정보 테이블 조회
             sql = @"
                 SELECT
                     NVL(MAX(OWN_STOCK_CNT), 0) OWN_STOCK_CNT
                     FROM
                     TB_ACCNT_INFO
                     WHERE USER_ID = " + "'" + g_user_id + "'" +
-                    "AND JONGMOK_CD = " + "'" + i_jongmok_cd + "'" +
-                    "AND ACCNT_NO = " + "'" + g_accnt_no + "'" +
-                    "AND REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') ";
+                    " AND JONGMOK_CD = " + "'" + i_jongmok_cd + "'" +
+                    " AND ACCNT_NO = " + "'" + g_accnt_no + "'" +
+                    " AND REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') ";
 
             cmd.CommandText = sql;
             reader = cmd.ExecuteReader();
@@ -1933,7 +1976,9 @@ namespace Team1
             return l_own_stock_cnt;
         }
 
-        public string get_buy_not_chegyul_yn(string i_jongmok_cd)
+        // TB_ORD_LST 테이블과 TB_CHEGYUL_LST 테이블을 JOIN하고, 이 테이블을 조회하여 미체결된 매수주문이 있는지 확인한다
+        // 미체결 매수주문이 있다면 매수주문을 하지 않는다
+        public string get_buy_not_chegyul_yn(string i_jongmok_cd) // 미체결 매수주문 여부 확인
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -1943,7 +1988,12 @@ namespace Team1
             int l_buy_not_chegyul_ord_stock_cnt = 0;
             string l_buy_not_chegyul_yn = null;
 
+            conn = null;
             conn = connect_db();
+
+            sql = null;
+            cmd = null;
+            reader = null;
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
@@ -1979,7 +2029,7 @@ namespace Team1
                     "                  AND B.REF_DT = A.REF_DT " +
                     "                  AND B.JONGMOK_CD = A.JONGMOK_CD " +
                     "                  AND B.ORD_GB = A.ORD_GB " +
-                    "                  AND B.ORD_NO = A.ORD_NO " +
+                    "                  AND B.ORG_ORD_NO = A.ORD_NO " +
                 " ) " +
             ") x ";
 
@@ -2005,7 +2055,8 @@ namespace Team1
             return l_buy_not_chegyul_yn;
         }
 
-        public void real_sell_ord() // 매수대상 거래종목 조회
+        // 매수주문 체결 후 갱신된 TB_ACCNT_INFO 테이블과 TB_TRD_JONGMOK 테이블을 조인하여 실시간 매도주문한다.
+        public void real_sell_ord() // 실시간 매도주문
         {
             OracleCommand cmd = null;
             OracleConnection conn = null;
@@ -2017,28 +2068,28 @@ namespace Team1
             int l_own_stock_cnt = 0;
             write_msg_log("real_sell_ord 시작\n", 0);
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
             
-            //거래종목 및 계좌정보 테이블 조회
+            // 거래종목 및 계좌정보 테이블 조회
             sql = @" SELECT " +
                 "    A.JONGMOK_CD, " +
                 "    A.TARGET_PRICE, " +
-                "    B.OWN_STOCK_CNT, " +
+                "    B.OWN_STOCK_CNT " +
                 " FROM " + 
-                "    TB_TRD_JONGMOK A " +
-                "    TB_ACCNT_INFO B, " +
+                "    TB_TRD_JONGMOK A, " +
+                "    TB_ACCNT_INFO B " +
                 " WHERE A.USER_ID = " + "'" + g_user_id + "'" +
                 " AND A.JONGMOK_CD = B.JONGMOK_CD " +
                 " AND B.ACCNT_NO = " + "'" + g_accnt_no + "'" +
-                " AND A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') " +
+                " AND B.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') " +
                 " AND A.SELL_TRD_YN = 'Y' AND B.OWN_STOCK_CNT > 0 ";
 
             cmd.CommandText = sql;
@@ -2058,6 +2109,8 @@ namespace Team1
                 write_msg_log("목표가 : [" + l_target_price.ToString() + "]\n", 0);
                 write_msg_log("보유주식수 : [" + l_own_stock_cnt.ToString() + "]\n", 0);
 
+                // 보유주식수와 미체결 매도주문 주식수가 같으면 이미 매도주문이 들어간 종목이므로 매도주문하지 않는다.
+                // 다르다면 (주식수) = (보유주식수) - (미체결 매도주문 주식수) 로 설정한다.
                 int l_sell_not_chegyul_ord_stock_cnt = 0;
                 l_sell_not_chegyul_ord_stock_cnt = get_sell_not_chegyul_ord_stock_cnt(l_jongmok_cd); // 미체결 매도주문 주식 수 구하기
 
@@ -2070,11 +2123,12 @@ namespace Team1
                     int l_sell_ord_stock_cnt_tmp = 0;
                     l_sell_ord_stock_cnt_tmp = l_own_stock_cnt - l_sell_not_chegyul_ord_stock_cnt; // 보유 주식수 - 미체결 매도주문 주식 수
 
-                    if(l_sell_ord_stock_cnt_tmp <= 0) // 매도대상 주식수가 0 이하라면 매도하지 않음
+                    if (l_sell_ord_stock_cnt_tmp <= 0) // 매도대상 주식수가 0 이하라면 매도하지 않음
                     {
                         continue;
                     }
 
+                    // 보유주식수와 미체결 매도주문 주식수가 같지 않은 조건일 때 get_hoga_unit_price()를 호출하여 매도주문가의 호가가격단위를 구한다.
                     int l_new_target_price = 0;
                     l_new_target_price = get_hoga_unit_price(l_target_price, l_jongmok_cd, 0);
 
@@ -2088,7 +2142,7 @@ namespace Team1
 
                     int ret = 0;
 
-                    //매도주문 요청
+                    // 매도주문 요청 후 g_flag_4 = 1 이 될 때까지 대기한다 -> 주문완료
                     ret = axKHOpenAPI1.SendOrder("매도주문", l_scr_no, g_accnt_no, 2, l_jongmok_cd, l_sell_ord_stock_cnt_tmp, l_new_target_price, "00", "");
                     if (ret == 0)
                     {
@@ -2120,11 +2174,13 @@ namespace Team1
                     }
                     axKHOpenAPI1.DisconnectRealData(l_scr_no);
                 }
-            }
+            } // while (reader.Read()) 종료
             reader.Close();
             conn.Close();
         }
 
+        // TB_ACCNT_INFO 테이블과 TB_TRD_JONGMOK 테이블을 JOIN하여 현재 보유한 종목에 대한 종목코드, 목표가, 보유주식수를 가져온다.
+        // 이미 매도주문한 종목인지 확인하고 미체결 매도주문또한 확인한다.
         public int get_sell_not_chegyul_ord_stock_cnt(string i_jongmok_cd) // 미체결 매도주문 주식 수 가져오기
         {
             OracleCommand cmd = null;
@@ -2134,7 +2190,12 @@ namespace Team1
 
             int l_sell_not_chegyul_ord_stock_cnt = 0;
 
+            conn = null;
             conn = connect_db();
+
+            sql = null;
+            cmd = null;
+            reader = null;
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
@@ -2186,6 +2247,7 @@ namespace Team1
             return l_sell_not_chegyul_ord_stock_cnt;
         }
 
+        // 보유한 종목들의 현재가를 조회하여 현재가가 손절가를 이탈한다면 시장가로 손절주문 한다.
         public void real_cut_loss_ord() // 실시간 손절주문
         {
             OracleCommand cmd = null;
@@ -2196,12 +2258,16 @@ namespace Team1
             string l_jongmok_cd = null;
             int l_cut_loss_price = 0;
             int l_own_stock_cnt = 0;
+
+            int l_for_flag = 0;
+            int l_for_cnt = 0;
+
             write_msg_log("real_cut_loss_ord 시작\n", 0);
 
-            // conn = null;
-            // sql = null;
-            // cmd = null;
-            // reader = cull;
+            conn = null;
+            sql = null;
+            cmd = null;
+            reader = null;
             conn = connect_db();
 
             cmd = new OracleCommand();
@@ -2212,14 +2278,14 @@ namespace Team1
             sql = @" SELECT " +
                 "    A.JONGMOK_CD, " +
                 "    A.CUT_LOSS_PRICE, " +
-                "    B.OWN_STOCK_CNT, " +
+                "    B.OWN_STOCK_CNT " +
                 " FROM " +
-                "    TB_TRD_JONGMOK A " +
-                "    TB_ACCNT_INFO B, " +
+                "    TB_TRD_JONGMOK A, " +
+                "    TB_ACCNT_INFO B " +
                 " WHERE A.USER_ID = " + "'" + g_user_id + "'" +
                 " AND A.JONGMOK_CD = B.JONGMOK_CD " +
                 " AND B.ACCNT_NO = " + "'" + g_accnt_no + "'" +
-                " AND A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') " +
+                " AND B.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') " +
                 " AND A.SELL_TRD_YN = 'Y' AND B.OWN_STOCK_CNT > 0 ";
 
             cmd.CommandText = sql;
@@ -2239,8 +2305,7 @@ namespace Team1
                 write_msg_log("손절가 : [" + l_cut_loss_price.ToString() + "]\n", 0);
                 write_msg_log("보유주식수 : [" + l_own_stock_cnt.ToString() + "]\n", 0);
 
-                int l_for_flag = 0;
-                int l_for_cnt = 0;
+                l_for_flag = 0;
                 g_cur_price = 0;
 
                 for (; ; )
@@ -2257,49 +2322,6 @@ namespace Team1
                     //현재가 조회 요청
                     axKHOpenAPI1.CommRqData(g_rqname, "OPT10001", 0, l_scr_no);
                     
-                    if (g_cur_price < l_cut_loss_price) // 현재가가 손절가 이탈 시
-                    {
-                        sell_canc_ord(l_jongmok_cd);
-
-                        g_flag_4 = 0;
-                        g_rqname = "매도주문";
-
-                        l_scr_no = "";
-                        l_scr_no = get_scr_no();
-
-                        int ret = 0;
-                        ret = axKHOpenAPI1.SendOrder("매도주문", l_scr_no, g_accnt_no, 2, l_jongmok_cd, l_own_stock_cnt, 0, "03", "");
-
-                        if (ret == 0)
-                        {
-                            write_msg_log("매도주문 Sendord() 호출 성공\n", 0);
-                            write_msg_log("종목코드 : [" + l_jongmok_cd + "]\n", 0);
-                        }
-                        else
-                        {
-                            write_msg_log("매도주문 Sendord() 호출 실패\n", 0);
-                            write_msg_log("i_jongmok_cd : [" + l_jongmok_cd + "]\n", 0);
-                        }
-                        delay(200);
-
-                        for(; ; )
-                        {
-                            if (g_flag_4 == 1)
-                            {
-                                delay(200);
-                                axKHOpenAPI1.DisconnectRealData(l_scr_no);
-                                break;
-                            }
-                            else
-                            {
-                                write_msg_log("'매도주문' 완료 대기 중...\n", 0);
-                                delay(200);
-                                break;
-                            }
-                        }
-                        axKHOpenAPI1.DisconnectRealData(l_scr_no);
-                        update_tb_trd_jongmok(l_jongmok_cd);
-                    }
                     try
                     {
                         l_for_cnt = 0;
@@ -2346,12 +2368,66 @@ namespace Team1
                         continue;
                     }
                     delay(200);
+                } // 현재가 조회 완료
+
+                write_msg_log("현재가 : [" + g_cur_price.ToString() + "]\n", 0);
+
+                if (g_cur_price < l_cut_loss_price) // 현재가가 손절가 이탈 시
+                {
+                    write_msg_log("현재가격이 손절가격을 이탈\n", 0);
+                    
+                    write_msg_log("sell_canc_ord() 시작\n", 0);
+                    sell_canc_ord(l_jongmok_cd);
+                    write_msg_log("sell_canc_ord() 완료\n", 0);
+
+                    g_flag_4 = 0;
+                    g_rqname = "매도주문";
+
+                    String l_scr_no = null;
+                    l_scr_no = "";
+                    l_scr_no = get_scr_no();
+
+                    int ret = 0;
+
+                    // 매도주문 요청
+                    ret = axKHOpenAPI1.SendOrder("매도주문", l_scr_no, g_accnt_no, 2, l_jongmok_cd, l_own_stock_cnt, 0, "03", "");
+
+                    if (ret == 0)
+                    {
+                        write_msg_log("매도주문 Sendord() 호출 성공\n", 0);
+                        write_msg_log("종목코드 : [" + l_jongmok_cd + "]\n", 0);
+                    }
+                    else
+                    {
+                        write_msg_log("매도주문 Sendord() 호출 실패\n", 0);
+                        write_msg_log("i_jongmok_cd : [" + l_jongmok_cd + "]\n", 0);
+                    }
+                    delay(200);
+
+                    for (; ; )
+                    {
+                        if (g_flag_4 == 1)
+                        {
+                            delay(200);
+                            axKHOpenAPI1.DisconnectRealData(l_scr_no);
+                            break;
+                        }
+                        else
+                        {
+                            write_msg_log("'매도주문' 완료 대기 중...\n", 0);
+                            delay(200);
+                            break;
+                        }
+                    }
+                    axKHOpenAPI1.DisconnectRealData(l_scr_no);
+                    update_tb_trd_jongmok(l_jongmok_cd);
                 }
-            }
+            } // while (reader.Read()) 종료
             reader.Close();
             conn.Close();
         }
 
+        // 손절주문 대상 종목의 현재가가 손절가를 이탈하면 해당 종목의 미체결 매도주문을 매도취소하고 시장가로 손절 매도주문을 한다
         public void sell_canc_ord(string i_jongmok_cd)
         {
             OracleCommand cmd = null;
@@ -2366,15 +2442,19 @@ namespace Team1
             string l_ord_no = null;
             string l_org_ord_no = null;
 
+            conn = null;
             conn = connect_db();
+
+            sql = null;
+            cmd = null;
+            reader = null;
 
             cmd = new OracleCommand();
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
 
             // 주문내역과 체결내역 테이블 조회
-            sql = @"
-                SECLET
+            sql = @"SECLET
                     ROWID RID, JONGMOK_CD, (ORD_STOCK_CNT -
                     ( SELECT NVL(MAX(B.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
                       FROM TB_CHEGYUL_LST B
@@ -2468,6 +2548,7 @@ namespace Team1
             conn.Close();
         }
 
+        // 시장가로 매도주문하여 손절주문을 완료하면 손절한 종목을 매수주문하지 않도록 TB_TRD_JONGMOK 테이블의 BUY_TRD_YN을 'N'으로 설정한다
         public void update_tb_trd_jongmok(String i_jongmok_cd)
         {
             OracleCommand cmd = null;
@@ -2550,7 +2631,7 @@ namespace Team1
 
             WebRequest request = WebRequest.Create(_apiUrl + query);
             request.Headers.Add("X-Naver-Client-Id", "I74lzNbMOpmIlEsfaWRO");
-            request.Headers.Add("X-Naver-Client-Secret", "jgntupzVD8");
+            request.Headers.Add("X-Naver-Client-Secret", "73vhwkbPBc");
 
             string requestResult = "";
             using (var response = request.GetResponse())
