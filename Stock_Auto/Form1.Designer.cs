@@ -187,11 +187,11 @@ namespace Team1
             this.groupBox2.Controls.Add(this.autostartbtn);
             this.groupBox2.Controls.Add(this.deletebtn);
             this.groupBox2.Controls.Add(this.alterbtn);
-            this.groupBox2.Location = new System.Drawing.Point(1, 78);
+            this.groupBox2.Location = new System.Drawing.Point(633, 87);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(1099, 482);
+            this.groupBox2.Size = new System.Drawing.Size(1099, 491);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "거래종목이 표시됩니다";
@@ -213,7 +213,7 @@ namespace Team1
             this.buy_trd_yn,
             this.sell_trd_yn,
             this.check});
-            this.dataGridView1.Location = new System.Drawing.Point(0, 24);
+            this.dataGridView1.Location = new System.Drawing.Point(14, 24);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
@@ -387,7 +387,7 @@ namespace Team1
             // 
             this.groupBox4.Controls.Add(this.messagelog);
             this.groupBox4.Controls.Add(this.axKHOpenAPI1);
-            this.groupBox4.Location = new System.Drawing.Point(1107, 78);
+            this.groupBox4.Location = new System.Drawing.Point(12, 87);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -422,7 +422,7 @@ namespace Team1
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.errorlog);
-            this.groupBox5.Location = new System.Drawing.Point(1107, 330);
+            this.groupBox5.Location = new System.Drawing.Point(12, 348);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -671,13 +671,13 @@ namespace Team1
             this.ClientSize = new System.Drawing.Size(1742, 908);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.clocklabel);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
