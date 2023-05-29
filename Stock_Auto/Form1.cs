@@ -2358,21 +2358,20 @@ namespace Team1
                 write_msg_log("종목명 : [" + get_jongmok_nm(l_jongmok_cd) + "]\n", 0);
                 write_msg_log("손절가 : [" + l_cut_loss_price.ToString() + "]\n", 0);
                 write_msg_log("보유주식수 : [" + l_own_stock_cnt.ToString() + "]\n", 0);
-            } // while() 종료
 
                 l_for_flag = 0;
                 g_cur_price = 0;
 
-            for (; ; )
-            {
-                g_rqname = "";
-                g_rqname = "현재가조회";
-                g_flag_6 = 0;
-                axKHOpenAPI1.SetInputValue("종목코드", l_jongmok_cd);
+                for (; ; )
+                {
+                    g_rqname = "";
+                    g_rqname = "현재가조회";
+                    g_flag_6 = 0;
+                    axKHOpenAPI1.SetInputValue("종목코드", l_jongmok_cd);
 
-                string l_scr_no = null;
-                l_scr_no = "";
-                l_scr_no = get_scr_no();
+                    string l_scr_no = null;
+                    l_scr_no = "";
+                    l_scr_no = get_scr_no();
 
                     //현재가 조회 요청
                     axKHOpenAPI1.CommRqData(g_rqname, "OPT10001", 0, l_scr_no);
@@ -2411,7 +2410,7 @@ namespace Team1
                         write_err_log("real_cut_loss_ord() 현재가조회 ex.Message : [" + ex.Message + "]\n", 0);
                     }
 
-                axKHOpenAPI1.DisconnectRealData(l_scr_no);
+                    axKHOpenAPI1.DisconnectRealData(l_scr_no);
 
                     if (l_for_flag == 1)
                     {
