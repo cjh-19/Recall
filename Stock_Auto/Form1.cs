@@ -534,57 +534,7 @@ namespace Team1
             return conn;
         }
 
-        private void 로그인ToolStripMenuItem_Click(object sender, EventArgs e)  //로그인 버튼 눌렀을 시
-        {
-            int ret = 0;
-            int ret2 = 0;
-
-            String l_accno = null; //계좌번호
-            String l_accno_cnt = null; //소유한 계좌번호 수
-            String[] l_accno_arr = null; //N개의 계좌번호 저장배열
-
-            ret = axKHOpenAPI1.CommConnect();//로그인 창 호출 api함수
-
-            if (ret == 0)
-            {
-                toolStripStatusLabel1.Text = "로그인 하는 중...";
-
-                for (; ; )
-                {
-                    ret2 = axKHOpenAPI1.GetConnectState(); //로그인 완료 여부 api함수
-                    if (ret2 == 1)
-                    {    //로그인 완료시
-                        break;
-                    }
-                    else
-                    {
-                        delay(1000); //1초지연 지연메서드 구현요망
-                    }
-                }
-
-                toolStripStatusLabel1.Text = "로그인 완료";
-
-                g_user_id = "";
-                g_user_id = axKHOpenAPI1.GetLoginInfo("USER_ID").Trim(); //사용자 아이디 클라스 변수에 저장
-
-                idbox.Text = g_user_id;
-
-                l_accno_cnt = "";
-                l_accno_cnt = axKHOpenAPI1.GetLoginInfo("ACCOUNT_CNT").Trim();  //사용자 계좌번호 수 를 저장
-
-                l_accno_arr = new string[int.Parse(l_accno_cnt)];
-
-                l_accno = "";
-                l_accno = axKHOpenAPI1.GetLoginInfo("ACCNO").Trim(); //사용자 계좌번호 저장
-
-                l_accno_arr = l_accno.Split(';');
-
-                accountbox.Items.Clear();
-                accountbox.Items.AddRange(l_accno_arr); //N개의 계좌번호 콤보박스에 저장
-                accountbox.SelectedIndex = 0;  //초기선택
-                g_accnt_no = accountbox.SelectedItem.ToString().Trim(); //설정된 계좌번호 클래스 변수에 저장
-            }
-        }
+        
 
         private void accountbox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -592,11 +542,7 @@ namespace Team1
             write_msg_log("사용할 증권계좌 번호는 : [" + g_accnt_no + "] 입니다. \n", 0);
         }
 
-        private void 로그아웃ToolStripMenuItem_Click(object sender, EventArgs e) //로그아웃 버튼 클릭시
-        {
-            axKHOpenAPI1.CommTerminate();
-            toolStripStatusLabel1.Text = "로그아웃 완료";
-        }
+        
 
         //종목조회버튼 기능
         private void searchbtn_Click(object sender, EventArgs e)
@@ -2626,5 +2572,67 @@ namespace Team1
             labelDisplayCounts.Text = btn_DisplayCount.Value.ToString();
         }
 
+        private void loginbtn_Click(object sender, EventArgs e)
+        {
+            int ret = 0;
+            int ret2 = 0;
+
+            String l_accno = null; //계좌번호
+            String l_accno_cnt = null; //소유한 계좌번호 수
+            String[] l_accno_arr = null; //N개의 계좌번호 저장배열
+
+            ret = axKHOpenAPI1.CommConnect();//로그인 창 호출 api함수
+
+            if (ret == 0)
+            {
+                toolStripStatusLabel1.Text = "로그인 하는 중...";
+
+                for (; ; )
+                {
+                    ret2 = axKHOpenAPI1.GetConnectState(); //로그인 완료 여부 api함수
+                    if (ret2 == 1)
+                    {    //로그인 완료시
+                        break;
+                    }
+                    else
+                    {
+                        delay(1000); //1초지연 지연메서드 구현요망
+                    }
+                }
+
+                toolStripStatusLabel1.Text = "로그인 완료";
+
+                g_user_id = "";
+                g_user_id = axKHOpenAPI1.GetLoginInfo("USER_ID").Trim(); //사용자 아이디 클라스 변수에 저장
+
+                idbox.Text = g_user_id;
+
+                l_accno_cnt = "";
+                l_accno_cnt = axKHOpenAPI1.GetLoginInfo("ACCOUNT_CNT").Trim();  //사용자 계좌번호 수 를 저장
+
+                l_accno_arr = new string[int.Parse(l_accno_cnt)];
+
+                l_accno = "";
+                l_accno = axKHOpenAPI1.GetLoginInfo("ACCNO").Trim(); //사용자 계좌번호 저장
+
+                l_accno_arr = l_accno.Split(';');
+
+                accountbox.Items.Clear();
+                accountbox.Items.AddRange(l_accno_arr); //N개의 계좌번호 콤보박스에 저장
+                accountbox.SelectedIndex = 0;  //초기선택
+                g_accnt_no = accountbox.SelectedItem.ToString().Trim(); //설정된 계좌번호 클래스 변수에 저장
+            }
+        }
+
+        private void logoutbtn_Click(object sender, EventArgs e)
+        {
+            axKHOpenAPI1.CommTerminate();
+            toolStripStatusLabel1.Text = "로그아웃 완료";
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            clocklabel.Text = DateTime.Now.ToString();
+        }
     }
 }
