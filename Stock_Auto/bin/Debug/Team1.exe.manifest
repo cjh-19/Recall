@@ -61,7 +61,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sFuwMUxZSiUijZ8CqsZ7fKgMWDRmtmF6wcJLc+X3gTo=</dsig:DigestValue>
+        <dsig:DigestValue>e9nKu6bvUxuYtvL3yDRLJJPNieHloq3yi64yNI4o874=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -126,14 +126,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Team1.exe" size="65952">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Team1.exe" size="66464">
       <assemblyIdentity name="Team1" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>LCrMwXzggKPfenMYGbHl4rc6qVaRObvAouuVp7hDB9c=</dsig:DigestValue>
+        <dsig:DigestValue>XULCRb+BVUopzXgZOJefYREM6b97HiRJqGRiUhQ2t7k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
