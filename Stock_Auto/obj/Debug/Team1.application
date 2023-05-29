@@ -1,45 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xrml="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-  <assemblyIdentity name="Team1.application" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" xmlns="urn:schemas-microsoft-com:asm.v1" />
-=======
-  <assemblyIdentity name="Team1.application" version="1.0.0.10" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" xmlns="urn:schemas-microsoft-com:asm.v1" />
->>>>>>> Stashed changes
-=======
-  <assemblyIdentity name="Team1.application" version="1.0.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" xmlns="urn:schemas-microsoft-com:asm.v1" />
->>>>>>> master
+  <assemblyIdentity name="Team1.application" version="1.0.0.5" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <description asmv2:publisher="Team1" asmv2:product="Team1" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-<<<<<<< Updated upstream
     <dependentAssembly dependencyType="install" codebase="Team1.exe.manifest" size="8237">
-<<<<<<< HEAD
-      <assemblyIdentity name="Team1.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
-=======
-    <dependentAssembly dependencyType="install" codebase="Team1.exe.manifest" size="8238">
-      <assemblyIdentity name="Team1.exe" version="1.0.0.10" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
->>>>>>> Stashed changes
-=======
-      <assemblyIdentity name="Team1.exe" version="1.0.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
->>>>>>> master
+      <assemblyIdentity name="Team1.exe" version="1.0.0.5" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-        <dsig:DigestValue>LcxS6b7LKjQIWt+eajHgGtbhoDpcmXbuXRrsj608h84=</dsig:DigestValue>
-=======
-        <dsig:DigestValue>0ZMWZmNaqSMzb0cGXPlfok+Ui9BKr8sYmAeV+7i4tw8=</dsig:DigestValue>
->>>>>>> Stashed changes
-=======
-        <dsig:DigestValue>t1gquG3ozzMmNw0D8Tl16H0zfO/JyCgNZyg/qbcPHUA=</dsig:DigestValue>
->>>>>>> master
+        <dsig:DigestValue>fDij1v7sdflutP2RABdEBD6Y9MtDytlRpHStZBp9xlM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
