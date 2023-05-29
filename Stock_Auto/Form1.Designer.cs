@@ -422,11 +422,11 @@ namespace Team1
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.errorlog);
-            this.groupBox5.Location = new System.Drawing.Point(12, 348);
+            this.groupBox5.Location = new System.Drawing.Point(12, 339);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox5.Size = new System.Drawing.Size(615, 230);
+            this.groupBox5.Size = new System.Drawing.Size(615, 239);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "에러 창";
