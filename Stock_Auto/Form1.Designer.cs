@@ -30,7 +30,11 @@ namespace Team1
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.logoutbtn = new System.Windows.Forms.Button();
             this.loginbtn = new System.Windows.Forms.Button();
@@ -83,7 +87,9 @@ namespace Team1
             this.clocklabel = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -95,6 +101,7 @@ namespace Team1
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -105,7 +112,8 @@ namespace Team1
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.idbox);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(1, 5);
+            this.groupBox1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -116,7 +124,7 @@ namespace Team1
             // 
             // logoutbtn
             // 
-            this.logoutbtn.BackColor = System.Drawing.SystemColors.Info;
+            this.logoutbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.logoutbtn.Location = new System.Drawing.Point(674, 22);
             this.logoutbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.logoutbtn.Name = "logoutbtn";
@@ -128,7 +136,7 @@ namespace Team1
             // 
             // loginbtn
             // 
-            this.loginbtn.BackColor = System.Drawing.SystemColors.Info;
+            this.loginbtn.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.loginbtn.Location = new System.Drawing.Point(537, 22);
             this.loginbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loginbtn.Name = "loginbtn";
@@ -151,11 +159,11 @@ namespace Team1
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("굴림", 10F);
-            this.label2.ForeColor = System.Drawing.Color.Fuchsia;
-            this.label2.Location = new System.Drawing.Point(246, 28);
+            this.label2.Font = new System.Drawing.Font("굴림", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.ForeColor = System.Drawing.Color.Sienna;
+            this.label2.Location = new System.Drawing.Point(246, 27);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 17);
+            this.label2.Size = new System.Drawing.Size(80, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "계좌번호";
             // 
@@ -166,15 +174,16 @@ namespace Team1
             this.idbox.Name = "idbox";
             this.idbox.Size = new System.Drawing.Size(127, 25);
             this.idbox.TabIndex = 4;
+            this.idbox.TextChanged += new System.EventHandler(this.idbox_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("굴림", 10F);
+            this.label1.Font = new System.Drawing.Font("굴림", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.label1.Location = new System.Drawing.Point(6, 25);
+            this.label1.Location = new System.Drawing.Point(8, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 17);
+            this.label1.Size = new System.Drawing.Size(62, 17);
             this.label1.TabIndex = 3;
             this.label1.Text = "아이디";
             // 
@@ -187,18 +196,21 @@ namespace Team1
             this.groupBox2.Controls.Add(this.autostartbtn);
             this.groupBox2.Controls.Add(this.deletebtn);
             this.groupBox2.Controls.Add(this.alterbtn);
+            this.groupBox2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox2.Location = new System.Drawing.Point(633, 87);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(1099, 491);
+            this.groupBox2.Size = new System.Drawing.Size(1171, 491);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "거래종목이 표시됩니다";
             // 
             // dataGridView1
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.Silver;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -219,8 +231,9 @@ namespace Team1
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(923, 450);
+            this.dataGridView1.Size = new System.Drawing.Size(989, 450);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // seq
             // 
@@ -313,8 +326,9 @@ namespace Team1
             // 
             // searchbtn
             // 
-            this.searchbtn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.searchbtn.Location = new System.Drawing.Point(944, 24);
+            this.searchbtn.BackColor = System.Drawing.Color.Silver;
+            this.searchbtn.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.searchbtn.Location = new System.Drawing.Point(1024, 24);
             this.searchbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.searchbtn.Name = "searchbtn";
             this.searchbtn.Size = new System.Drawing.Size(139, 70);
@@ -325,8 +339,9 @@ namespace Team1
             // 
             // autostopbtn
             // 
-            this.autostopbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.autostopbtn.Location = new System.Drawing.Point(943, 404);
+            this.autostopbtn.BackColor = System.Drawing.Color.Red;
+            this.autostopbtn.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.autostopbtn.Location = new System.Drawing.Point(1024, 404);
             this.autostopbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.autostopbtn.Name = "autostopbtn";
             this.autostopbtn.Size = new System.Drawing.Size(141, 70);
@@ -337,8 +352,9 @@ namespace Team1
             // 
             // insertbtn
             // 
-            this.insertbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.insertbtn.Location = new System.Drawing.Point(944, 100);
+            this.insertbtn.BackColor = System.Drawing.Color.Gray;
+            this.insertbtn.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.insertbtn.Location = new System.Drawing.Point(1024, 102);
             this.insertbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.insertbtn.Name = "insertbtn";
             this.insertbtn.Size = new System.Drawing.Size(141, 70);
@@ -349,8 +365,9 @@ namespace Team1
             // 
             // autostartbtn
             // 
-            this.autostartbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.autostartbtn.Location = new System.Drawing.Point(943, 328);
+            this.autostartbtn.BackColor = System.Drawing.Color.Gray;
+            this.autostartbtn.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.autostartbtn.Location = new System.Drawing.Point(1024, 330);
             this.autostartbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.autostartbtn.Name = "autostartbtn";
             this.autostartbtn.Size = new System.Drawing.Size(141, 70);
@@ -361,8 +378,9 @@ namespace Team1
             // 
             // deletebtn
             // 
-            this.deletebtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.deletebtn.Location = new System.Drawing.Point(944, 176);
+            this.deletebtn.BackColor = System.Drawing.Color.Gray;
+            this.deletebtn.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.deletebtn.Location = new System.Drawing.Point(1024, 176);
             this.deletebtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.deletebtn.Name = "deletebtn";
             this.deletebtn.Size = new System.Drawing.Size(139, 70);
@@ -373,8 +391,9 @@ namespace Team1
             // 
             // alterbtn
             // 
-            this.alterbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.alterbtn.Location = new System.Drawing.Point(943, 252);
+            this.alterbtn.BackColor = System.Drawing.Color.Gray;
+            this.alterbtn.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.alterbtn.Location = new System.Drawing.Point(1024, 252);
             this.alterbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.alterbtn.Name = "alterbtn";
             this.alterbtn.Size = new System.Drawing.Size(139, 70);
@@ -387,6 +406,7 @@ namespace Team1
             // 
             this.groupBox4.Controls.Add(this.messagelog);
             this.groupBox4.Controls.Add(this.axKHOpenAPI1);
+            this.groupBox4.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.groupBox4.Location = new System.Drawing.Point(12, 87);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox4.Name = "groupBox4";
@@ -398,14 +418,15 @@ namespace Team1
             // 
             // messagelog
             // 
-            this.messagelog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.messagelog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.messagelog.BackColor = System.Drawing.Color.Black;
+            this.messagelog.Font = new System.Drawing.Font("굴림", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.messagelog.ForeColor = System.Drawing.Color.Yellow;
             this.messagelog.Location = new System.Drawing.Point(7, 24);
             this.messagelog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.messagelog.Multiline = true;
             this.messagelog.Name = "messagelog";
             this.messagelog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.messagelog.Size = new System.Drawing.Size(596, 218);
+            this.messagelog.Size = new System.Drawing.Size(596, 248);
             this.messagelog.TabIndex = 5;
             // 
             // axKHOpenAPI1
@@ -418,6 +439,9 @@ namespace Team1
             this.axKHOpenAPI1.Size = new System.Drawing.Size(251, 31);
             this.axKHOpenAPI1.TabIndex = 0;
             this.axKHOpenAPI1.Visible = false;
+            this.axKHOpenAPI1.OnReceiveTrData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEventHandler(this.axKHOpenAPI1_OnReceiveTrData_1);
+            this.axKHOpenAPI1.OnReceiveRealData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveRealDataEventHandler(this.axKHOpenAPI1_OnReceiveRealData);
+            this.axKHOpenAPI1.OnEventConnect += new AxKHOpenAPILib._DKHOpenAPIEvents_OnEventConnectEventHandler(this.axKHOpenAPI1_OnEventConnect);
             // 
             // groupBox5
             // 
@@ -433,7 +457,7 @@ namespace Team1
             // 
             // errorlog
             // 
-            this.errorlog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.errorlog.BackColor = System.Drawing.Color.Black;
             this.errorlog.ForeColor = System.Drawing.Color.Red;
             this.errorlog.Location = new System.Drawing.Point(7, 24);
             this.errorlog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -448,9 +472,9 @@ namespace Team1
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 882);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1029);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1742, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1924, 26);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -463,30 +487,32 @@ namespace Team1
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.ResultList);
-            this.groupBox6.Location = new System.Drawing.Point(807, 586);
+            this.groupBox6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox6.Location = new System.Drawing.Point(11, 780);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox6.Size = new System.Drawing.Size(921, 288);
+            this.groupBox6.Size = new System.Drawing.Size(903, 245);
             this.groupBox6.TabIndex = 9;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "최신 뉴스 검색 결과";
             // 
             // ResultList
             // 
-            this.ResultList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ResultList.BackColor = System.Drawing.Color.CadetBlue;
             this.ResultList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
+            this.ResultList.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ResultList.FullRowSelect = true;
             this.ResultList.HideSelection = false;
             this.ResultList.Location = new System.Drawing.Point(6, 18);
             this.ResultList.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ResultList.MultiSelect = false;
             this.ResultList.Name = "ResultList";
-            this.ResultList.Size = new System.Drawing.Size(903, 262);
+            this.ResultList.Size = new System.Drawing.Size(1024, 262);
             this.ResultList.TabIndex = 6;
             this.ResultList.UseCompatibleStateImageBehavior = false;
             this.ResultList.View = System.Windows.Forms.View.Details;
@@ -522,11 +548,12 @@ namespace Team1
             this.groupBox7.Controls.Add(this.labelDisplayCounts);
             this.groupBox7.Controls.Add(this.label5);
             this.groupBox7.Controls.Add(this.btn_DisplayCount);
-            this.groupBox7.Location = new System.Drawing.Point(11, 598);
+            this.groupBox7.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.groupBox7.Location = new System.Drawing.Point(11, 584);
             this.groupBox7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox7.Size = new System.Drawing.Size(782, 188);
+            this.groupBox7.Size = new System.Drawing.Size(668, 188);
             this.groupBox7.TabIndex = 8;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "뉴스 검색옵션";
@@ -534,16 +561,17 @@ namespace Team1
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(697, 22);
+            this.label3.Location = new System.Drawing.Point(201, 83);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(72, 15);
+            this.label3.Size = new System.Drawing.Size(77, 15);
             this.label3.TabIndex = 9;
             this.label3.Text = "정렬 방법";
             // 
             // btn_Relavance
             // 
             this.btn_Relavance.AutoSize = true;
-            this.btn_Relavance.Location = new System.Drawing.Point(699, 70);
+            this.btn_Relavance.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_Relavance.Location = new System.Drawing.Point(203, 131);
             this.btn_Relavance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Relavance.Name = "btn_Relavance";
             this.btn_Relavance.Size = new System.Drawing.Size(73, 19);
@@ -555,7 +583,8 @@ namespace Team1
             // 
             this.btn_date.AutoSize = true;
             this.btn_date.Checked = true;
-            this.btn_date.Location = new System.Drawing.Point(699, 46);
+            this.btn_date.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btn_date.Location = new System.Drawing.Point(203, 107);
             this.btn_date.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_date.Name = "btn_date";
             this.btn_date.Size = new System.Drawing.Size(58, 19);
@@ -567,16 +596,17 @@ namespace Team1
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label4.Location = new System.Drawing.Point(6, 82);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(142, 15);
+            this.label4.Size = new System.Drawing.Size(147, 15);
             this.label4.TabIndex = 4;
-            this.label4.Text = "검색 결과 출력 개수";
+            this.label4.Text = "검색 결과 출력 개수:";
             // 
             // btn_Update
             // 
-            this.btn_Update.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.btn_Update.Location = new System.Drawing.Point(453, 82);
+            this.btn_Update.BackColor = System.Drawing.Color.CadetBlue;
+            this.btn_Update.Location = new System.Drawing.Point(426, 76);
             this.btn_Update.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_Update.Name = "btn_Update";
             this.btn_Update.Size = new System.Drawing.Size(231, 98);
@@ -587,6 +617,7 @@ namespace Team1
             // 
             // Searchbox
             // 
+            this.Searchbox.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Searchbox.Location = new System.Drawing.Point(50, 41);
             this.Searchbox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Searchbox.Name = "Searchbox";
@@ -597,18 +628,19 @@ namespace Team1
             // labelDisplayCounts
             // 
             this.labelDisplayCounts.AutoSize = true;
-            this.labelDisplayCounts.Location = new System.Drawing.Point(151, 124);
+            this.labelDisplayCounts.Font = new System.Drawing.Font("굴림", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelDisplayCounts.Location = new System.Drawing.Point(149, 83);
             this.labelDisplayCounts.Name = "labelDisplayCounts";
-            this.labelDisplayCounts.Size = new System.Drawing.Size(23, 15);
+            this.labelDisplayCounts.Size = new System.Drawing.Size(25, 15);
             this.labelDisplayCounts.TabIndex = 4;
             this.labelDisplayCounts.Text = "10";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 45);
+            this.label5.Location = new System.Drawing.Point(7, 45);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(47, 15);
+            this.label5.Size = new System.Drawing.Size(51, 15);
             this.label5.TabIndex = 2;
             this.label5.Text = "검색: ";
             // 
@@ -650,25 +682,57 @@ namespace Team1
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.label6.Location = new System.Drawing.Point(67, 835);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(643, 30);
+            this.label6.Size = new System.Drawing.Size(0, 30);
             this.label6.TabIndex = 10;
-            this.label6.Text = "@ 응용소프트웨어실습 7조 다시들으시려면# @";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label7.Font = new System.Drawing.Font("궁서", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(828, 58);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(319, 30);
+            this.label7.TabIndex = 12;
+            this.label7.Text = " 7조 다시들으시려면# ";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Team1.Properties.Resources.images;
-            this.pictureBox1.Location = new System.Drawing.Point(1477, 12);
+            this.pictureBox1.Image = global::Team1.Properties.Resources.다운로드;
+            this.pictureBox1.Location = new System.Drawing.Point(1621, 6);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(245, 68);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.Size = new System.Drawing.Size(183, 76);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 11;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(967, 596);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(837, 417);
+            this.chart1.TabIndex = 13;
+            this.chart1.Text = "chart1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1742, 908);
+            this.BackColor = System.Drawing.Color.Linen;
+            this.ClientSize = new System.Drawing.Size(1924, 1055);
+            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox2);
@@ -679,9 +743,11 @@ namespace Team1
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox1);
+            this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "c##team";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -698,6 +764,7 @@ namespace Team1
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -758,6 +825,8 @@ namespace Team1
         private System.Windows.Forms.DataGridViewCheckBoxColumn check;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
 
