@@ -175,9 +175,23 @@ namespace Team1
 
             if (e.sRQName == "현재가조회") // 응답받은 요청명이 현재가조회
             {
-                g_cur_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, 0, "현재가").Trim());
-                g_cur_price = System.Math.Abs(g_cur_price);
+                /*                g_cur_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, 0, "현재가").Trim());
+                                g_cur_price = System.Math.Abs(g_cur_price);
+                                axKHOpenAPI1.DisconnectRealData(e.sScrNo);
+                                g_flag_6 = 1;*/
+                // 소스코드 변경
+                int repeat_cnt;
+                int ii;
+
+                repeat_cnt = axKHOpenAPI1.GetRepeatCnt(e.sTrCode, e.sRQName);
+
+                for (ii = 0; ii < repeat_cnt; ii++)
+                {
+                    g_cur_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "현재가").Trim()); //현재가 가져오기 
+                    g_cur_price = System.Math.Abs(g_cur_price);
+                }
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
+
                 g_flag_6 = 1;
             }
         } //axKHOpenAPI1_OnReceiveTrData 매서드 종료
@@ -805,13 +819,13 @@ namespace Team1
                         " BUY_AMT = " + l_buy_amt + "," +
                         " BUY_PRICE = " + l_buy_price + "," +
                         " TARGET_PRICE = " + l_target_price + "," +
-                        " CUT_LOSS_PRICE" + l_cut_loss_price + "," +
+                        " CUT_LOSS_PRICE = " + l_cut_loss_price + "," +
                         " BUY_TRD_YN = " + "'" + l_buy_trd_yn + "'" + "," +
                         " SELL_TRD_YN = " + "'" + l_sell_trd_yn + "'" + "," +
                         " UPDT_ID = " + "'" + g_user_id + "'" + "," +
                         " UPDT_DTM = SYSDATE" + " WHERE JONGMOK_CD = " + "'" + l_jongmok_cd + "'" +
                         " AND USER_ID = " + "'" + g_user_id + "'";
-
+                    
                     cmd.CommandText = sql;
                     try
                     {
@@ -949,7 +963,7 @@ namespace Team1
                         delay(200); // 0.2초 딜레이
                         real_cut_loss_ord(); // 실시간 손절 주문 매서드 호출
 
-                        //delay(200); // 일단 시험삼아 추가
+                        delay(200); // 일단 시험삼아 추가
                     }
                 }
                 delay(200); // 첫 번째 무한루프 지연
@@ -1331,7 +1345,7 @@ namespace Team1
 
             if (i_chegyul_gb == "2") // 매수일떄 주문 가능 금액에서 체결금액 빼기
             {
-                l_sql = @" update TB_ACCNT set ORD_POSSIBLE_AMT = ord_possile_amt - "
+                l_sql = @" update TB_ACCNT set ORD_POSSIBLE_AMT = ord_possible_amt - "
                         + i_chegyul_amt + ", updt_dtm = SYSDATE, updt_id = 'c##team' " +
                         " where user_id = " + "'" + g_user_id + "'" +
                         " and accnt_no = " + "'" + g_accnt_no + "'" +
@@ -1781,7 +1795,8 @@ namespace Team1
 
                 int l_buy_price_tmp = 0;
                 // 참고 소스에는 1이 아니라 0으로 함
-                l_buy_price_tmp = get_hoga_unit_price(l_buy_price, l_jongmok_cd, 1); // 매수호가 구하기
+                // 0으로 변경
+                l_buy_price_tmp = get_hoga_unit_price(l_buy_price, l_jongmok_cd, 0); // 매수호가 구하기
 
                 int l_buy_ord_stock_cnt = 0;
                 l_buy_ord_stock_cnt = (int)(l_buy_amt / l_buy_price_tmp); // 매수주문 주식 수 구하기
@@ -1895,7 +1910,7 @@ namespace Team1
 
                 int ret = 0;
 
-                //매도주문 요청
+                //매수주문 요청
                 ret = axKHOpenAPI1.SendOrder("매수주문", l_scr_no, g_accnt_no, 1, l_jongmok_cd, l_buy_ord_stock_cnt, l_buy_price, "00", "");
                 if (ret == 0)
                 {
@@ -2001,7 +2016,7 @@ namespace Team1
 
             // 주문내역과 체결내역 테이블 조회
             sql = @"
-                SECLET
+                SELECT
                     NVL(SUM(ORD_STOCK_CNT - CHEGYUL_STOCK_CNT), 0) BUY_NOT_CHEGYUL_ORD_STOCK_CNT
                 FROM
                 (
@@ -2203,7 +2218,7 @@ namespace Team1
 
             // 주문내역과 체결내역 테이블 조회
             sql = @"
-                SECLET
+                SELECT
                     NVL(SUM(ORD_STOCK_CNT - CHEGYUL_STOCK_CNT), 0) SELL_NOT_CHEGYUL_ORD_STOCK_CNT
                 FROM
                 (
@@ -2454,7 +2469,7 @@ namespace Team1
             cmd.CommandType = CommandType.Text;
 
             // 주문내역과 체결내역 테이블 조회
-            sql = @"SECLET
+            sql = @"SELECT
                     ROWID RID, JONGMOK_CD, (ORD_STOCK_CNT -
                     ( SELECT NVL(MAX(B.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
                       FROM TB_CHEGYUL_LST B
@@ -2480,7 +2495,7 @@ namespace Team1
                 "                  AND B.JONGMOK_CD = A.JONGMOK_CD " +
                 "                  AND B.ORD_GB = A.ORD_GB " +
                 "                  AND B.ORD_NO = A.ORD_NO " +
-                "                )";
+                "                ) ";
 
 
             cmd.CommandText = sql;
