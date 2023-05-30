@@ -40,6 +40,7 @@ namespace Team1
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+<<<<<<< Updated upstream
             this.seq = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buy_amt = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +52,12 @@ namespace Team1
             this.buy_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.sell_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+=======
+            this.searchbtn = new System.Windows.Forms.Button();
+            this.autostopbtn = new System.Windows.Forms.Button();
+            this.insertbtn = new System.Windows.Forms.Button();
+            this.autostartbtn = new System.Windows.Forms.Button();
+>>>>>>> Stashed changes
             this.deletebtn = new System.Windows.Forms.Button();
             this.alterbtn = new System.Windows.Forms.Button();
             this.insertbtn = new System.Windows.Forms.Button();
@@ -82,7 +89,22 @@ namespace Team1
             this.clocklabel = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label6 = new System.Windows.Forms.Label();
+<<<<<<< Updated upstream
             this.axKHOpenAPI1 = new AxKHOpenAPILib.AxKHOpenAPI();
+=======
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.seq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jongmok_cd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.jongmok_nm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buy_amt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buy_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.target_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cut_loss_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buy_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.sell_trd_yn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+>>>>>>> Stashed changes
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -187,10 +209,10 @@ namespace Team1
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.seq,
-            this.priority,
-            this.buy_amt,
             this.jongmok_cd,
             this.jongmok_nm,
+            this.priority,
+            this.buy_amt,
             this.buy_price,
             this.target_price,
             this.cut_loss_price,
@@ -205,6 +227,7 @@ namespace Team1
             this.dataGridView1.Size = new System.Drawing.Size(841, 482);
             this.dataGridView1.TabIndex = 0;
             // 
+<<<<<<< Updated upstream
             // seq
             // 
             this.seq.HeaderText = "순번";
@@ -293,6 +316,55 @@ namespace Team1
             this.check.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.check.Width = 60;
+=======
+            // searchbtn
+            // 
+            this.searchbtn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.searchbtn.Location = new System.Drawing.Point(944, 24);
+            this.searchbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.searchbtn.Name = "searchbtn";
+            this.searchbtn.Size = new System.Drawing.Size(139, 70);
+            this.searchbtn.TabIndex = 1;
+            this.searchbtn.Text = "불러오기";
+            this.searchbtn.UseVisualStyleBackColor = false;
+            this.searchbtn.Click += new System.EventHandler(this.searchbtn_Click);
+            // 
+            // autostopbtn
+            // 
+            this.autostopbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.autostopbtn.Location = new System.Drawing.Point(943, 404);
+            this.autostopbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.autostopbtn.Name = "autostopbtn";
+            this.autostopbtn.Size = new System.Drawing.Size(141, 70);
+            this.autostopbtn.TabIndex = 0;
+            this.autostopbtn.Text = "자동매매 중지";
+            this.autostopbtn.UseVisualStyleBackColor = false;
+            this.autostopbtn.Click += new System.EventHandler(this.autostopbtn_Click);
+            // 
+            // insertbtn
+            // 
+            this.insertbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.insertbtn.Location = new System.Drawing.Point(944, 100);
+            this.insertbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.insertbtn.Name = "insertbtn";
+            this.insertbtn.Size = new System.Drawing.Size(141, 70);
+            this.insertbtn.TabIndex = 2;
+            this.insertbtn.Text = "종목 삽입";
+            this.insertbtn.UseVisualStyleBackColor = false;
+            this.insertbtn.Click += new System.EventHandler(this.insertbtn_Click);
+            // 
+            // autostartbtn
+            // 
+            this.autostartbtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.autostartbtn.Location = new System.Drawing.Point(943, 328);
+            this.autostartbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.autostartbtn.Name = "autostartbtn";
+            this.autostartbtn.Size = new System.Drawing.Size(141, 70);
+            this.autostartbtn.TabIndex = 1;
+            this.autostartbtn.Text = "자동매매 예약";
+            this.autostartbtn.UseVisualStyleBackColor = false;
+            this.autostartbtn.Click += new System.EventHandler(this.autostartbtn_Click);
+>>>>>>> Stashed changes
             // 
             // deletebtn
             // 
@@ -624,6 +696,95 @@ namespace Team1
             this.axKHOpenAPI1.TabIndex = 0;
             this.axKHOpenAPI1.Visible = false;
             // 
+            // seq
+            // 
+            this.seq.HeaderText = "순번";
+            this.seq.MinimumWidth = 6;
+            this.seq.Name = "seq";
+            this.seq.Width = 60;
+            // 
+            // jongmok_cd
+            // 
+            this.jongmok_cd.HeaderText = "종목코드";
+            this.jongmok_cd.MinimumWidth = 6;
+            this.jongmok_cd.Name = "jongmok_cd";
+            this.jongmok_cd.Width = 80;
+            // 
+            // jongmok_nm
+            // 
+            this.jongmok_nm.HeaderText = "종목명";
+            this.jongmok_nm.MinimumWidth = 6;
+            this.jongmok_nm.Name = "jongmok_nm";
+            this.jongmok_nm.Width = 80;
+            // 
+            // priority
+            // 
+            this.priority.HeaderText = "우선적매매순위";
+            this.priority.MinimumWidth = 6;
+            this.priority.Name = "priority";
+            this.priority.Width = 80;
+            // 
+            // buy_amt
+            // 
+            this.buy_amt.HeaderText = "매수금액총량";
+            this.buy_amt.MinimumWidth = 6;
+            this.buy_amt.Name = "buy_amt";
+            this.buy_amt.Width = 80;
+            // 
+            // buy_price
+            // 
+            this.buy_price.HeaderText = "매수가";
+            this.buy_price.MinimumWidth = 6;
+            this.buy_price.Name = "buy_price";
+            this.buy_price.Width = 70;
+            // 
+            // target_price
+            // 
+            this.target_price.HeaderText = "희망목표가";
+            this.target_price.MinimumWidth = 6;
+            this.target_price.Name = "target_price";
+            this.target_price.Width = 70;
+            // 
+            // cut_loss_price
+            // 
+            this.cut_loss_price.HeaderText = "지정손절가";
+            this.cut_loss_price.MinimumWidth = 6;
+            this.cut_loss_price.Name = "cut_loss_price";
+            this.cut_loss_price.Width = 70;
+            // 
+            // buy_trd_yn
+            // 
+            this.buy_trd_yn.HeaderText = "매수허락유무";
+            this.buy_trd_yn.Items.AddRange(new object[] {
+            "Y",
+            "N"});
+            this.buy_trd_yn.MinimumWidth = 6;
+            this.buy_trd_yn.Name = "buy_trd_yn";
+            this.buy_trd_yn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.buy_trd_yn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.buy_trd_yn.Width = 80;
+            // 
+            // sell_trd_yn
+            // 
+            this.sell_trd_yn.HeaderText = "매도허락유무";
+            this.sell_trd_yn.Items.AddRange(new object[] {
+            "Y",
+            "N"});
+            this.sell_trd_yn.MinimumWidth = 6;
+            this.sell_trd_yn.Name = "sell_trd_yn";
+            this.sell_trd_yn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.sell_trd_yn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.sell_trd_yn.Width = 80;
+            // 
+            // check
+            // 
+            this.check.HeaderText = "삽입시체크";
+            this.check.MinimumWidth = 6;
+            this.check.Name = "check";
+            this.check.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.check.Width = 60;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -708,18 +869,23 @@ namespace Team1
         private System.Windows.Forms.Button loginbtn;
         private System.Windows.Forms.Label clocklabel;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn seq;
-        private System.Windows.Forms.DataGridViewTextBoxColumn priority;
-        private System.Windows.Forms.DataGridViewTextBoxColumn buy_amt;
         private System.Windows.Forms.DataGridViewTextBoxColumn jongmok_cd;
         private System.Windows.Forms.DataGridViewTextBoxColumn jongmok_nm;
+        private System.Windows.Forms.DataGridViewTextBoxColumn priority;
+        private System.Windows.Forms.DataGridViewTextBoxColumn buy_amt;
         private System.Windows.Forms.DataGridViewTextBoxColumn buy_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn target_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn cut_loss_price;
         private System.Windows.Forms.DataGridViewComboBoxColumn buy_trd_yn;
         private System.Windows.Forms.DataGridViewComboBoxColumn sell_trd_yn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn check;
+<<<<<<< Updated upstream
         private System.Windows.Forms.Label label6;
+=======
+>>>>>>> Stashed changes
     }
 }
 
