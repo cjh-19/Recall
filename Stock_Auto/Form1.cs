@@ -2730,6 +2730,27 @@ namespace Team1
         private void timer1_Tick(object sender, EventArgs e)
         {
             clocklabel.Text = DateTime.Now.ToString();
+            clocklabel.ForeColor = Color.Red;
+            clocklabel.BackColor = Color.Linen;
+
+        }
+
+        private void Searchbox_Enter(object sender, EventArgs e)
+        {
+            if ( Searchbox.ForeColor == Color.Silver)
+            {
+                Searchbox.Text = "";
+                Searchbox.ForeColor = Color.Black;
+            }
+        }
+
+        private void Searchbox_Leave(object sender, EventArgs e)
+        {
+            if (Searchbox.Text == "")
+            {
+                Searchbox.Text = "News Search.";
+                Searchbox.ForeColor = Color.Silver;
+            }
         }
     }
 }
