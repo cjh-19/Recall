@@ -91,7 +91,7 @@ namespace Team1
 
             if (e.sRQName == "증거금세부내역조회요청") //응답받은 요청명이 증거금세부내역조회요청이라면
             {
-                g_ord_amt_possible = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, 0, "100주문가능금액").Trim()); //주문 가능 금액을 저장
+                g_ord_amt_possible = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, 0, "100주문가능금액").Trim()); //주문 가능 금액을 저장
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
                 g_flag_1 = 1;
             }
@@ -122,11 +122,11 @@ namespace Team1
                     own_amt = 0;
 
                     user_id = g_user_id;
-                    jongmok_cd = axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "종목코드").Trim().Substring(1, 6);
-                    jongmok_nm = axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "종목명").Trim();
-                    own_stock_cnt = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "보유수량").Trim());
-                    buy_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "평균단가").Trim());
-                    own_amt = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "매입금액").Trim());
+                    jongmok_cd = axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "종목코드").Trim().Substring(1, 6);
+                    jongmok_nm = axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "종목명").Trim();
+                    own_stock_cnt = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "보유수량").Trim());
+                    buy_price = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "평균단가").Trim());
+                    own_amt = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "매입금액").Trim());
 
                     write_msg_log("종목코드 : " + jongmok_cd + "\n", 0);
                     write_msg_log("종목명 : " + jongmok_nm + "\n", 0);
@@ -163,7 +163,7 @@ namespace Team1
 
                 for (ii = 0; ii < cnt; ii++)
                 {
-                    l_buy_hoga = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "매수최우선호가").Trim());
+                    l_buy_hoga = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "매수최우선호가").Trim());
                     l_buy_hoga = System.Math.Abs(l_buy_hoga);
                 }
 
@@ -187,7 +187,8 @@ namespace Team1
 
                 for (ii = 0; ii < repeat_cnt; ii++)
                 {
-                    g_cur_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "현재가").Trim()); //현재가 가져오기 
+                    // "" 인자를 받을 필요가 없어보임
+                    g_cur_price = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "현재가").Trim()); //현재가 가져오기 
                     g_cur_price = System.Math.Abs(g_cur_price);
                 }
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
@@ -928,8 +929,8 @@ namespace Team1
                     {
                         // 오타 수정, 변수 잘못 쓰고 있었음
                         // 호출 순서를 바꿔야 하나?
-                        l_set_tb_accnt_flag = 1; //호출로 설정
                         set_tb_accnt(); // 호출
+                        l_set_tb_accnt_flag = 1; //호출로 설정
                     }
                     // 계좌정보 조회
                     if (l_set_tb_accnt_info_flag == 0)
@@ -2219,21 +2220,21 @@ namespace Team1
             // 주문내역과 체결내역 테이블 조회
             sql = @"
                 SELECT
-                    NVL(SUM(ORD_STOCK_CNT - CHEGYUL_STOCK_CNT), 0) SELL_NOT_CHEGYUL_ORD_STOCK_CNT
+                    NVL(SUM(ORD_STOCK_CNT - CHEGYUL_STOCK_CNT), 0) SELL_NOT_CHEGYUL_ORD_STOCK_CNT 
                 FROM
                 (
-                    SELECT ORD_STOCK_CNT ORD_STOCK_CNT,
+                    SELECT ORD_STOCK_CNT ORD_STOCK_CNT, 
                     ( SELECT NVL(MAX(B.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
-                      FROM TB_CHEGYUL_LST B
-                      WHERE B.USER_ID = A.USER_ID
-                      AND B.ACCNT_NO = A.ACCNT_NO
-                      AND B.REF_DT = A.REF_DT
-                      AND B.JONGMOK_CD = A.JONGMOK_CD
-                      AND B.ORD_GB = A.ORD_GB
-                      AND B.ORD_NO = A.ORD_NO
+                      FROM TB_CHEGYUL_LST B 
+                      WHERE B.USER_ID = A.USER_ID 
+                      AND B.ACCNT_NO = A.ACCNT_NO 
+                      AND B.REF_DT = A.REF_DT 
+                      AND B.JONGMOK_CD = A.JONGMOK_CD 
+                      AND B.ORD_GB = A.ORD_GB 
+                      AND B.ORD_NO = A.ORD_NO 
                     ) CHEGYUL_STOCK_CNT
-                    FROM TB_ORD_LST A
-                    WHERE A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD')
+                    FROM TB_ORD_LST A 
+                    WHERE A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') 
                     AND A.USER_ID = " + "'" + g_user_id + "'" +
                     " AND A.JONGMOK_CD = " + "'" + i_jongmok_cd + "'" +
                     " AND A.ACCNT_NO = " + "'" + g_accnt_no + "'" +
