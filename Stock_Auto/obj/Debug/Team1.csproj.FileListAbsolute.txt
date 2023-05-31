@@ -129,3 +129,4 @@ C:\Users\minim\OneDrive\바탕 화면\Stock_Auto\obj\Debug\Team1.application
 C:\Users\minim\OneDrive\바탕 화면\Stock_Auto\obj\Debug\Team1.csproj.CopyComplete
 C:\Users\minim\OneDrive\바탕 화면\Stock_Auto\obj\Debug\Team1.exe
 C:\Users\minim\OneDrive\바탕 화면\Stock_Auto\obj\Debug\Team1.pdb
+F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Stock_Auto\obj\Debug\Team1.TrustInfo.xml
