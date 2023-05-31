@@ -2734,45 +2734,5 @@ namespace Team1
             clocklabel.BackColor = Color.Linen;
 
         }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void idbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void axKHOpenAPI1_OnEventConnect(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnEventConnectEvent e)
-        {
-           
-        }
-
-        private void axKHOpenAPI1_OnReceiveRealData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveRealDataEvent e)
-        {
-
-        }
-
-        private void axKHOpenAPI1_OnReceiveTrData_1(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
-        {
-
-        }
     }
 }
