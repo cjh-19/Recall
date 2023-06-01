@@ -57,6 +57,7 @@ namespace Team1
             this.axKHOpenAPI1.OnReceiveTrData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEventHandler(this.axKHOpenAPI1_OnReceiveTrData);
             this.axKHOpenAPI1.OnReceiveMsg += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveMsgEventHandler(this.axKHOpenAPI1_OnReceiveMsg);
             this.axKHOpenAPI1.OnReceiveChejanData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveChejanDataEventHandler(this.axKHOpenAPI1_OnReceiveChejanData);
+            ResultList.MouseClick += ResultList_MouseClick;
         }
         // 10장에서 정의 : 투자정보를 요청할 때 데이터 수신 요청에 대한 응답을 받는 이벤트 메서드
         private void axKHOpenAPI1_OnReceiveTrData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
@@ -91,7 +92,7 @@ namespace Team1
 
             if (e.sRQName == "증거금세부내역조회요청") //응답받은 요청명이 증거금세부내역조회요청이라면
             {
-                g_ord_amt_possible = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, 0, "100주문가능금액").Trim()); //주문 가능 금액을 저장
+                g_ord_amt_possible = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, 0, "100주문가능금액").Trim()); //주문 가능 금액을 저장
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
                 g_flag_1 = 1;
             }
@@ -122,11 +123,11 @@ namespace Team1
                     own_amt = 0;
 
                     user_id = g_user_id;
-                    jongmok_cd = axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "종목코드").Trim().Substring(1, 6);
-                    jongmok_nm = axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "종목명").Trim();
-                    own_stock_cnt = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "보유수량").Trim());
-                    buy_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "평균단가").Trim());
-                    own_amt = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "매입금액").Trim());
+                    jongmok_cd = axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "종목코드").Trim().Substring(1, 6);
+                    jongmok_nm = axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "종목명").Trim();
+                    own_stock_cnt = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "보유수량").Trim());
+                    buy_price = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "평균단가").Trim());
+                    own_amt = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "매입금액").Trim());
 
                     write_msg_log("종목코드 : " + jongmok_cd + "\n", 0);
                     write_msg_log("종목명 : " + jongmok_nm + "\n", 0);
@@ -163,7 +164,7 @@ namespace Team1
 
                 for (ii = 0; ii < cnt; ii++)
                 {
-                    l_buy_hoga = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "매수최우선호가").Trim());
+                    l_buy_hoga = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "매수최우선호가").Trim());
                     l_buy_hoga = System.Math.Abs(l_buy_hoga);
                 }
 
@@ -187,7 +188,8 @@ namespace Team1
 
                 for (ii = 0; ii < repeat_cnt; ii++)
                 {
-                    g_cur_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, ii, "현재가").Trim()); //현재가 가져오기 
+                    // "" 인자를 받을 필요가 없어보임
+                    g_cur_price = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "현재가").Trim()); //현재가 가져오기 
                     g_cur_price = System.Math.Abs(g_cur_price);
                 }
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
@@ -212,23 +214,23 @@ namespace Team1
 
             if (e.sRQName == "매도주문")
             {
-                write_msg_log("\n========매수주문 원장 응답정보 출력 시작========\n", 0);
+                write_msg_log("\n========매도주문 원장 응답정보 출력 시작========\n", 0);
                 write_msg_log("sScrNo : [" + e.sScrNo + "]" + "\n", 0);
                 write_msg_log("sRQName : [" + e.sRQName + "]" + "\n", 0);
                 write_msg_log("sTrCode : [" + e.sTrCode + "]" + "\n", 0);
                 write_msg_log("sMsg : [" + e.sMsg + "]" + "\n", 0);
-                write_msg_log("=========매수주문 원장 응답정보 출력 종료========\n", 0);
+                write_msg_log("=========매도주문 원장 응답정보 출력 종료========\n", 0);
                 g_flag_4 = 1; //매수주문 응답완료 설정
             }
             if (e.sRQName == "매도취소주문")
             {
-                write_msg_log("\n========매수주문 원장 응답정보 출력 시작========\n", 0);
+                write_msg_log("\n========매도취소주문 원장 응답정보 출력 시작========\n", 0);
                 write_msg_log("sScrNo : [" + e.sScrNo + "]" + "\n", 0);
                 write_msg_log("sRQName : [" + e.sRQName + "]" + "\n", 0);
                 write_msg_log("sTrCode : [" + e.sTrCode + "]" + "\n", 0);
                 write_msg_log("sMsg : [" + e.sMsg + "]" + "\n", 0);
-                write_msg_log("=========매수주문 원장 응답정보 출력 종료========\n", 0);
-                g_flag_5 = 1; //매수주문 응답완료 설정
+                write_msg_log("=========매도취소주문 원장 응답정보 출력 종료========\n", 0);
+                g_flag_5 = 1; //매도취소주문 응답완료 설정
             }
         }
         // 주식주문을 요청한 후 주문내역과 체결내역 데이터를 수신하는 이벤트 메서드
@@ -928,8 +930,8 @@ namespace Team1
                     {
                         // 오타 수정, 변수 잘못 쓰고 있었음
                         // 호출 순서를 바꿔야 하나?
-                        l_set_tb_accnt_flag = 1; //호출로 설정
                         set_tb_accnt(); // 호출
+                        l_set_tb_accnt_flag = 1; //호출로 설정
                     }
                     // 계좌정보 조회
                     if (l_set_tb_accnt_info_flag == 0)
@@ -2219,21 +2221,21 @@ namespace Team1
             // 주문내역과 체결내역 테이블 조회
             sql = @"
                 SELECT
-                    NVL(SUM(ORD_STOCK_CNT - CHEGYUL_STOCK_CNT), 0) SELL_NOT_CHEGYUL_ORD_STOCK_CNT
+                    NVL(SUM(ORD_STOCK_CNT - CHEGYUL_STOCK_CNT), 0) SELL_NOT_CHEGYUL_ORD_STOCK_CNT 
                 FROM
                 (
-                    SELECT ORD_STOCK_CNT ORD_STOCK_CNT,
+                    SELECT ORD_STOCK_CNT ORD_STOCK_CNT, 
                     ( SELECT NVL(MAX(B.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
-                      FROM TB_CHEGYUL_LST B
-                      WHERE B.USER_ID = A.USER_ID
-                      AND B.ACCNT_NO = A.ACCNT_NO
-                      AND B.REF_DT = A.REF_DT
-                      AND B.JONGMOK_CD = A.JONGMOK_CD
-                      AND B.ORD_GB = A.ORD_GB
-                      AND B.ORD_NO = A.ORD_NO
+                      FROM TB_CHEGYUL_LST B 
+                      WHERE B.USER_ID = A.USER_ID 
+                      AND B.ACCNT_NO = A.ACCNT_NO 
+                      AND B.REF_DT = A.REF_DT 
+                      AND B.JONGMOK_CD = A.JONGMOK_CD 
+                      AND B.ORD_GB = A.ORD_GB 
+                      AND B.ORD_NO = A.ORD_NO 
                     ) CHEGYUL_STOCK_CNT
-                    FROM TB_ORD_LST A
-                    WHERE A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD')
+                    FROM TB_ORD_LST A 
+                    WHERE A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') 
                     AND A.USER_ID = " + "'" + g_user_id + "'" +
                     " AND A.JONGMOK_CD = " + "'" + i_jongmok_cd + "'" +
                     " AND A.ACCNT_NO = " + "'" + g_accnt_no + "'" +
@@ -2469,33 +2471,39 @@ namespace Team1
             cmd.CommandType = CommandType.Text;
 
             // 주문내역과 체결내역 테이블 조회
-            sql = @"SELECT
-                    ROWID RID, JONGMOK_CD, (ORD_STOCK_CNT -
-                    ( SELECT NVL(MAX(B.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
-                      FROM TB_CHEGYUL_LST B
-                      WHERE B.USER_ID = A.USER_ID
-                      AND B.ACCNT_NO = A.ACCNT_NO
-                      AND B.REF_DT = A.REF_DT
-                      AND B.JONGMOK_CD = A.JONGMOK_CD
-                      AND B.ORD_GB = A.ORD_GB
-                      AND B.ORD_NO = A.ORD_NO
-                    ) ) SELL_NOT_CHEGYUL_ORD_STOCK_CNT, ORD_PRICE, ORD_N0, ORG_ORD_NO
-                FROM TB_ORD_LST A
-                WHERE A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD')
-                AND A.USER_ID = " + "'" + g_user_id + "'" +
-                " AND A.ACCNT_NO = " + "'" + g_accnt_no + "'" +
-                " AND A.JONGMOK_CD = " + "'" + i_jongmok_cd + "'" +
-                " AND A.ORD_GB = '1' " +
-                " AND A.ORG_ORD_NO = '0000000' " +
-                " AND NOT EXISTS ( SELECT '1' " +
-                "                  FROM TB_ORD_LST B " +
-                "                  WHERE B.USER_ID = A.USER_ID " +
-                "                  AND B.ACCNT_NO = A.ACCNT_NO " +
-                "                  AND B.REF_DT = A.REF_DT " +
-                "                  AND B.JONGMOK_CD = A.JONGMOK_CD " +
-                "                  AND B.ORD_GB = A.ORD_GB " +
-                "                  AND B.ORD_NO = A.ORD_NO " +
-                "                ) ";
+            sql = @"select
+	                    rowid rid,
+	                    jongmok_cd,
+	                    (ord_stock_cnt -
+	                    ( select nvl(max(b.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
+	                      from tb_chegyul_lst b
+	                      where b.user_id = a.user_id
+	                      and b.accnt_no = a.accnt_no
+	                      and b.ref_dt = a.ref_dt
+	                      and b.jongmok_cd = a.jongmok_cd
+	                      and b.ord_gb = a.ord_gb
+	                      and b.ord_no = a.ord_no
+                      )) sell_not_chegyul_ord_stock_cnt,
+	                    ord_price,
+	                    ord_no,
+	                    org_ord_no
+                    from
+                    TB_ORD_LST a
+                    where a.ref_dt = TO_CHAR(SYSDATE, 'YYYYMMDD')
+                    and a.user_id =     " + "'" + g_user_id + "'" +
+                    " and a.accnt_no =     " + "'" + g_accnt_no + "'" +
+                    " and a.jongmok_cd =     " + "'" + i_jongmok_cd + "'" +
+                    " and a.ord_gb = '1' " +
+                    " and a.org_ord_no = '0000000' " +
+                    " and not exists ( 	select '1' " +
+                    " 				    from TB_ORD_LST b " +
+                    " 				    where b.user_id = a.user_id " +
+                    " 				    and b.accnt_no = a.accnt_no " +
+                    " 				    and b.ref_dt = a.ref_dt " +
+                    " 				    and b.jongmok_cd = a.jongmok_cd " +
+                    " 				    and b.ord_gb = a.ord_gb " +
+                    " 				    and b.org_ord_no = a.ord_no " +
+                     "                )";
 
 
             cmd.CommandText = sql;
@@ -2593,12 +2601,11 @@ namespace Team1
             conn.Close();
         }
 
-        private void buttonUpdate_Click(object sender, EventArgs e)  // 추가기능 뉴스기사 업데이트 버튼 클릭시
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             try
             {
                 string results = getResults();
-                // JSON 문자열에서 HTML 태그와 HTML 엔티티를 제거
                 results = results.Replace("<b>", "");
                 results = results.Replace("</b>", "");
                 results = results.Replace("&lt;", "<");
@@ -2611,8 +2618,6 @@ namespace Team1
                 ResultList.Items.Clear();
                 for (int i = 0; i < countsOfDisplay; i++)
                 {
-                    ListViewItem item = new ListViewItem((i + 1).ToString());
-
                     var title = parseJson["items"][i]["title"].ToString();
                     title = title.Replace("&quot;", "\"");
 
@@ -2621,9 +2626,11 @@ namespace Team1
 
                     var link = parseJson["items"][i]["link"].ToString();
 
+                    // 생성 순서를 바꿉니다.
+                    ListViewItem item = new ListViewItem(link);
                     item.SubItems.Add(title);
                     item.SubItems.Add(description);
-                    item.SubItems.Add(link);
+
 
                     ResultList.Items.Add(item);
                 }
@@ -2631,6 +2638,21 @@ namespace Team1
             catch (Exception exc)
             {
                 Debug.WriteLine(exc.Message);
+            }
+        }
+        private void ResultList_MouseClick(object sender, MouseEventArgs e) //listbox에 마우스 클릭 적용 함수임
+        {
+            ListViewItem item = ResultList.GetItemAt(e.X, e.Y);
+
+            if (item != null && item.SubItems.Count > 0)
+            {
+                string url = item.SubItems[0].Text;
+
+                if (Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                {
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true }); //클린한 곳 listbox에서 이 url일경우 웹으로 연다.
+                }
             }
         }
 
@@ -2735,44 +2757,22 @@ namespace Team1
 
         }
 
-        private void label7_Click(object sender, EventArgs e)
+        private void Searchbox_Enter(object sender, EventArgs e)
         {
-
+            if ( Searchbox.ForeColor == Color.Silver)
+            {
+                Searchbox.Text = "";
+                Searchbox.ForeColor = Color.Black;
+            }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Searchbox_Leave(object sender, EventArgs e)
         {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void idbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void axKHOpenAPI1_OnEventConnect(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnEventConnectEvent e)
-        {
-           
-        }
-
-        private void axKHOpenAPI1_OnReceiveRealData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveRealDataEvent e)
-        {
-
-        }
-
-        private void axKHOpenAPI1_OnReceiveTrData_1(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
-        {
-
+            if (Searchbox.Text == "")
+            {
+                Searchbox.Text = "News Search.";
+                Searchbox.ForeColor = Color.Silver;
+            }
         }
     }
 }
