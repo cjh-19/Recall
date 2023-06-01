@@ -213,23 +213,23 @@ namespace Team1
 
             if (e.sRQName == "매도주문")
             {
-                write_msg_log("\n========매수주문 원장 응답정보 출력 시작========\n", 0);
+                write_msg_log("\n========매도주문 원장 응답정보 출력 시작========\n", 0);
                 write_msg_log("sScrNo : [" + e.sScrNo + "]" + "\n", 0);
                 write_msg_log("sRQName : [" + e.sRQName + "]" + "\n", 0);
                 write_msg_log("sTrCode : [" + e.sTrCode + "]" + "\n", 0);
                 write_msg_log("sMsg : [" + e.sMsg + "]" + "\n", 0);
-                write_msg_log("=========매수주문 원장 응답정보 출력 종료========\n", 0);
+                write_msg_log("=========매도주문 원장 응답정보 출력 종료========\n", 0);
                 g_flag_4 = 1; //매수주문 응답완료 설정
             }
             if (e.sRQName == "매도취소주문")
             {
-                write_msg_log("\n========매수주문 원장 응답정보 출력 시작========\n", 0);
+                write_msg_log("\n========매도취소주문 원장 응답정보 출력 시작========\n", 0);
                 write_msg_log("sScrNo : [" + e.sScrNo + "]" + "\n", 0);
                 write_msg_log("sRQName : [" + e.sRQName + "]" + "\n", 0);
                 write_msg_log("sTrCode : [" + e.sTrCode + "]" + "\n", 0);
                 write_msg_log("sMsg : [" + e.sMsg + "]" + "\n", 0);
-                write_msg_log("=========매수주문 원장 응답정보 출력 종료========\n", 0);
-                g_flag_5 = 1; //매수주문 응답완료 설정
+                write_msg_log("=========매도취소주문 원장 응답정보 출력 종료========\n", 0);
+                g_flag_5 = 1; //매도취소주문 응답완료 설정
             }
         }
         // 주식주문을 요청한 후 주문내역과 체결내역 데이터를 수신하는 이벤트 메서드
@@ -2470,33 +2470,39 @@ namespace Team1
             cmd.CommandType = CommandType.Text;
 
             // 주문내역과 체결내역 테이블 조회
-            sql = @"SELECT
-                    ROWID RID, JONGMOK_CD, (ORD_STOCK_CNT -
-                    ( SELECT NVL(MAX(B.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
-                      FROM TB_CHEGYUL_LST B
-                      WHERE B.USER_ID = A.USER_ID
-                      AND B.ACCNT_NO = A.ACCNT_NO
-                      AND B.REF_DT = A.REF_DT
-                      AND B.JONGMOK_CD = A.JONGMOK_CD
-                      AND B.ORD_GB = A.ORD_GB
-                      AND B.ORD_NO = A.ORD_NO
-                    ) ) SELL_NOT_CHEGYUL_ORD_STOCK_CNT, ORD_PRICE, ORD_N0, ORG_ORD_NO
-                FROM TB_ORD_LST A
-                WHERE A.REF_DT = TO_CHAR(SYSDATE, 'YYYYMMDD')
-                AND A.USER_ID = " + "'" + g_user_id + "'" +
-                " AND A.ACCNT_NO = " + "'" + g_accnt_no + "'" +
-                " AND A.JONGMOK_CD = " + "'" + i_jongmok_cd + "'" +
-                " AND A.ORD_GB = '1' " +
-                " AND A.ORG_ORD_NO = '0000000' " +
-                " AND NOT EXISTS ( SELECT '1' " +
-                "                  FROM TB_ORD_LST B " +
-                "                  WHERE B.USER_ID = A.USER_ID " +
-                "                  AND B.ACCNT_NO = A.ACCNT_NO " +
-                "                  AND B.REF_DT = A.REF_DT " +
-                "                  AND B.JONGMOK_CD = A.JONGMOK_CD " +
-                "                  AND B.ORD_GB = A.ORD_GB " +
-                "                  AND B.ORD_NO = A.ORD_NO " +
-                "                ) ";
+            sql = @"select
+	                    rowid rid,
+	                    jongmok_cd,
+	                    (ord_stock_cnt -
+	                    ( select nvl(max(b.CHEGYUL_STOCK_CNT), 0) CHEGYUL_STOCK_CNT
+	                      from tb_chegyul_lst b
+	                      where b.user_id = a.user_id
+	                      and b.accnt_no = a.accnt_no
+	                      and b.ref_dt = a.ref_dt
+	                      and b.jongmok_cd = a.jongmok_cd
+	                      and b.ord_gb = a.ord_gb
+	                      and b.ord_no = a.ord_no
+                      )) sell_not_chegyul_ord_stock_cnt,
+	                    ord_price,
+	                    ord_no,
+	                    org_ord_no
+                    from
+                    TB_ORD_LST a
+                    where a.ref_dt = TO_CHAR(SYSDATE, 'YYYYMMDD')
+                    and a.user_id =     " + "'" + g_user_id + "'" +
+                    " and a.accnt_no =     " + "'" + g_accnt_no + "'" +
+                    " and a.jongmok_cd =     " + "'" + i_jongmok_cd + "'" +
+                    " and a.ord_gb = '1' " +
+                    " and a.org_ord_no = '0000000' " +
+                    " and not exists ( 	select '1' " +
+                    " 				    from TB_ORD_LST b " +
+                    " 				    where b.user_id = a.user_id " +
+                    " 				    and b.accnt_no = a.accnt_no " +
+                    " 				    and b.ref_dt = a.ref_dt " +
+                    " 				    and b.jongmok_cd = a.jongmok_cd " +
+                    " 				    and b.ord_gb = a.ord_gb " +
+                    " 				    and b.org_ord_no = a.ord_no " +
+                     "                )";
 
 
             cmd.CommandText = sql;
