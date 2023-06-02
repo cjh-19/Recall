@@ -57,6 +57,7 @@ namespace Team1
             this.axKHOpenAPI1.OnReceiveTrData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEventHandler(this.axKHOpenAPI1_OnReceiveTrData);
             this.axKHOpenAPI1.OnReceiveMsg += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveMsgEventHandler(this.axKHOpenAPI1_OnReceiveMsg);
             this.axKHOpenAPI1.OnReceiveChejanData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveChejanDataEventHandler(this.axKHOpenAPI1_OnReceiveChejanData);
+            ResultList.MouseClick += ResultList_MouseClick;
         }
         // 10장에서 정의 : 투자정보를 요청할 때 데이터 수신 요청에 대한 응답을 받는 이벤트 메서드
         private void axKHOpenAPI1_OnReceiveTrData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
@@ -2600,12 +2601,11 @@ namespace Team1
             conn.Close();
         }
 
-        private void buttonUpdate_Click(object sender, EventArgs e)  // 추가기능 뉴스기사 업데이트 버튼 클릭시
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             try
             {
                 string results = getResults();
-                // JSON 문자열에서 HTML 태그와 HTML 엔티티를 제거
                 results = results.Replace("<b>", "");
                 results = results.Replace("</b>", "");
                 results = results.Replace("&lt;", "<");
@@ -2618,8 +2618,6 @@ namespace Team1
                 ResultList.Items.Clear();
                 for (int i = 0; i < countsOfDisplay; i++)
                 {
-                    ListViewItem item = new ListViewItem((i + 1).ToString());
-
                     var title = parseJson["items"][i]["title"].ToString();
                     title = title.Replace("&quot;", "\"");
 
@@ -2628,9 +2626,11 @@ namespace Team1
 
                     var link = parseJson["items"][i]["link"].ToString();
 
+                    // 생성 순서를 바꿉니다.
+                    ListViewItem item = new ListViewItem(link);
                     item.SubItems.Add(title);
                     item.SubItems.Add(description);
-                    item.SubItems.Add(link);
+
 
                     ResultList.Items.Add(item);
                 }
@@ -2638,6 +2638,21 @@ namespace Team1
             catch (Exception exc)
             {
                 Debug.WriteLine(exc.Message);
+            }
+        }
+        private void ResultList_MouseClick(object sender, MouseEventArgs e) //listbox에 마우스 클릭 적용 함수임
+        {
+            ListViewItem item = ResultList.GetItemAt(e.X, e.Y);
+
+            if (item != null && item.SubItems.Count > 0)
+            {
+                string url = item.SubItems[0].Text;
+
+                if (Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
+                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                {
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true }); //클린한 곳 listbox에서 이 url일경우 웹으로 연다.
+                }
             }
         }
 
@@ -2758,6 +2773,16 @@ namespace Team1
                 Searchbox.Text = "News Search.";
                 Searchbox.ForeColor = Color.Silver;
             }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.kiwoom.com/wm/myk/ac000/myAsetView?dummyVal=0");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
