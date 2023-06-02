@@ -2,7 +2,7 @@
 
 # <주식자동매매프로그램>
 
-- C#과 키움증권Open API, Oracle Database를 이용
+- C#과 키움증권Open API, Oracle Database, Naver API를 이용
 
 - 구현 환경 : Visual Studio Community 2019
 
@@ -21,3 +21,4 @@
 2. C# Winform과 Oracle DBMS 연동
 3. 매수/매도 주문 또는 특정 정보를 키움증권 Open API 서버에 요청하여 가져옴
 4. 키움증권 Open API 서버는 키움증권의 원장 서버와 연동하여 실제로 주문을 한국거래소로 내보냄.
+5. 실시간 검색을위해 Naver API에 JSON 포맷 요청함. 
