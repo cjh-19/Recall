@@ -131,3 +131,57 @@ C:\Users\minim\OneDrive\바탕 화면\Stock_Auto\obj\Debug\Team1.exe
 C:\Users\minim\OneDrive\바탕 화면\Stock_Auto\obj\Debug\Team1.pdb
 F:\3학년 1학기\응용소프트웨어실습\팀플\Recall\Stock_Auto\obj\Debug\Team1.TrustInfo.xml
 C:\Users\bazzi\Documents\GitHub\Recall\Stock_Auto\obj\Debug\Team1.TrustInfo.xml
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.csproj.AssemblyReference.cache
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Interop.KHOpenAPILib.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\AxInterop.KHOpenAPILib.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.csproj.ResolveComReference.cache
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.exe
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.pdb
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Team1.exe.config
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Team1.exe.manifest
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Team1.application
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Team1.exe
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Team1.pdb
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Newtonsoft.Json.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\System.Memory.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\System.Buffers.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Newtonsoft.Json.xml
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\Interop.KHOpenAPILib.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\bin\Debug\AxInterop.KHOpenAPILib.dll
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.Form1.resources
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.Properties.Resources.resources
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.csproj.GenerateResource.cache
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.csproj.CoreCompileInputs.cache
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.TrustInfo.xml
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.exe.manifest
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.application
+C:\Users\minim\Downloads\Recall-master (3)\Recall-master\Stock_Auto\obj\Debug\Team1.csproj.CopyComplete
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.exe.config
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.exe.manifest
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.application
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.exe
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Team1.pdb
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Newtonsoft.Json.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\System.Memory.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\System.Buffers.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Newtonsoft.Json.xml
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Interop.KHOpenAPILib.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\AxInterop.KHOpenAPILib.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.AssemblyReference.cache
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Interop.KHOpenAPILib.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\AxInterop.KHOpenAPILib.dll
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.ResolveComReference.cache
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.Form1.resources
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.Properties.Resources.resources
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.GenerateResource.cache
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.CoreCompileInputs.cache
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.TrustInfo.xml
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.exe.manifest
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.application
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.CopyComplete
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.exe
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.pdb
