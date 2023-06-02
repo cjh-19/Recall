@@ -176,12 +176,12 @@ namespace Team1
 
             if (e.sRQName == "현재가조회") // 응답받은 요청명이 현재가조회
             {
-                /*                g_cur_price = int.Parse(axKHOpenAPI1.CommGetData(e.sTrCode, "", e.sRQName, 0, "현재가").Trim());
-                                g_cur_price = System.Math.Abs(g_cur_price);
-                                axKHOpenAPI1.DisconnectRealData(e.sScrNo);
-                                g_flag_6 = 1;*/
+                g_cur_price = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, 0, "현재가").Trim());
+                g_cur_price = System.Math.Abs(g_cur_price);
+                axKHOpenAPI1.DisconnectRealData(e.sScrNo);
+                g_flag_6 = 1;
                 // 소스코드 변경
-                int repeat_cnt;
+                /*int repeat_cnt;
                 int ii;
 
                 repeat_cnt = axKHOpenAPI1.GetRepeatCnt(e.sTrCode, e.sRQName);
@@ -194,7 +194,7 @@ namespace Team1
                 }
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
 
-                g_flag_6 = 1;
+                g_flag_6 = 1; */
             }
         } //axKHOpenAPI1_OnReceiveTrData 매서드 종료
 
