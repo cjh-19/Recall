@@ -2774,5 +2774,15 @@ namespace Team1
                 Searchbox.ForeColor = Color.Silver;
             }
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.kiwoom.com/wm/myk/ac000/myAsetView?dummyVal=0");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
