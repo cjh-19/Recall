@@ -180,21 +180,6 @@ namespace Team1
                 g_cur_price = System.Math.Abs(g_cur_price);
                 axKHOpenAPI1.DisconnectRealData(e.sScrNo);
                 g_flag_6 = 1;
-                // 소스코드 변경
-                /*int repeat_cnt;
-                int ii;
-
-                repeat_cnt = axKHOpenAPI1.GetRepeatCnt(e.sTrCode, e.sRQName);
-
-                for (ii = 0; ii < repeat_cnt; ii++)
-                {
-                    // "" 인자를 받을 필요가 없어보임
-                    g_cur_price = int.Parse(axKHOpenAPI1.GetCommData(e.sTrCode, e.sRQName, ii, "현재가").Trim()); //현재가 가져오기 
-                    g_cur_price = System.Math.Abs(g_cur_price);
-                }
-                axKHOpenAPI1.DisconnectRealData(e.sScrNo);
-
-                g_flag_6 = 1; */
             }
         } //axKHOpenAPI1_OnReceiveTrData 매서드 종료
 
@@ -909,7 +894,7 @@ namespace Team1
             string l_cur_tm = null;
 
             int l_set_tb_accnt_flag = 0; // 1이면 호출 완료
-            int l_set_tb_accnt_info_flag = 0; // 1이면 호출 완료 , 오타수정
+            int l_set_tb_accnt_info_flag = 0; // 1이면 호출 완료
             int l_sell_ord_first_flag = 0; //1이면 호출 완료
 
             // 최초 스레드 생성 파트
@@ -928,8 +913,6 @@ namespace Team1
                     // 계좌조회
                     if (l_set_tb_accnt_flag == 0) // 계좌조회 호출 전
                     {
-                        // 오타 수정, 변수 잘못 쓰고 있었음
-                        // 호출 순서를 바꿔야 하나?
                         set_tb_accnt(); // 호출
                         l_set_tb_accnt_flag = 1; //호출로 설정
                     }
@@ -1041,7 +1024,7 @@ namespace Team1
                         write_msg_log("'증거금세부내역조회' 완료 대기 중...\n", 0);
                         delay(1000);
                         l_for_cnt++;
-                        if (l_for_cnt == 1) // 한번이라도 실패하면 무한루프를 빠져나감(증권계좌 비밀번호 오류 방지
+                        if (l_for_cnt == 1) // 한번이라도 실패하면 무한루프를 빠져나감(증권계좌 비밀번호 오류 방지)
                         {
                             l_for_flag = 0;
                             break;
@@ -1183,7 +1166,6 @@ namespace Team1
 
                     String l_scr_no = get_scr_no();
 
-                    // OPW00004 오타 수정
                     axKHOpenAPI1.CommRqData("계좌평가현황요청", "OPW00004", g_is_next, l_scr_no); //axKHOpenAPI1.OnRecieveData 호출
 
                     // 계좌 평가 현황 정보 수신 대기 루프 시작
@@ -1821,8 +1803,6 @@ namespace Team1
                 string l_buy_not_chegyul_yn = null;
                 l_buy_not_chegyul_yn = get_buy_not_chegyul_yn(l_jongmok_cd); // 미체결 매수주문 여부 확인
 
-                // l_buy_not_chegyul_yn 호출된 다음 for이 시작되야함
-                // 잘못 기재되있어서 수정
                 if (l_buy_not_chegyul_yn == "Y") // 미체결 매수주문이 있으므로 매수하지 않음
                 {
                     write_msg_log("해당 종목에 미체결 매수주문이 있으므로 매수하지 않음 \n", 0);
@@ -2748,7 +2728,6 @@ namespace Team1
         private void logoutbtn_Click(object sender, EventArgs e)
         {
             Close();
-            // axKHOpenAPI1.CommTerminate(); 는 더이상 지원하지 않음.
             // Form 종료로 로그아웃 진행
         }
 
@@ -2760,7 +2739,7 @@ namespace Team1
 
         }
 
-        private void Searchbox_Enter(object sender, EventArgs e)
+        private void Searchbox_Enter(object sender, EventArgs e) // 뉴스 검색란 워터마크 클릭시 사라짐
         {
             if ( Searchbox.ForeColor == Color.Silver)
             {
@@ -2769,7 +2748,7 @@ namespace Team1
             }
         }
 
-        private void Searchbox_Leave(object sender, EventArgs e)
+        private void Searchbox_Leave(object sender, EventArgs e) // 뉴스 검색란 워터마크 표시
         {
             if (Searchbox.Text == "")
             {
@@ -2781,11 +2760,6 @@ namespace Team1
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.kiwoom.com/wm/myk/ac000/myAsetView?dummyVal=0");
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
