@@ -7,7 +7,7 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Team1.exe.manifest" size="9403">
+    <dependentAssembly dependencyType="install" codebase="Application Files\Team1_1_0_0_7\Team1.exe.manifest" size="9403">
       <assemblyIdentity name="Team1.exe" version="1.0.0.7" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>

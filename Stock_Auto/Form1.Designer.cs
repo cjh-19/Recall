@@ -85,6 +85,7 @@ namespace Team1
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -96,6 +97,7 @@ namespace Team1
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -231,6 +233,7 @@ namespace Team1
             // seq
             // 
             this.seq.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.seq.FillWeight = 85.3747F;
             this.seq.HeaderText = "순번";
             this.seq.MinimumWidth = 6;
             this.seq.Name = "seq";
@@ -238,6 +241,7 @@ namespace Team1
             // jongmok_cd
             // 
             this.jongmok_cd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.jongmok_cd.FillWeight = 115.493F;
             this.jongmok_cd.HeaderText = "종목코드";
             this.jongmok_cd.MinimumWidth = 6;
             this.jongmok_cd.Name = "jongmok_cd";
@@ -245,6 +249,7 @@ namespace Team1
             // jongmok_nm
             // 
             this.jongmok_nm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.jongmok_nm.FillWeight = 95.3685F;
             this.jongmok_nm.HeaderText = "종목명";
             this.jongmok_nm.MinimumWidth = 6;
             this.jongmok_nm.Name = "jongmok_nm";
@@ -252,6 +257,7 @@ namespace Team1
             // priority
             // 
             this.priority.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.priority.FillWeight = 116.0443F;
             this.priority.HeaderText = "우선순위";
             this.priority.MinimumWidth = 6;
             this.priority.Name = "priority";
@@ -259,6 +265,7 @@ namespace Team1
             // buy_amt
             // 
             this.buy_amt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.buy_amt.FillWeight = 117.9032F;
             this.buy_amt.HeaderText = "투자금액";
             this.buy_amt.MinimumWidth = 6;
             this.buy_amt.Name = "buy_amt";
@@ -266,6 +273,7 @@ namespace Team1
             // buy_price
             // 
             this.buy_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.buy_price.FillWeight = 95.3685F;
             this.buy_price.HeaderText = "매수가";
             this.buy_price.MinimumWidth = 6;
             this.buy_price.Name = "buy_price";
@@ -273,6 +281,7 @@ namespace Team1
             // target_price
             // 
             this.target_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.target_price.FillWeight = 95.3685F;
             this.target_price.HeaderText = "목표가";
             this.target_price.MinimumWidth = 6;
             this.target_price.Name = "target_price";
@@ -280,6 +289,7 @@ namespace Team1
             // cut_loss_price
             // 
             this.cut_loss_price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.cut_loss_price.FillWeight = 95.3685F;
             this.cut_loss_price.HeaderText = "손절가";
             this.cut_loss_price.MinimumWidth = 6;
             this.cut_loss_price.Name = "cut_loss_price";
@@ -287,6 +297,7 @@ namespace Team1
             // buy_trd_yn
             // 
             this.buy_trd_yn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.buy_trd_yn.FillWeight = 94.22467F;
             this.buy_trd_yn.HeaderText = "매수유무";
             this.buy_trd_yn.Items.AddRange(new object[] {
             "Y",
@@ -299,6 +310,7 @@ namespace Team1
             // sell_trd_yn
             // 
             this.sell_trd_yn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.sell_trd_yn.FillWeight = 94.11765F;
             this.sell_trd_yn.HeaderText = "매도유무";
             this.sell_trd_yn.Items.AddRange(new object[] {
             "Y",
@@ -311,6 +323,7 @@ namespace Team1
             // check
             // 
             this.check.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.check.FillWeight = 95.3685F;
             this.check.HeaderText = "체크";
             this.check.MinimumWidth = 6;
             this.check.Name = "check";
@@ -700,7 +713,7 @@ namespace Team1
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 11;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.DoubleClick += new System.EventHandler(this.pictureBox1_DoubleClick);
             // 
             // Form1
             // 
@@ -723,7 +736,6 @@ namespace Team1
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "c##team";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -740,6 +752,7 @@ namespace Team1
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_DisplayCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -788,6 +801,7 @@ namespace Team1
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.DataGridViewTextBoxColumn seq;
         private System.Windows.Forms.DataGridViewTextBoxColumn jongmok_cd;
         private System.Windows.Forms.DataGridViewTextBoxColumn jongmok_nm;
@@ -799,7 +813,7 @@ namespace Team1
         private System.Windows.Forms.DataGridViewComboBoxColumn buy_trd_yn;
         private System.Windows.Forms.DataGridViewComboBoxColumn sell_trd_yn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn check;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.BindingSource bindingSource1;
     }
 }
 
