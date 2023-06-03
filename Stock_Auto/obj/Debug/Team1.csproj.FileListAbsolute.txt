@@ -185,3 +185,30 @@ C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.applicat
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.CopyComplete
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.exe
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.pdb
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.csproj.AssemblyReference.cache
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Interop.KHOpenAPILib.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\AxInterop.KHOpenAPILib.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.csproj.ResolveComReference.cache
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.exe
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.pdb
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Team1.exe.config
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Team1.exe.manifest
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Team1.application
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Team1.exe
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Team1.pdb
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Newtonsoft.Json.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\System.Memory.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\System.Buffers.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Newtonsoft.Json.xml
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\Interop.KHOpenAPILib.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\bin\Debug\AxInterop.KHOpenAPILib.dll
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.Form1.resources
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.Properties.Resources.resources
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.csproj.GenerateResource.cache
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.csproj.CoreCompileInputs.cache
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.TrustInfo.xml
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.exe.manifest
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.application
+C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.csproj.CopyComplete

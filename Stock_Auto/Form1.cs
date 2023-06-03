@@ -57,9 +57,9 @@ namespace Team1
             this.axKHOpenAPI1.OnReceiveTrData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEventHandler(this.axKHOpenAPI1_OnReceiveTrData);
             this.axKHOpenAPI1.OnReceiveMsg += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveMsgEventHandler(this.axKHOpenAPI1_OnReceiveMsg);
             this.axKHOpenAPI1.OnReceiveChejanData += new AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveChejanDataEventHandler(this.axKHOpenAPI1_OnReceiveChejanData);
-            ResultList.MouseClick += ResultList_MouseClick;
+            ResultList.MouseDoubleClick += new MouseEventHandler(ResultList_MouseDoubleClick);
         }
-        // 10장에서 정의 : 투자정보를 요청할 때 데이터 수신 요청에 대한 응답을 받는 이벤트 메서드
+        
         private void axKHOpenAPI1_OnReceiveTrData(object sender, AxKHOpenAPILib._DKHOpenAPIEvents_OnReceiveTrDataEvent e)
         {
             if (g_rqname.CompareTo(e.sRQName) == 0) // 요청한 요청명과 API로부터 응답받은 요청명이 같다면
@@ -637,7 +637,7 @@ namespace Team1
             l_cut_loss_price = 0;
             l_buy_trd_yn = "";
             l_sell_trd_yn = "";
-            //l_seq = 0; // 책에는 없는데 참고소스에는 있음, 사실 선언할 때 0으로 저장해서 딱히 문제는 안됨.
+            //l_seq = 0; 
 
             while (reader.Read())
             {
@@ -651,7 +651,7 @@ namespace Team1
                 l_cut_loss_price = 0;
                 l_buy_trd_yn = "";
                 l_sell_trd_yn = "";
-                l_seq = 0; // 참고 소스에는 없음
+                l_seq = 0;
 
                 // 각 컬럼 값 저장
                 l_jongmok_cd = reader[0].ToString().Trim();
@@ -2640,7 +2640,7 @@ namespace Team1
                 Debug.WriteLine(exc.Message);
             }
         }
-        private void ResultList_MouseClick(object sender, MouseEventArgs e) //listbox에 마우스 클릭 적용 함수임
+        private void ResultList_MouseDoubleClick(object sender, MouseEventArgs e) //listbox에 마우스 더블클릭 적용 함수임
         {
             ListViewItem item = ResultList.GetItemAt(e.X, e.Y);
 
@@ -2651,10 +2651,11 @@ namespace Team1
                 if (Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
                     && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                 {
-                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true }); //클린한 곳 listbox에서 이 url일경우 웹으로 연다.
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true }); //더블클릭한 곳 listbox에서 이 url일경우 웹으로 연다.
                 }
             }
         }
+
 
         private string getResults() // 뉴스 기사 업데이트에 쓰이는 결과값 받아오기 함수임
         {
@@ -2664,7 +2665,9 @@ namespace Team1
             if (btn_date.Checked == true)
                 sort = "date";
 
-            string query = string.Format("?query={0}&display={1}sort={2}", keyword, display, sort);
+
+            string query = string.Format("?query={0}&display={1}&sort={2}", keyword, display, sort);
+
 
             WebRequest request = WebRequest.Create(_apiUrl + query);
             request.Headers.Add("X-Naver-Client-Id", "I74lzNbMOpmIlEsfaWRO");
@@ -2775,7 +2778,7 @@ namespace Team1
             }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void pictureBox1_DoubleClick(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.kiwoom.com/wm/myk/ac000/myAsetView?dummyVal=0");
         }
