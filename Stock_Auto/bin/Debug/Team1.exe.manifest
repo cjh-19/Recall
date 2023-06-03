@@ -133,17 +133,17 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>wygdL1gC2jHgnOVS+XbRGnUXTae8r0OZ87Yb//e5xmY=</dsig:DigestValue>
+        <dsig:DigestValue>nbU3uhGIPsY44RW4b03lTXpRX89JJTLeZgfbigtcW2A=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Team1.exe.config" size="189">
+  <file name="Team1.exe.config" size="184">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>R+Wg8QGvQVHX8T0ta/qbhH1bXkqY0fRnS3wBV3J0bN8=</dsig:DigestValue>
+      <dsig:DigestValue>X+GtgC9o18R9u9jmAWK6iKuu0WLaXTgchdPkk1MRli4=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
