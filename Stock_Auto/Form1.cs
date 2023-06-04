@@ -885,7 +885,7 @@ namespace Team1
                 return; // 이벤트 메서드 종료
             }
             // 스레드 생성 시작
-            g_is_thread = 1; // 스레드 생성으로 값 설정
+            // g_is_thread = 1; // 스레드 생성으로 값 설정
             thread1 = new Thread(new ThreadStart(m_thread1)); // 스레드 생성
             thread1.Start(); // 스레드 시작
         }
@@ -972,7 +972,7 @@ namespace Team1
             {
                 if (thread1 != null)
                 {
-                    // 인터럽트를 실행하여 스레드를 중단한다.
+                    // 인터럽트를 실행하여 스레드를 대기상태에서 깨운다.
                     thread1.Interrupt();
                     thread1 = null;
                 }
@@ -1751,7 +1751,7 @@ namespace Team1
             cmd = new OracleCommand();
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
-            // TB_ACCNT_INFO, TB_TRD_JONGMOK table을 join하여 매도 대상 종목을 조회
+            // TB_ACCNT_INFO, TB_TRD_JONGMOK table을 join하여 매수 대상 종목을 조회
             // 거래종목 테이블 조회
             sql = @"                    " +
                    " SELECT             " +
