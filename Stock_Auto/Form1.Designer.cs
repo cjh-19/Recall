@@ -702,7 +702,7 @@ namespace Team1
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(273, 36);
             this.label7.TabIndex = 12;
-            this.label7.Text = " 7조 다시들으시려면# ";
+            this.label7.Text = " 6조 다시들으시려면# ";
             // 
             // pictureBox1
             // 
