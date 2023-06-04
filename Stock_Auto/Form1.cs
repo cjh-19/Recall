@@ -1751,7 +1751,7 @@ namespace Team1
             cmd = new OracleCommand();
             cmd.Connection = conn;
             cmd.CommandType = CommandType.Text;
-            // TB_ACCNT_INFO, TB_TRD_JONGMOK table을 join하여 매도 대상 종목을 조회
+            // TB_ACCNT_INFO, TB_TRD_JONGMOK table을 join하여 매수 대상 종목을 조회
             // 거래종목 테이블 조회
             sql = @"                    " +
                    " SELECT             " +
