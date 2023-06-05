@@ -171,7 +171,6 @@ C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\System.Buffers
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Newtonsoft.Json.xml
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\Interop.KHOpenAPILib.dll
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\bin\Debug\AxInterop.KHOpenAPILib.dll
-C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.AssemblyReference.cache
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Interop.KHOpenAPILib.dll
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\AxInterop.KHOpenAPILib.dll
 C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.ResolveComReference.cache
@@ -212,3 +211,4 @@ C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stoc
 C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.exe.manifest
 C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.application
 C:\Users\minim\OneDrive\바탕 화면\Min\School\3-1\응소실\프로젝트\Stock_Auto\obj\Debug\Team1.csproj.CopyComplete
+C:\Users\USER\Documents\GitHub\Recall\Recall\Stock_Auto\obj\Debug\Team1.csproj.AssemblyReference.cache
