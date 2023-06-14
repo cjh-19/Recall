@@ -61,7 +61,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>H52P242hMiIWb8TOn/PpgrVgXzMRK0twgES6ZuM/3QE=</dsig:DigestValue>
+        <dsig:DigestValue>Go7VyYB++s8EPCQkASE1bSv6yQ6UFQLJO2ZRRoUgrz0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -133,7 +133,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>rpOd1u7tcqE4yAAla7aZfs9H3cEHN0en87Ls9fR0Jj8=</dsig:DigestValue>
+        <dsig:DigestValue>8Q6GQYUJV4pBY90HGABzA/o7+/M/uIPwlXOt4qXgJFU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
